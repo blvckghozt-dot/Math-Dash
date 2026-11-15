@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MathDash · คิดเลขเร็ว</title>
+<meta name="description" content="MathDash แอปฝึกคิดเลขเร็วตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน: เกม 24, เลขโดด 4 ตัว คำตอบ 2 หลัก, เลขโดด 5 ตัว คำตอบ 3 หลัก พร้อมสร้างแบบฝึกหัด PDF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF7A59'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3E24%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#FFFBF4; --card:#FFFFFF; --ink:#24243A; --muted:#7C7C96; --line:#F0E9DC; --soft:#FFF4E2;
+  --c1:#FF7A59; --c1s:#FFE9E2; --c2:#3DA5F4; --c2s:#E2F1FE; --c3:#8B5CF6; --c3s:#EFE8FF;
+  --ok:#16B67F; --oks:#DDF7EC; --warn:#F59E0B; --bad:#EF4444; --yel:#FFC93C;
+  --r:18px; --sh:0 1px 2px rgba(36,36,58,.04),0 6px 24px rgba(36,36,58,.06);
+  --mc:var(--c1); --ms:var(--c1s);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Prompt',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:rgba(255,251,244,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;white-space:nowrap}
+.wm{font-weight:700;font-size:20px;letter-spacing:-.3px;display:inline-flex;align-items:center;line-height:1.1}
+.wm span{color:var(--c1)}
+.wm .dash{width:20px;height:13px;color:var(--yel);margin-left:6px}
+.brand small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.2}
+.logo{width:36px;height:36px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.logo i{border-radius:7px;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px;font-weight:700}
+.tabs{margin-left:auto;display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px}
+.tab{border:0;background:transparent;padding:7px 14px;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
+.tab.on{background:var(--ink);color:#fff}
+main{padding:22px 0 40px}
+.view{display:none}.view.on{display:block}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+.pad{padding:18px}
+h2{font-size:20px;margin:0 0 4px;font-weight:600}
+.sub{color:var(--muted);font-size:13.5px;margin:0}
+/* mode picker */
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.mode{border:2px solid transparent;background:#fff;border-radius:var(--r);padding:14px 16px;text-align:left;box-shadow:var(--sh);border-color:var(--line);transition:.15s;position:relative}
+.mode:hover{transform:translateY(-1px)}
+.mode b{display:block;font-size:16px;font-weight:600}
+.mode span{color:var(--muted);font-size:13px}
+.mode .dot{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;margin-bottom:8px;font-size:14px}
+.mode[data-m="1"] .dot{background:var(--c1)}.mode[data-m="2"] .dot{background:var(--c2)}.mode[data-m="3"] .dot{background:var(--c3)}
+.mode.on[data-m="1"]{border-color:var(--c1);background:var(--c1s)}
+.mode.on[data-m="2"]{border-color:var(--c2);background:var(--c2s)}
+.mode.on[data-m="3"]{border-color:var(--c3);background:var(--c3s)}
+/* settings */
+.settings{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:12px 16px;margin-bottom:14px}
+.set{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.set>label.t{font-size:13px;color:var(--muted)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-size:13.5px;transition:.12s}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.lock{opacity:.55;cursor:default}
+.num{width:66px;border:1px solid var(--line);border-radius:10px;padding:5px 8px;text-align:center;background:#fff}
+.tog{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;cursor:pointer;user-select:none}
+.tog input{appearance:none;width:34px;height:20px;border-radius:999px;background:#E3DED3;position:relative;transition:.15s;cursor:pointer;margin:0}
+.tog input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.tog input:checked{background:var(--ok)}
+.tog input:checked::after{left:16px}
+/* play */
+.play{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:14px}
+.tiles,.ans{display:flex;align-items:center;gap:12px}
+.stage{padding:22px 22px 18px;position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--mc)}
+.stagehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.qno{font-size:13px;color:var(--muted)}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--ms);color:var(--mc);font-weight:600;font-size:12.5px}
+.ring{width:84px;height:84px;position:relative;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .tv{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:22px;font-variant-numeric:tabular-nums}
+.ring.urgent .tv{color:var(--bad)}
+.ring.off{opacity:.35}
+.puzzle{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:14px 0 20px;min-height:96px}
+.tile{width:68px;height:80px;border-radius:16px;background:#fff;border:2px solid var(--line);display:grid;place-items:center;font-size:40px;font-weight:600;box-shadow:0 3px 0 var(--line);transition:.12s;font-variant-numeric:tabular-nums}
+button.tile:hover{border-color:var(--mc);transform:translateY(-2px)}
+.tile.used{opacity:.3;transform:none!important;box-shadow:none}
+.eq{font-size:34px;color:var(--muted);font-weight:300;margin:0 4px}
+.target{min-width:104px;height:80px;padding:0 18px;border-radius:16px;background:var(--mc);color:#fff;display:grid;place-items:center;font-size:42px;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+.ph{color:var(--muted);text-align:center;font-size:15px}
+.spinner{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--mc);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.inrow{display:flex;gap:8px;align-items:stretch}
+.expr{flex:1;border:2px solid var(--line);border-radius:14px;padding:10px 14px;font-size:22px;background:#fff;min-width:0;letter-spacing:.5px}
+.expr:focus{outline:none;border-color:var(--mc)}
+.live{font-size:13px;color:var(--muted);min-height:20px;margin:6px 4px 0}
+.keys{display:grid;grid-template-columns:repeat(13,1fr);gap:6px;margin-top:10px}
+.key{border:1px solid var(--line);background:#fff;border-radius:11px;height:42px;font-size:19px;font-weight:500;transition:.1s}
+.key:hover{background:var(--soft)}
+.key:active{transform:scale(.96)}
+.key[disabled]{opacity:.3;cursor:not-allowed}
+.key.wide{grid-column:span 2;font-size:14px}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:11px 18px;font-weight:600;font-size:15px;transition:.12s;display:inline-flex;align-items:center;gap:7px}
+.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--mc);color:#fff}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.ghost{background:#fff;border:1px solid var(--line)}
+.btn.yel{background:var(--yel);color:#3a2a00}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.grow{flex:1;justify-content:center}
+.fb{margin-top:14px;border-radius:14px;padding:12px 14px;font-size:14.5px;display:none}
+.fb.show{display:block;animation:pop .2s ease}
+.fb.ok{background:var(--oks);color:#0c7a55}
+.fb.near{background:#FFF3D6;color:#8a5a00}
+.fb.err{background:#FDE7E7;color:#b42323}
+.fb.info{background:var(--soft);color:#6b5530}
+@keyframes pop{from{transform:scale(.98);opacity:0}}
+.sol{margin-top:12px;border:2px dashed var(--mc);border-radius:14px;padding:12px 16px;display:none;background:#fff}
+.sol.show{display:block;animation:pop .2s}
+.sol .lb{font-size:12.5px;color:var(--muted)}
+.sol .ex{font-size:24px;font-weight:500;margin-top:2px;line-height:1.7}
+.mx sup{font-size:.62em;vertical-align:.7em;line-height:0}
+.mx .rt{white-space:nowrap}
+.sgr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 2px}
+.sgr small{font-size:.5em;line-height:1.05}
+.sgr .sg{margin:0}
+.mx .sg,.sheet .sg{font-family:"Times New Roman",serif;font-size:1.12em;margin-right:1px}
+.mx .rd{border-top:1.5px solid currentColor;padding:0 2px;margin-left:1px}
+/* side */
+.side{display:flex;flex-direction:column;gap:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;text-align:center}
+.stats div{padding:14px 4px}
+.stats b{display:block;font-size:24px;font-weight:700}
+.stats span{font-size:12px;color:var(--muted)}
+.stats div+div{border-left:1px solid var(--line)}
+.hist{max-height:300px;overflow:auto;font-size:13px}
+.hist .row{display:flex;justify-content:space-between;gap:6px;padding:7px 14px;border-top:1px solid var(--line)}
+.hist .row:first-child{border-top:0}
+.hist .mk{font-weight:700}
+.tip{font-size:13px;color:var(--muted);line-height:1.6}
+.tip kbd{background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 5px;font-family:inherit;font-size:12px}
+/* worksheet builder */
+.ws{display:grid;grid-template-columns:340px minmax(0,1fr);gap:14px;align-items:start}
+.form{padding:18px;display:flex;flex-direction:column;gap:14px;position:sticky;top:80px}
+.f label.t{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}
+.f input[type=text]{width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:#fff}
+.cnts{display:flex;flex-direction:column;gap:8px}
+.cnt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--soft)}
+.cnt .dot{width:26px;height:26px;border-radius:8px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.cnt .nm{flex:1;font-size:13.5px;line-height:1.3}
+.cnt .nm small{display:block;color:var(--muted);font-size:11.5px}
+.stp{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}
+.stp button{border:0;background:transparent;width:28px;height:32px;font-size:17px}
+.stp input{width:42px;border:0;text-align:center;padding:0;height:32px;background:transparent}
+.total{font-size:13px;color:var(--muted);text-align:right}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;display:none}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));transition:width .2s}
+.preview{padding:16px;min-height:420px;min-width:0}
+.pvbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.pvbar .sp{flex:1}
+.sheets{display:flex;flex-direction:column;align-items:center;gap:14px;background:#F3EEE5;border-radius:14px;padding:14px;overflow:auto}
+.sheets .sheet{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.empty{text-align:center;color:var(--muted);padding:70px 20px}
+.empty .big{font-size:44px;margin-bottom:6px}
+/* rules */
+.rules{padding:24px;max-width:780px}
+.rules h3{font-size:16px;margin:20px 0 6px}
+.rules ul{margin:6px 0;padding-left:20px}
+.rules li{margin:4px 0}
+.ex3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.ex3 div{background:var(--soft);border-radius:12px;padding:10px 12px;font-size:14px}
+footer{border-top:1px solid var(--line);padding:18px 0 28px;color:var(--muted);font-size:13px;text-align:center}
+footer b{color:var(--ink);font-weight:600}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:12px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%)}
+
+/* ===== A4 sheet ===== */
+.sheet{width:210mm;height:297mm;background:#fff;color:#1d1d2e;padding:11mm 12mm 9mm;position:relative;font-family:'Sarabun','Prompt',Tahoma,sans-serif;display:flex;flex-direction:column;overflow:hidden;flex:none}
+.sheet .sh{display:flex;align-items:center;justify-content:space-between;border-bottom:2.5px solid #24243A;padding-bottom:2.5mm}
+.sheet .sh .ttl{font-family:'Prompt',sans-serif;font-weight:600;font-size:17pt;line-height:1.2}
+.sheet .sh .ttl small{display:block;font-family:'Sarabun',sans-serif;font-weight:400;font-size:10.5pt;color:#55556b}
+.sheet .sh .pg{font-size:10pt;color:#55556b;text-align:right;white-space:nowrap}
+.sheet .bar{display:flex;gap:2mm;margin:1.8mm 0 2.4mm}
+.sheet .bar i{height:1.4mm;flex:1;border-radius:2mm}
+.sheet .meta{font-size:10.5pt;color:#45455a;margin-bottom:2.5mm;display:flex;justify-content:space-between;gap:4mm}
+.sheet .who{font-size:11.5pt;margin:0 0 3mm;display:flex;gap:4mm;white-space:nowrap}
+.sheet .who span{flex:1;border-bottom:1px dotted #888;height:6mm}
+.sheet table{width:100%;border-collapse:collapse;table-layout:fixed;flex:1}
+.sheet th{background:#F4F1EA;font-family:'Prompt',sans-serif;font-weight:500;font-size:10.5pt;padding:1.6mm;border:1px solid #CFC8BA}
+.sheet td{border:1px solid #CFC8BA;vertical-align:top;padding:2mm 2mm}
+.sheet td.no{text-align:center;font-weight:600;font-size:12pt;padding-top:3mm}
+.sheet .pq{font-family:'Prompt',sans-serif;font-size:15pt;font-weight:500;letter-spacing:.6mm;white-space:nowrap;text-align:center;padding-top:1mm}
+.sheet .pq b{font-weight:700}
+.sheet .tg{display:block;text-align:center;font-size:9pt;letter-spacing:0;font-weight:500;margin-top:.5mm;font-family:'Sarabun',sans-serif}
+.sheet .ft{display:flex;justify-content:space-between;font-size:9pt;color:#77778a;padding-top:2mm}
+.sheet .keyh{text-align:center;font-family:'Prompt',sans-serif;font-weight:600;font-size:17pt;margin:1mm 0 3mm}
+.sheet .kgrid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:min-content;gap:2.2mm 4mm;flex:1;align-content:start}
+.sheet .kc{border:1px solid #E3DED3;border-radius:2.5mm;padding:1.6mm 2.4mm;break-inside:avoid}
+.sheet .kc .q{font-size:9.5pt;color:#55556b}
+.sheet .kc .q b{color:#1d1d2e}
+.sheet .kc .a{font-family:'Prompt',sans-serif;font-size:12pt;line-height:1.6;color:#1f3a8a;word-break:break-word}
+.sheet .kc .a.nx{color:#9a5b00}
+.sheet .kc .a small{font-size:8.5pt;color:#9a5b00;font-family:'Sarabun',sans-serif}
+
+/* tabs scroll */
+.tab.sup-tab{color:#9a5b00}
+.tab.sup-tab.on{background:var(--yel);color:#3a2a00}
+footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--muted)}
+/* docs */
+.doc{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.dochead{display:flex;gap:14px;align-items:center;padding:20px 22px;background:linear-gradient(120deg,#FFF1E9,#EAF5FF 55%,#F2ECFF)}
+.hero-ic{width:52px;height:52px;border-radius:16px;background:var(--yel);display:grid;place-items:center;font-size:28px;flex:none}
+.toc{padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px}
+.toc a{font-size:13px;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--ink);text-decoration:none}
+.toc a:hover{background:var(--line)}
+.sec{padding:22px 24px;scroll-margin-top:84px}
+.sec h2{margin-bottom:8px}
+.sec h3{font-size:18px;margin:6px 0 8px;font-weight:600}
+.sec p{margin:8px 0}
+.h4{font-size:15.5px;margin:18px 0 8px;font-weight:600}
+.lv{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px}
+.lv1{background:var(--oks);color:#0c7a55}.lv2{background:var(--c2s);color:#1C7FCB}.lv3{background:var(--c3s);color:#6D3FE0}
+.steps{margin:8px 0;padding-left:22px}.steps li{margin:5px 0}
+.ul{margin:8px 0;padding-left:20px}.ul li{margin:6px 0}
+.nw{white-space:nowrap;background:var(--soft);border-radius:6px;padding:0 6px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.cmp>div{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.cmp .big{font-size:22px;margin:4px 0}
+.cmp small{color:var(--muted)}
+.tagx{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--soft);color:#6b5530}
+.tagx.bad{background:#FDE7E7;color:#b42323}.tagx.good{background:var(--oks);color:#0c7a55}
+.note{background:#FDF2F2;border-radius:12px;padding:10px 14px;font-size:14px;margin:10px 0;line-height:1.9}
+.tipbox{background:#FFF7DD;border-radius:12px;padding:10px 14px;font-size:14px;margin:12px 0 2px;line-height:1.8}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.flow div{background:var(--soft);border-radius:12px;padding:10px 12px;font-size:14px}
+.flow b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;margin-right:6px}
+.ex{border:1.5px dashed var(--line);border-radius:14px;padding:10px 14px;margin:10px 0}
+.exq{font-weight:600;font-size:16px}
+.exq b{color:var(--c1)}
+.ex p{font-size:14px;color:#4a4a62;margin:4px 0}
+.exa{font-weight:600;color:#1f3a8a;font-size:16px}
+.exa small{font-weight:400;color:var(--muted)}
+.tb{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+.tb th{background:var(--soft);text-align:left;font-weight:600;padding:7px 10px}
+.tb td{border-top:1px solid var(--line);padding:7px 10px;vertical-align:top}
+.tb code,.sec code{background:#F3F0EA;border-radius:6px;padding:1px 6px;font-size:13px}
+.op-pill{font-size:10.5px;background:var(--c3s);color:#6D3FE0;border-radius:999px;padding:1px 7px;margin-left:4px;white-space:nowrap}
+.chipsx{display:flex;flex-wrap:wrap;gap:8px}
+.chipsx span{background:var(--soft);border-radius:12px;padding:7px 12px;font-size:14px}
+.chipsx b{color:var(--c1);font-size:16px}
+.grid24{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.grid24 span{text-align:center;background:var(--c1s);color:#b23d1c;border-radius:10px;padding:8px 4px;font-weight:600}
+.memo{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.memo h4{margin:0 0 6px;font-size:14px;font-weight:600}
+.mg{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;font-size:13.5px}
+.mg span{background:var(--soft);border-radius:8px;padding:3px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mg span b{float:right;color:var(--ink)}
+.mg.wide{grid-template-columns:repeat(5,1fr)}
+.plan{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.plan div{border-radius:12px;padding:10px 12px;background:var(--soft);font-size:13.5px}
+.plan div:nth-child(1){background:var(--oks)}.plan div:nth-child(2){background:var(--c2s)}.plan div:nth-child(3){background:var(--c3s)}.plan div:nth-child(4){background:var(--c1s)}
+.plan b{display:block;font-size:14.5px}
+.sigdemo{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:20px;background:var(--soft);border-radius:14px;padding:10px 16px;margin:8px 0}
+.bs{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.bsl{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
+.bsl b{font-family:"Times New Roman",serif;font-weight:400;font-size:2em;line-height:.9}
+.bsl small{font-size:.62em}
+.bsi{font-style:italic;font-family:"Times New Roman",serif;font-size:1.15em}
+.exq .bs{font-size:21px;margin:4px 0}
+.eqs{color:var(--muted)}
+/* support */
+.sup{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;padding:28px;max-width:960px;margin:0 auto;background:linear-gradient(160deg,#FFFDF8,#FFF6E6)}
+.sup-l p{margin:10px 0;font-size:15px;line-height:1.75}
+.cup{font-size:40px;width:68px;height:68px;border-radius:20px;background:var(--yel);display:grid;place-items:center;margin-bottom:10px;animation:wob 3s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.sup-l h2{font-size:24px}
+.cupline{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;background:#fff;border:1px dashed #E8C873;border-radius:12px;padding:8px 12px;font-size:14px;margin:12px 0}
+.cupline span:last-child{color:var(--muted);font-size:12.5px}
+.contact{margin-top:16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.fb-btn{display:inline-flex;align-items:center;gap:8px;background:#1877F2;color:#fff;text-decoration:none;padding:10px 16px;border-radius:12px;font-weight:600}
+.fb-btn:hover{filter:brightness(1.07)}
+.qrcard{background:#fff;border-radius:20px;box-shadow:var(--sh);border:1px solid var(--line);padding:16px;text-align:center}
+.qrcard img{width:100%;max-width:300px;height:auto;display:block;margin:0 auto}
+.qrname{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:10px;padding-top:10px;font-size:14px}
+.qrname span{color:var(--muted)}
+.qrsub{font-size:12px;color:var(--muted);margin-top:4px}
+.thanks{text-align:center;color:var(--muted);font-size:14px}
+@media (max-width:860px){
+  .tabs{overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+  .tabs::-webkit-scrollbar{display:none}
+  .memo{grid-template-columns:1fr 1fr}
+  .plan{grid-template-columns:1fr 1fr}
+  .sup{grid-template-columns:1fr}
+  .mg.wide{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:560px){
+  .cmp,.flow{grid-template-columns:1fr}
+  .grid24{grid-template-columns:repeat(2,1fr)}
+  .memo{grid-template-columns:1fr}
+  .mg.wide{grid-template-columns:repeat(2,1fr)}
+  .sec{padding:18px 16px}
+  .sup{padding:20px 16px}
+  .tabs{justify-content:flex-start}
+}
+#print-root{display:none}
+#render-root{position:fixed;left:-99999px;top:0}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff}
+  body>*:not(#print-root){display:none!important}
+  #print-root{display:block}
+  #print-root .sheet{page-break-after:always;break-after:page;box-shadow:none}
+  #print-root .sheet:last-child{page-break-after:auto;break-after:auto}
+}
+@media (max-width:860px){
+  .play,.ws{grid-template-columns:1fr}
+  .form{position:static}
+  .modes{grid-template-columns:1fr}
+  .mode{display:flex;gap:12px;align-items:center;padding:10px 14px}
+  .mode .dot{margin:0;flex:none}
+  .keys{grid-template-columns:repeat(6,1fr)}
+  .key.wide{grid-column:span 3}
+  .wm{font-weight:700;font-size:20px;letter-spacing:-.3px;display:inline-flex;align-items:center;line-height:1.1}
+.wm span{color:var(--c1)}
+.wm .dash{width:20px;height:13px;color:var(--yel);margin-left:6px}
+.brand small{display:none}
+}
+@media (max-width:560px){
+  .top .wrap{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+  .tabs{margin-left:0;width:100%;justify-content:space-between}
+  .tab{padding:7px 10px;font-size:14px}
+  .puzzle{flex-direction:column;gap:10px;margin:8px 0 14px}
+  .tiles{gap:7px}
+  .tile{width:52px;height:62px;font-size:31px;border-radius:13px}
+  .target{min-width:84px;height:58px;font-size:32px}
+  .eq{font-size:28px}
+  .modes{grid-template-columns:repeat(3,1fr);gap:8px}
+  .mode{flex-direction:column;gap:4px;padding:10px 6px;text-align:center}
+  .mode span{display:none}
+  .mode b{font-size:13px}
+  .actions{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px}
+  .actions .btn{padding:11px 6px;font-size:14px;justify-content:center;white-space:nowrap}
+  .expr{font-size:18px}
+  .pvbar .btn{flex:1;justify-content:center;font-size:13.5px;padding:10px 8px}
+  .ring{width:68px;height:68px}
+  .stage{padding:18px 14px}
+  .puzzle{gap:8px}
+  .ex3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"><i style="background:var(--c1)">+</i><i style="background:var(--yel)">−</i><i style="background:var(--c2)">×</i><i style="background:var(--c3)">÷</i></div>
+      <div><span class="wm">Math<span>Dash</span><svg class="dash" viewBox="0 0 22 14" aria-hidden="true"><path d="M2 3h10M6 7h14M2 11h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><small>ฝึกคิดเลขเร็ว · ตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน</small></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab on" data-v="practice">ฝึกทำโจทย์</button>
+      <button class="tab" data-v="worksheet">สร้างแบบฝึกหัด</button>
+      <button class="tab" data-v="tips">เทคนิคคิดไว</button>
+      <button class="tab" data-v="rules">กติกา & วิธีใช้</button>
+      <button class="tab sup-tab" data-v="support">☕ สนับสนุน</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ PRACTICE ============ -->
+  <section class="view on" id="v-practice">
+    <div class="modes" id="modes">
+      <button class="mode on" data-m="1"><div class="dot">24</div><div><b>เกม 24</b><span>สุ่มเลขโดด 4 ตัว ทำให้ได้ 24</span></div></button>
+      <button class="mode" data-m="2"><div class="dot">2</div><div><b>4 ตัว → 2 หลัก</b><span>สุ่มเลขโดด 4 ตัว ทำให้ใกล้คำตอบ 2 หลักที่สุด</span></div></button>
+      <button class="mode" data-m="3"><div class="dot">3</div><div><b>5 ตัว → 3 หลัก</b><span>สุ่มเลขโดด 5 ตัว ทำให้ใกล้คำตอบ 3 หลักที่สุด</span></div></button>
+    </div>
+
+    <div class="card settings">
+      <div class="set"><label class="t">เวลาต่อข้อ</label>
+        <div class="chips" id="timeChips">
+          <button class="chip" data-t="0">ไม่จับเวลา</button>
+          <button class="chip" data-t="30">30 วิ</button>
+          <button class="chip" data-t="40">40 วิ</button>
+          <button class="chip" data-t="60">60 วิ</button>
+        </div>
+        <input class="num" id="timeIn" type="number" min="0" max="900" step="5" title="กำหนดเอง (วินาที)"> <span class="sub">วินาที</span>
+      </div>
+      <div class="set"><label class="t">เครื่องหมาย</label>
+        <div class="chips" id="opChips">
+          <button class="chip on lock" title="ใช้ได้เสมอ">+ − × ÷</button>
+          <button class="chip" data-op="pow">ยกกำลัง x<sup>n</sup></button>
+          <button class="chip" data-op="sqrt">ถอดราก √</button>
+          <button class="chip" data-op="fact">แฟกทอเรียล !</button>
+          <button class="chip" data-op="sigma">ซิกม่า Σ</button>
+        </div>
+      </div>
+      <div class="set">
+        <label class="tog"><input type="checkbox" id="optExact" checked> สุ่มเฉพาะโจทย์ที่ทำได้พอดี</label>
+        <label class="tog"><input type="checkbox" id="optAuto"> เฉลยอัตโนมัติเมื่อหมดเวลา</label>
+        <label class="tog"><input type="checkbox" id="optSound" checked> เสียง</label>
+      </div>
+    </div>
+
+    <div class="play">
+      <div class="card stage" id="stage">
+        <div class="stagehead">
+          <div><span class="pill" id="modePill">เกม 24</span> <span class="qno" id="qno"></span></div>
+          <div class="ring off" id="ring">
+            <svg width="100%" height="100%" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" fill="none" stroke="var(--line)" stroke-width="7"/><circle id="ringArc" cx="42" cy="42" r="36" fill="none" stroke="var(--mc)" stroke-width="7" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="0"/></svg>
+            <div class="tv" id="tv">–</div>
+          </div>
+        </div>
+        <div class="puzzle" id="puzzle"><div class="ph">เลือกโหมดและตั้งเวลา แล้วกด <b>เริ่มฝึก</b></div></div>
+        <div class="inrow">
+          <input class="expr" id="expr" placeholder="พิมพ์วิธีคิด เช่น (8 − 2) × (3 + 1)" autocomplete="off" spellcheck="false" disabled>
+        </div>
+        <div class="live" id="live"></div>
+        <div class="keys" id="keys">
+          <button class="key" data-k="+">+</button><button class="key" data-k="−">−</button><button class="key" data-k="×">×</button><button class="key" data-k="÷">÷</button>
+          <button class="key" data-k="(">(</button><button class="key" data-k=")">)</button>
+          <button class="key" data-k="^" data-op="pow">x<sup>n</sup></button><button class="key" data-k="√" data-op="sqrt">√</button><button class="key" data-k="!" data-op="fact">!</button><button class="key" data-k="Σ" data-op="sigma">Σ</button><button class="key" data-k="," data-op="sigma" title="คั่นขอบเขตซิกม่า Σ(ล่าง,บน)">,</button>
+          <button class="key" data-k="bs" title="ลบ">⌫</button><button class="key" data-k="clr" title="ล้าง" style="font-size:13px">ล้าง</button>
+        </div>
+        <div class="actions">
+          <button class="btn pri grow" id="bNext">▶ เริ่มฝึก</button>
+          <button class="btn dark" id="bCheck" disabled>✓ ตรวจคำตอบ</button>
+          <button class="btn yel" id="bSol" disabled>💡 ดูเฉลย</button>
+        </div>
+        <div class="fb" id="fb"></div>
+        <div class="sol" id="sol"></div>
+      </div>
+
+      <aside class="side">
+        <div class="card stats">
+          <div><b id="sDone">0</b><span>ทำแล้ว</span></div>
+          <div><b id="sGood" style="color:var(--ok)">0</b><span>ดีที่สุดแล้ว</span></div>
+          <div><b id="sStreak" style="color:var(--c1)">0</b><span>ติดต่อกัน</span></div>
+        </div>
+        <div class="card">
+          <div class="pad" style="padding-bottom:8px;display:flex;justify-content:space-between;align-items:center"><b style="font-weight:600">ประวัติการฝึก</b><button class="chip" id="bReset">ล้างสถิติ</button></div>
+          <div class="hist" id="hist"><div class="row" style="color:var(--muted)">ยังไม่มีข้อที่ทำ</div></div>
+        </div>
+        <div class="card pad tip">
+          <b style="color:var(--ink);font-weight:600">วิธีใช้</b><br>
+          แตะเลขโดดหรือพิมพ์จากคีย์บอร์ด ใช้ <kbd>*</kbd> แทน × <kbd>/</kbd> แทน ÷ <kbd>^</kbd> ยกกำลัง <kbd>r</kbd> ถอดราก <kbd>!</kbd> แฟกทอเรียล <kbd>s</kbd> ซิกม่า (แบบมีขอบเขตพิมพ์ <kbd>s(3,6)</kbd>)<br>
+          กด <kbd>Enter</kbd> เพื่อตรวจคำตอบ และกดอีกครั้งเพื่อไปข้อต่อไป
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ WORKSHEET ============ -->
+  <section class="view" id="v-worksheet">
+    <div class="ws">
+      <div class="card form">
+        <div><h2>สร้างแบบฝึกหัด PDF</h2><p class="sub">กำหนดจำนวนข้อแต่ละโหมด แล้วกดสร้าง ระบบจะสุ่มโจทย์พร้อมเฉลยท้ายชุดให้</p></div>
+        <div class="f"><label class="t">ชื่อแบบฝึกหัด</label><input type="text" id="wTitle" value="แบบฝึกหัดคิดเลขเร็ว"></div>
+        <div class="f" style="display:grid;grid-template-columns:1fr 92px;gap:8px">
+          <div><label class="t">ชื่อโรงเรียน / คำอธิบาย (ถ้ามี)</label><input type="text" id="wSchool" placeholder="เช่น ชั้น ป.6 โรงเรียน..."></div>
+          <div><label class="t">ชุดที่</label><input type="text" id="wSet" value="1"></div>
+        </div>
+        <div class="f"><label class="t">จำนวนข้อแต่ละโหมด</label>
+          <div class="cnts">
+            <div class="cnt"><div class="dot" style="background:var(--c1)">24</div><div class="nm">เกม 24<small>เลขโดด 4 ตัว → 24</small></div><div class="stp"><button data-d="-1">−</button><input id="w1" type="number" min="0" max="200" value="10"><button data-d="1">+</button></div></div>
+            <div class="cnt"><div class="dot" style="background:var(--c2)">2</div><div class="nm">4 ตัว → 2 หลัก<small>เลขโดด 4 ตัว ใกล้ที่สุด</small></div><div class="stp"><button data-d="-1">−</button><input id="w2" type="number" min="0" max="200" value="10"><button data-d="1">+</button></div></div>
+            <div class="cnt"><div class="dot" style="background:var(--c3)">3</div><div class="nm">5 ตัว → 3 หลัก<small>เลขโดด 5 ตัว ใกล้ที่สุด</small></div><div class="stp"><button data-d="-1">−</button><input id="w3" type="number" min="0" max="200" value="10"><button data-d="1">+</button></div></div>
+          </div>
+          <div class="total" id="wTotal" style="margin-top:6px"></div>
+        </div>
+        <div class="f"><label class="t">เครื่องหมายที่ใช้ในเฉลย</label>
+          <div class="chips" id="wOps">
+            <button class="chip on lock">+ − × ÷</button>
+            <button class="chip" data-op="pow">ยกกำลัง</button>
+            <button class="chip" data-op="sqrt">ถอดราก</button>
+            <button class="chip" data-op="fact">แฟกทอเรียล</button>
+            <button class="chip" data-op="sigma">ซิกม่า</button>
+          </div>
+        </div>
+        <div class="f" style="display:flex;align-items:center;gap:8px"><label class="t" style="margin:0">เวลาต่อข้อ (พิมพ์บนหัวกระดาษ)</label><input class="num" id="wTime" type="number" min="0" max="900" value="30"><span class="sub">วินาที</span></div>
+        <div class="f" style="display:flex;flex-direction:column;gap:8px">
+          <label class="tog"><input type="checkbox" id="wExact" checked> สุ่มเฉพาะโจทย์ที่ทำได้พอดี</label>
+          <label class="tog"><input type="checkbox" id="wMix"> สลับข้อคละโหมด</label>
+          <label class="tog"><input type="checkbox" id="wName" checked> ช่องชื่อ–ชั้น–เลขที่</label>
+          <label class="tog"><input type="checkbox" id="wKey" checked> แนบเฉลยท้ายชุด</label>
+        </div>
+        <button class="btn dark grow" id="wGen" style="justify-content:center">✨ สร้างแบบฝึกหัด</button>
+        <div class="prog" id="wProg"><i></i></div>
+        <div class="sub" id="wStatus"></div>
+      </div>
+
+      <div class="card preview">
+        <div class="pvbar">
+          <b style="font-weight:600">ตัวอย่างก่อนพิมพ์</b><span class="sub" id="pvInfo"></span><span class="sp"></span>
+          <button class="btn ghost" id="wPrint" disabled>🖨️ พิมพ์ / บันทึกเป็น PDF</button>
+          <button class="btn pri" id="wPdf" disabled style="--mc:var(--c2)">⬇ ดาวน์โหลด PDF</button>
+        </div>
+        <div class="sheets" id="sheets"><div class="empty"><div class="big">📄</div>ตั้งค่าทางซ้าย แล้วกด <b>สร้างแบบฝึกหัด</b><br><span style="font-size:13px">หน้ากระดาษ A4 · หน้าละ 10 ข้อ · มีช่องวิธีการและช่องทดเลข เหมือนแบบฝึกที่ใช้ซ้อมแข่ง</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="view" id="v-tips">
+    <div class="doc">
+      <div class="dochead card">
+        <div class="hero-ic">⚡</div>
+        <div><h2>วิธีฝึกคิดให้เร็ว</h2><p class="sub">รวมเทคนิคตั้งแต่พื้นฐานจนถึงขั้นแข่ง อ่านทีละหัวข้อ แล้วกลับไปลองในหน้าฝึกทำโจทย์ได้เลย</p></div>
+      </div>
+      <nav class="toc card" id="toc"></nav>
+
+      <article class="card sec" id="t-order">
+        <span class="lv lv1">พื้นฐาน</span>
+        <h3>1. ลำดับการคำนวณและการใช้วงเล็บ</h3>
+        <p>ก่อนใช้เทคนิคอะไร ต้องรู้ก่อนว่าคิดอะไรก่อนหลัง เพราะถ้าลำดับผิด คำตอบก็ผิดทั้งข้อ</p>
+        <ol class="steps">
+          <li><b>วงเล็บ</b> คิดวงเล็บในสุดก่อน แล้วค่อยออกมาข้างนอก</li>
+          <li><b>ยกกำลัง ถอดราก แฟกทอเรียล ซิกม่า</b> คิดต่อจากวงเล็บ</li>
+          <li><b>คูณ และ หาร</b> คิดจากซ้ายไปขวา</li>
+          <li><b>บวก และ ลบ</b> คิดจากซ้ายไปขวา</li>
+        </ol>
+        <div class="cmp">
+          <div><span class="tagx bad">ไม่มีวงเล็บ</span><div class="big">2 + 3 × 4 = <b>14</b></div><small>คูณก่อน: 3 × 4 = 12 แล้ว + 2</small></div>
+          <div><span class="tagx good">มีวงเล็บ</span><div class="big">(2 + 3) × 4 = <b>20</b></div><small>ในวงเล็บก่อน: 5 × 4</small></div>
+        </div>
+        <div class="note"><b>กับดักที่เจอบ่อย:</b> การลบและการหารต่อกันหลายตัว <span class="nw">8 − 3 − 2 = 3</span> แต่ <span class="nw">8 − (3 − 2) = 7</span> และ <span class="nw">24 ÷ 4 ÷ 2 = 3</span> แต่ <span class="nw">24 ÷ (4 ÷ 2) = 12</span></div>
+        <div class="tipbox">💡 <b>นิสัยที่ดีในสนามแข่ง:</b> ใส่วงเล็บครอบทุกขั้นที่คิดก่อนเสมอ เช่น <span class="nw">((7 × 9) − 7) − 3</span> กรรมการอ่านง่าย และเราเองก็ไม่พลาด แบบเดียวกับเฉลยในแอปนี้</div>
+      </article>
+
+      <article class="card sec" id="t-back">
+        <span class="lv lv1">พื้นฐาน</span>
+        <h3>2. คิดย้อนจากคำตอบ (หัวใจของคิดเลขเร็ว)</h3>
+        <p>อย่าเริ่มจากการเอาเลขมาลองผสมมั่ว ๆ ให้มองคำตอบก่อน แล้วถามตัวเองว่า <b>"คำตอบนี้ = อะไร × อะไร ± นิดหน่อย"</b></p>
+        <div class="flow">
+          <div><b>1</b>ดูคำตอบ หาแม่สูตรคูณที่ใกล้ที่สุด</div>
+          <div><b>2</b>หาเลขโดด 2 ตัวที่ทำตัวคูณนั้นได้</div>
+          <div><b>3</b>ใช้เลขที่เหลือ "ปรับเศษ" ให้พอดี</div>
+        </div>
+        <div class="ex">
+          <div class="exq">9 3 7 7 → <b>53</b></div>
+          <p>53 ใกล้ 7 × 8 = 56 (ขาด 3) หรือ 7 × 9 = 63 (เกิน 10) มี 7 กับ 9 อยู่แล้ว → 63 เกิน 10 ใช้ 7 กับ 3 ที่เหลือ ลบออก 10 พอดี</p>
+          <div class="exa">((7 × 9) − 7) − 3 = 53 ✓</div>
+        </div>
+        <div class="ex">
+          <div class="exq">8 4 3 7 → <b>83</b></div>
+          <p>83 ใกล้ 7 × 8 = 56 ยังขาด 27 … ลอง 80 = 8 × 10 = 8 × (7 + 3) แล้วเหลือ 4 → ได้ 84 ใกล้มาก ห่างแค่ 1</p>
+          <div class="exa">((7 + 3) × 8) + 4 = 84 <small>(ใกล้ที่สุดเมื่อใช้แค่ + − × ÷)</small></div>
+        </div>
+        <div class="tipbox">💡 ถ้าคำตอบเป็น<b>จำนวนเฉพาะ</b> (เช่น 53, 83, 97) ให้คิดเป็น <b>จำนวนที่แยกตัวประกอบได้ ± 1, 2, 3</b> เช่น 53 = 54 − 1 = 6 × 9 − 1</div>
+      </article>
+
+      <article class="card sec" id="t-trash">
+        <span class="lv lv1">พื้นฐาน</span>
+        <h3>3. ทำลายเลขส่วนเกิน (เลขที่ไม่อยากใช้)</h3>
+        <p>กติกาบังคับใช้เลขครบทุกตัว แต่บางทีเรามีคำตอบแล้วยังเหลือเลขอีกตัว ให้ "ซ่อน" มันแบบนี้</p>
+        <table class="tb">
+          <tr><th>เลขที่เหลือ</th><th>วิธีซ่อน</th><th>ตัวอย่าง</th></tr>
+          <tr><td>0</td><td>บวก/ลบ 0 หรือคูณกับก้อนที่ไม่ต้องการ</td><td>24 + 0, (…) + (5 × 0)</td></tr>
+          <tr><td>1</td><td>คูณหรือหารด้วย 1</td><td>24 × 1, 24 ÷ 1</td></tr>
+          <tr><td>เลขซ้ำ 2 ตัว</td><td>ลบกันได้ 0 หรือหารกันได้ 1</td><td>7 − 7 = 0, 7 ÷ 7 = 1</td></tr>
+          <tr><td>เลขอะไรก็ได้</td><td>คูณกับ 0 ทั้งก้อน</td><td>(4 × 6) + (8 × 0 × 3)</td></tr>
+          <tr><td>เลขอะไรก็ได้ <span class="op-pill">ยกกำลัง</span></td><td>ยกกำลัง 0 ได้ 1 หรือเอา 1 ยกกำลัง</td><td>9⁰ = 1, 1⁷ = 1</td></tr>
+          <tr><td>0 <span class="op-pill">แฟกทอเรียล</span></td><td>0! = 1 เปลี่ยน 0 เป็น 1</td><td>(0! + 2) × 8 = 24</td></tr>
+        </table>
+      </article>
+
+      <article class="card sec" id="t-build">
+        <span class="lv lv2">กลาง</span>
+        <h3>4. สร้างเลขสำคัญจากเลข 2 ตัว</h3>
+        <p>จำ "ชิ้นส่วน" ที่ใช้บ่อยไว้ เวลาแข่งจะต่อชิ้นได้เร็วมาก</p>
+        <div class="chipsx">
+          <span><b>1</b> = a ÷ a, (a+1) − a</span>
+          <span><b>0</b> = a − a</span>
+          <span><b>2</b> = 1 + 1, 4 ÷ 2, √4</span>
+          <span><b>10</b> = 2 × 5, 1 + 9, 3 + 7, 4 + 6</span>
+          <span><b>12</b> = 3 × 4, 2 × 6, 3! × 2</span>
+          <span><b>100</b> = 10 × 10, (2 + 8)², 5! − 20</span>
+        </div>
+        <p style="margin-top:12px">สำหรับ <b>คำตอบ 3 หลัก</b> (โหมด 5 ตัว) ให้มองหา "ตัวคูณใหญ่" ก่อน เช่น 9 × 8 = 72, 8 × 7 = 56 แล้วคูณอีกชั้น หรือใช้ 5! = 120, 6! = 720, Σ13 = 91 เป็นตัวตั้ง</p>
+        <div class="ex">
+          <div class="exq">3 9 7 1 5 → <b>854</b></div>
+          <p>854 ÷ 7 = 122 พอดี! ต้องทำ 122 จาก 3 9 1 5 → 5! = 120 แล้วเหลือ 2 = (9 ÷ 3) − 1</p>
+          <div class="exa">((5! − 1) + (9 ÷ 3)) × 7 = 854 ✓</div>
+        </div>
+      </article>
+
+      <article class="card sec" id="t-24">
+        <span class="lv lv2">กลาง</span>
+        <h3>5. เคล็ดลับเฉพาะเกม 24</h3>
+        <p>24 มีตัวประกอบเยอะ จึงมีหลายทางให้ไปถึง จำ "ทางเข้า" เหล่านี้ไว้</p>
+        <div class="grid24">
+          <span>3 × 8</span><span>4 × 6</span><span>2 × 12</span><span>1 × 24</span>
+          <span>12 + 12</span><span>20 + 4</span><span>18 + 6</span><span>16 + 8</span>
+          <span>30 − 6</span><span>25 − 1</span><span>27 − 3</span><span>32 − 8</span>
+          <span>48 ÷ 2</span><span>72 ÷ 3</span><span>96 ÷ 4</span><span>120 ÷ 5</span>
+        </div>
+        <p style="margin-top:12px"><b>ข้อยาก ๆ ต้องใช้เศษส่วน!</b> เมื่อจับคู่ปกติไม่ได้ ลองสร้างเศษส่วนแล้วคูณ/หาร</p>
+        <table class="tb">
+          <tr><th>โจทย์</th><th>วิธีคิด</th></tr>
+          <tr><td>3 3 8 8</td><td class="mxf">8 ÷ (3 − (8 ÷ 3)) = 8 ÷ ⅓ = 24</td></tr>
+          <tr><td>1 5 5 5</td><td class="mxf">(5 − (1 ÷ 5)) × 5 = 4.8 × 5 = 24</td></tr>
+          <tr><td>3 3 7 7</td><td class="mxf">(3 + (3 ÷ 7)) × 7 = 24</td></tr>
+          <tr><td>4 4 7 7</td><td class="mxf">(4 − (4 ÷ 7)) × 7 = 24</td></tr>
+          <tr><td>1 3 4 6</td><td class="mxf">6 ÷ (1 − (3 ÷ 4)) = 6 ÷ ¼ = 24</td></tr>
+        </table>
+        <div class="tipbox">💡 รูปแบบ <b>(a ± b/c) × c</b> และ <b>a ÷ (b − c/d)</b> คือ "ท่าไม้ตาย" ของข้อที่ดูเหมือนทำไม่ได้</div>
+      </article>
+
+      <article class="card sec" id="t-pow">
+        <span class="lv lv3">ขั้นสูง</span>
+        <h3>6. ยกกำลัง และยกกำลังซ้อน</h3>
+        <p>ยกกำลังทำให้เลขโตเร็วมาก เหมาะกับคำตอบ 3 หลัก แต่ต้องระวังเรื่องการอ่าน</p>
+        <div class="cmp">
+          <div><span class="tagx">ซ้อนจากบนลงล่าง</span><div class="big mx">2<sup>3<sup>2</sup></sup> = 2<sup>9</sup> = <b>512</b></div><small>คิดเลขชี้กำลังด้านบนก่อน (3² = 9)</small></div>
+          <div><span class="tagx">ใส่วงเล็บที่ฐาน</span><div class="big mx">(2<sup>3</sup>)<sup>2</sup> = 8<sup>2</sup> = <b>64</b></div><small>คิดในวงเล็บก่อน แล้วยกกำลังผลลัพธ์</small></div>
+        </div>
+        <ul class="ul">
+          <li>a<sup>1</sup> = a ใช้ซ่อนเลข 1 ได้ และ a<sup>0</sup> = 1 ใช้ซ่อนเลขอะไรก็ได้</li>
+          <li>ยกกำลังผลลัพธ์ของวงเล็บก็ได้ เช่น <span class="nw mx">(1 + 2)<sup>4</sup> = 81</span>, <span class="nw mx">(9 − 4)<sup>3</sup> = 125</span></li>
+          <li>เลขชี้กำลังเป็นนิพจน์ได้ เช่น <span class="nw mx">2<sup>(3 + 4)</sup> = 128</span></li>
+          <li>ในแอปพิมพ์ <kbd>^</kbd> เช่น <code>2^(3^2)</code></li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="t-fact">
+        <span class="lv lv3">ขั้นสูง</span>
+        <h3>7. แฟกทอเรียล และแฟกทอเรียลซ้อน</h3>
+        <p><b>n!</b> คือผลคูณ 1 × 2 × 3 × … × n เช่น 4! = 1 × 2 × 3 × 4 = 24 (เกม 24 ข้อไหนมีเลข 4 แล้วซ่อนตัวที่เหลือได้ ก็จบทันที!)</p>
+        <ul class="ul">
+          <li><b>0! = 1</b> (นิยามไว้แบบนี้) → เปลี่ยน 0 ให้กลายเป็น 1</li>
+          <li><b>3! = 6</b> → เปลี่ยน 3 เป็น 6 ใช้บ่อยมาก เช่น 3! × 4 = 24</li>
+          <li><b>แฟกทอเรียลซ้อน</b>: (3!)! = 6! = <b>720</b> ทางลัดไปสู่เลข 3 หลัก</li>
+          <li>แฟกทอเรียลของวงเล็บ: <span class="nw">(2 + 3)! = 120</span>, <span class="nw">(9 − 3)! = 720</span></li>
+          <li>1! = 1 และ 2! = 2 ไม่เปลี่ยนค่า จึงไม่ค่อยมีประโยชน์</li>
+        </ul>
+        <div class="ex">
+          <div class="exq">1 5 1 4 2 → <b>717</b></div>
+          <p>717 ใกล้ 720 = 6! = (2 + 4)! แล้วปรับด้วย 1, 5, 1 → 720 + 1 − 5 + 1 = 717</p>
+          <div class="exa">(((2 + 4)! + 1) − 5) + 1 = 717 ✓</div>
+        </div>
+      </article>
+
+      <article class="card sec" id="t-sqrt">
+        <span class="lv lv3">ขั้นสูง</span>
+        <h3>8. ถอดราก</h3>
+        <ul class="ul">
+          <li>√4 = 2, √9 = 3 ใช้ย่อเลขให้เล็กลง</li>
+          <li>ถอดรากผลบวกที่เป็นกำลังสอง: √(7 + 9) = √16 = 4, √(8 × 2) = 4, √(5 × 5) = 5</li>
+          <li>ถอดรากซ้อน: √√81 = √9 = 3</li>
+          <li>ใช้คู่กับแฟกทอเรียล: (√9)! = 3! = 6</li>
+          <li>ในแอปพิมพ์ <kbd>r</kbd> เช่น <code>r(7+9)</code> จะเป็น √(7+9)</li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="t-sigma">
+        <span class="lv lv3">ขั้นสูง</span>
+        <h3>9. ซิกม่า</h3>
+        <p>Σn = 1 + 2 + … + n คิดเร็วได้ด้วยสูตร <b>n × (n + 1) ÷ 2</b> เช่น Σ10 = 10 × 11 ÷ 2 = 55 (ดูวิธีอ่านแบบเต็มที่หน้า "กติกา & วิธีใช้")</p>
+        <ul class="ul">
+          <li><b>Σ3 = 6</b> เหมือน 3! เลย ถ้าสนามไม่ให้ใช้แฟกทอเรียลแต่ให้ใช้ซิกม่า ใช้แทนกันได้</li>
+          <li><b>Σ4 = 10</b> สร้าง 10 จากเลขตัวเดียว! มีประโยชน์มาก</li>
+          <li><b>ซิกม่าซ้อน</b>: Σ(Σ3) = Σ6 = 21, Σ(Σ4) = Σ10 = 55</li>
+          <li>ซิกม่าของวงเล็บใช้ไปเลข 3 หลัก: Σ(9 + 4) = Σ13 = 91, Σ(4 × 5) = Σ20 = 210</li>
+          <li>ซิกม่าแบบมีขอบเขต: Σ จาก 3 ถึง 6 = 3 + 4 + 5 + 6 = 18 คิดเร็ว ๆ ได้จาก Σ6 − Σ2 = 21 − 3</li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="t-nums">
+        <span class="lv lv2">ต้องจำ</span>
+        <h3>10. ตัวเลขที่ควรจำให้ขึ้นใจ</h3>
+        <p>ยิ่งจำได้มาก ยิ่งมองเห็นทางลัดได้เร็ว พิมพ์ตารางนี้แปะข้างโต๊ะได้เลย</p>
+        <div class="memo">
+          <div><h4>กำลังสอง</h4><div class="mg" id="mSq"></div></div>
+          <div><h4>กำลังสาม</h4><div class="mg" id="mCu"></div></div>
+          <div><h4>กำลังของ 2 และ 3</h4><div class="mg" id="mP2"></div></div>
+          <div><h4>แฟกทอเรียล</h4><div class="mg" id="mFa"></div></div>
+          <div><h4>ซิกม่า Σn</h4><div class="mg" id="mSg"></div></div>
+          <div><h4>ตัวประกอบที่ใช้บ่อย</h4><div class="mg" id="mFc"></div></div>
+        </div>
+      </article>
+
+      <article class="card sec" id="t-near">
+        <span class="lv lv2">กลยุทธ์</span>
+        <h3>11. เมื่อทำให้พอดีไม่ได้ ให้ทำให้ใกล้ที่สุด</h3>
+        <ul class="ul">
+          <li>เขียนคำตอบที่ใกล้ไว้ก่อนเสมอ แล้วค่อยหาวิธีที่ดีกว่าถ้ายังมีเวลา <b>อย่าปล่อยว่าง</b></li>
+          <li>ห่าง 1 ดีกว่าห่าง 5 เสมอ ลองสลับตัวปรับเศษ (บวก/ลบตัวเล็ก ๆ ท้ายสุด)</li>
+          <li>เช็กให้ชัวร์ว่า <b>ใช้เลขครบทุกตัว ตัวละครั้ง</b> และ<b>ไม่ได้เอาเลขมาต่อกัน</b></li>
+          <li>หารแล้วได้เศษส่วนก็ใช้ได้ ถ้าคำตอบสุดท้ายถูกต้อง</li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="t-plan">
+        <span class="lv lv1">ตารางฝึก</span>
+        <h3>12. วิธีฝึกให้เร็วขึ้นแบบเป็นขั้น</h3>
+        <div class="plan">
+          <div><b>สัปดาห์ที่ 1</b><span>เกม 24 ไม่จับเวลา วันละ 10 ข้อ เน้นเข้าใจวงเล็บ</span></div>
+          <div><b>สัปดาห์ที่ 2</b><span>เกม 24 จับเวลา 60 วิ + โหมด 4 ตัว → 2 หลัก</span></div>
+          <div><b>สัปดาห์ที่ 3</b><span>ลดเวลาเหลือ 40 วิ เริ่มเปิดแฟกทอเรียล/ยกกำลัง</span></div>
+          <div><b>สัปดาห์ที่ 4+</b><span>โหมด 5 ตัว → 3 หลัก 30–40 วิ ทำแบบฝึก PDF จับเวลาเหมือนแข่งจริง</span></div>
+        </div>
+        <ul class="ul" style="margin-top:12px">
+          <li>หลังทำเสร็จ <b>ดูเฉลยทุกข้อ</b> แม้ข้อที่ทำได้ เพราะอาจมีวิธีที่สั้นกว่า</li>
+          <li>จด "รูปแบบที่เจอบ่อย" ลงสมุดของตัวเอง เช่น 53 = 6 × 9 − 1</li>
+          <li>ฝึกเป็นคู่หรือเป็นทีม แข่งกันใครเสร็จก่อน สนุกและไวขึ้นจริง</li>
+          <li>ฝึกสั้น ๆ ทุกวันดีกว่าฝึกยาว ๆ อาทิตย์ละครั้ง</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ RULES & HOW-TO ============ -->
+  <section class="view" id="v-rules">
+    <div class="doc">
+      <article class="card sec">
+        <h2>กติกาการคิดเลขเร็ว</h2>
+        <p class="sub">สรุปตามแนวการแข่งขันคิดเลขเร็วที่ใช้กันทั่วไป รายละเอียด (จำนวนข้อ เวลา เครื่องหมายที่ใช้ได้) อาจต่างกันในแต่ละสนาม โปรดตรวจสอบประกาศของสนามแข่งขันอีกครั้ง</p>
+        <ul class="ul">
+          <li>ใช้ <b>เลขโดดที่สุ่มได้ทุกตัว ตัวละ 1 ครั้ง</b> เรียงลำดับใดก็ได้</li>
+          <li><b>ห้ามนำตัวเลขมาเรียงต่อกัน</b> เป็นจำนวนหลายหลัก เช่น มี 1 กับ 2 จะนำมาเป็น 12 ไม่ได้</li>
+          <li>เครื่องหมาย + − × ÷ และวงเล็บ ใช้ได้เสมอ บางสนามอนุญาต <b>ยกกำลัง ถอดราก (√) แฟกทอเรียล (!) และซิกม่า (Σ)</b> เปิดหรือปิดได้ในแอป</li>
+          <li>ถ้าทำให้ได้คำตอบพอดีไม่ได้ ให้ทำให้ <b>ใกล้คำตอบที่สุด</b></li>
+          <li>สนามแข่งขันมักให้เวลาข้อละประมาณ 30–40 วินาที</li>
+        </ul>
+        <div class="ex3">
+          <div><b style="color:var(--c1)">เกม 24</b><br>4 &nbsp;6 &nbsp;6 &nbsp;3 = 24<br><span style="color:var(--muted)">((3 × 4) + 6) + 6</span></div>
+          <div><b style="color:var(--c2)">4 ตัว → 2 หลัก</b><br>9 &nbsp;3 &nbsp;7 &nbsp;7 = 53<br><span style="color:var(--muted)">((7 × 9) − 7) − 3</span></div>
+          <div><b style="color:var(--c3)">5 ตัว → 3 หลัก</b><br>3 &nbsp;9 &nbsp;7 &nbsp;1 &nbsp;5 = 854<br><span style="color:var(--muted)">((5! − 1) + (9 ÷ 3)) × 7</span></div>
+        </div>
+      </article>
+
+      <article class="card sec" id="h-sigma">
+        <h2><span class="sg" style="font-size:1.2em">Σ</span> ซิกม่า: อ่านและใช้อย่างไร</h2>
+        <p><b>Σ (ซิกม่า)</b> เป็นอักษรกรีก แปลว่า <b>"ผลบวก"</b> ในคิดเลขเร็วใช้บวกจำนวนนับที่เรียงติดกัน</p>
+
+        <h4 class="h4">1) รูปเต็มที่เห็นในหนังสือ</h4>
+        <div class="sigdemo">
+          <span class="bs"><span class="bsl"><small>n</small><b>Σ</b><small>i = 1</small></span><span class="bsi">i</span></span>
+          <span class="eqs">=</span><span>1 + 2 + 3 + … + n</span>
+        </div>
+        <table class="tb">
+          <tr><th>ส่วน</th><th>ความหมาย</th></tr>
+          <tr><td><b>i</b> (ด้านขวา Σ)</td><td>ตัวแปรนับ ทุกรอบเราจะ "เอาค่า i มาบวก"</td></tr>
+          <tr><td><b>i = 1</b> (ใต้ Σ)</td><td>เริ่มนับจาก i = 1</td></tr>
+          <tr><td><b>n</b> (บน Σ)</td><td>นับไปจนถึง i = n แล้วหยุด (รวม n ด้วย)</td></tr>
+        </table>
+        <p>อ่านว่า <b>"ผลบวกของ i เมื่อ i มีค่าตั้งแต่ 1 ถึง n"</b> ในคิดเลขเร็วนิยมเขียนย่อเป็น <b>Σn</b> (ใส่แค่เลขด้านบน)</p>
+
+        <h4 class="h4">2) ตัวอย่างการคิดทีละขั้น</h4>
+        <div class="ex">
+          <div class="exq"><span class="bs"><span class="bsl"><small>4</small><b>Σ</b><small>i = 1</small></span><span class="bsi">i</span></span> = Σ4</div>
+          <p>i = 1 → 1, i = 2 → 2, i = 3 → 3, i = 4 → 4 แล้วนำมาบวกกัน</p>
+          <div class="exa">1 + 2 + 3 + 4 = 10</div>
+        </div>
+        <div class="tipbox">⚡ <b>สูตรลัด:</b> Σn = n × (n + 1) ÷ 2 เช่น Σ9 = 9 × 10 ÷ 2 = 45, Σ20 = 20 × 21 ÷ 2 = 210 (เคล็ดลับเกาส์ จับคู่หัวท้ายได้ผลบวกเท่ากันทุกคู่)</div>
+
+        <h4 class="h4">3) ซิกม่าแบบมีขอบเขต (เริ่มไม่ใช่ 1)</h4>
+        <div class="sigdemo">
+          <span class="bs"><span class="bsl"><small>b</small><b>Σ</b><small>i = a</small></span><span class="bsi">i</span></span>
+          <span class="eqs">=</span><span>a + (a + 1) + … + b</span>
+        </div>
+        <div class="ex">
+          <div class="exq"><span class="bs"><span class="bsl"><small>6</small><b>Σ</b><small>i = 3</small></span><span class="bsi">i</span></span></div>
+          <p>i = 3, 4, 5, 6 → 3 + 4 + 5 + 6 = 18 หรือคิดลัด: Σ6 − Σ2 = 21 − 3 = 18 <small>(ถ้าเริ่มที่ a ให้ลบ Σ(a − 1) ออก)</small></p>
+          <div class="exa">= 18 · ใช้เลขโดด 2 ตัว (3 และ 6)</div>
+        </div>
+
+        <h4 class="h4">4) ตารางค่าซิกม่าที่ควรจำ</h4>
+        <div class="mg wide" id="mSg2"></div>
+
+        <h4 class="h4">5) วิธีพิมพ์ซิกม่าในแอป</h4>
+        <table class="tb">
+          <tr><th>ต้องการ</th><th>พิมพ์</th><th>แอปแสดง</th><th>ค่า</th></tr>
+          <tr><td>Σ ตั้งแต่ 1 ถึง 4</td><td><code>s4</code> หรือกดปุ่ม Σ แล้ว 4</td><td>Σ4</td><td>10</td></tr>
+          <tr><td>Σ ของผลลัพธ์ในวงเล็บ</td><td><code>s(9+4)</code></td><td>Σ(9 + 4)</td><td>91</td></tr>
+          <tr><td>Σ ตั้งแต่ 3 ถึง 6</td><td><code>s(3,6)</code></td><td>Σ(3,6)</td><td>18</td></tr>
+          <tr><td>ซิกม่าซ้อน</td><td><code>ss3</code></td><td>ΣΣ3</td><td>21</td></tr>
+        </table>
+        <p class="sub" style="margin-top:8px">ในเฉลย ซิกม่าแบบมีขอบเขตจะแสดงเลขบน/ล่างเหมือนในหนังสือ ส่วนซิกม่าธรรมดาแสดงเป็น Σn · ต้องเปิดปุ่ม "ซิกม่า Σ" ในหน้าฝึกก่อนจึงจะใช้ได้</p>
+      </article>
+
+      <article class="card sec">
+        <h2>วิธีใช้แอป</h2>
+        <h4 class="h4">หน้าฝึกทำโจทย์</h4>
+        <ol class="steps">
+          <li>เลือกโหมด (เกม 24 / 4 ตัว → 2 หลัก / 5 ตัว → 3 หลัก) ตั้งเวลา และเลือกเครื่องหมายที่สนามอนุญาต</li>
+          <li>กด <b>เริ่มฝึก</b> แล้วแตะเลขโดดและปุ่มเครื่องหมาย หรือพิมพ์จากคีย์บอร์ด</li>
+          <li>แอปคำนวณค่าให้ดูสด ๆ ใต้ช่องคำตอบ กด <b>ตรวจคำตอบ</b> (หรือ Enter)</li>
+          <li>กด <b>ดูเฉลย</b> ได้ทุกเมื่อ แล้วกด <b>ข้อต่อไป</b></li>
+        </ol>
+        <table class="tb">
+          <tr><th>ปุ่มคีย์บอร์ด</th><th>ได้</th><th>ปุ่มคีย์บอร์ด</th><th>ได้</th></tr>
+          <tr><td><kbd>*</kbd> หรือ <kbd>x</kbd></td><td>×</td><td><kbd>/</kbd></td><td>÷</td></tr>
+          <tr><td><kbd>^</kbd></td><td>ยกกำลัง</td><td><kbd>r</kbd></td><td>√ ถอดราก</td></tr>
+          <tr><td><kbd>!</kbd></td><td>แฟกทอเรียล</td><td><kbd>s</kbd></td><td>Σ ซิกม่า</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>ตรวจคำตอบ / ข้อต่อไป</td><td><kbd>,</kbd></td><td>คั่นขอบเขตซิกม่า</td></tr>
+        </table>
+        <h4 class="h4">หน้าสร้างแบบฝึกหัด</h4>
+        <ol class="steps">
+          <li>ใส่ชื่อชุด กำหนดจำนวนข้อแต่ละโหมด และเครื่องหมายที่ให้ใช้ในเฉลย</li>
+          <li>กด <b>สร้างแบบฝึกหัด</b> ตรวจตัวอย่างทางขวา (กดซ้ำเพื่อสุ่มชุดใหม่)</li>
+          <li>กด <b>พิมพ์ / บันทึกเป็น PDF</b> (เลือกเครื่องพิมพ์เป็น "Save as PDF") หรือ <b>ดาวน์โหลด PDF</b></li>
+        </ol>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORT ============ -->
+  <section class="view" id="v-support">
+    <div class="sup card">
+      <div class="sup-l">
+        <div class="cup">☕</div>
+        <h2>เลี้ยงกาแฟครูสักแก้วไหมครับ</h2>
+        <p>สวัสดีครับ ผม <b>ครูอภิวัฒน์ ปาวงค์</b> ครูประถมที่ชอบนั่งเขียนแอปตอนเด็ก ๆ หลับแล้ว 😄</p>
+        <p>MathDash ทำขึ้นเพราะอยากให้นักเรียนมีที่ซ้อมคิดเลขเร็วฟรี ๆ และอยากให้ครูทุกคนสร้างแบบฝึกได้ในไม่กี่วินาที แทนการนั่งคิดโจทย์ทีละข้อจนตาลาย</p>
+        <p><b>หวังว่าแอปนี้จะมีประโยชน์กับนักเรียนและคุณครูนะครับ</b> 🙏</p>
+        <p>ถ้าใช้แล้วถูกใจ อยากสนับสนุนค่ากาแฟให้ผมมีแรงดูแลและพัฒนาระบบต่อไปเรื่อย ๆ สแกนได้ตามความสมัครใจเลยครับ ไม่บังคับ ใช้ฟรีเหมือนเดิมตลอดไป ส่วนใครอยากช่วยแบบไม่เสียเงิน แค่แชร์ต่อให้เพื่อนครู ก็ดีใจมากแล้วครับ</p>
+        <div class="cupline"><span>☕ 1 แก้ว = ฟีเจอร์ใหม่ 1 อย่าง</span><span>(โดยประมาณ ขึ้นกับความง่วง)</span></div>
+        <div class="contact">
+          <b>ติดต่อ แจ้งปัญหา หรือเสนอฟีเจอร์</b>
+          <a class="fb-btn" href="https://www.facebook.com/share/19k43qXSV7/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg>
+            Facebook : Apiwat Pawong
+          </a>
+        </div>
+      </div>
+      <div class="sup-r">
+        <div class="qrcard">
+          <img src="data:image/png;base64,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" alt="QR พร้อมเพย์ นายอภิวัฒน์ ปาวงค์" width="543" height="625">
+          <div class="qrname"><span>ชื่อบัญชี</span><b>นายอภิวัฒน์ ปาวงค์</b></div>
+          <div class="qrsub">พร้อมเพย์ · สแกนผ่านแอปธนาคารได้ทุกธนาคาร</div>
+        </div>
+        <p class="thanks">ขอบคุณทุกแก้วกาแฟ และทุกกำลังใจครับ 💛</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <b>MathDash</b> คิดเลขเร็ว · พัฒนาโดย <b>ครูอภิวัฒน์ ปาวงค์</b> · ใช้ได้ฟรีเพื่อการศึกษา<br>
+  <a href="https://www.facebook.com/share/19k43qXSV7/" target="_blank" rel="noopener">Facebook : Apiwat Pawong</a> · <a href="#support" data-go="support">☕ เลี้ยงกาแฟผู้พัฒนา</a>
+</footer>
+
+<div class="toast" id="toast"></div>
+<div id="print-root"></div>
+<div id="render-root"></div>
+
+<script id="solver-src" type="text/plain">
+/* ===== Solver: exact fractions, subset DP ===== */
+const Solver = (() => {
+  let MAXN = 1e5, MAXD = 1000;
+  const FACT = [1, 1, 2, 6, 24, 120, 720, 5040];
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+  function mk(n, d) {
+    if (d === 0) return null;
+    if (d < 0) { n = -n; d = -d; }
+    const g = gcd(n, d) || 1; n /= g; d /= g;
+    if (Math.abs(n) > MAXN || d > MAXD || !Number.isFinite(n)) return null;
+    return [n, d];
+  }
+  const isqrt = x => { if (x < 0) return -1; const r = Math.round(Math.sqrt(x)); return r * r === x ? r : -1; };
+  function powFrac(n, d, e) {
+    let rn = 1, rd = 1;
+    for (let i = 0; i < e; i++) { rn *= n; rd *= d; if (Math.abs(rn) > MAXN || rd > MAXD) return null; }
+    return mk(rn, rd);
+  }
+  // node: {n,d,t(text),h(html),p(prec),k(kind),c(cost)}
+  // prec: 1 add/sub, 2 mul/div, 4 pow, 5 atom ; kind: 'dig','par','sqrt','fact','pow','bin'
+  const par = x => (x.p >= 5) ? x : { ...x, t: '(' + x.t + ')', h: '(' + x.h + ')', p: 5, k: 'par' };
+  const parAtom = x => (x.k === 'dig' || x.k === 'par') ? x : { ...x, t: '(' + x.t + ')', h: '(' + x.h + ')', p: 5, k: 'par' };
+
+  function binNodes(a, b, ops) {
+    const out = [];
+    const add = (v, t, h, p, k, c) => { if (v) out.push({ n: v[0], d: v[1], t, h, p, k, c }); };
+    const c0 = a.c + b.c;
+    // ทุกการดำเนินการย่อยถูกครอบวงเล็บ เพื่อให้เห็นลำดับการคิดชัดเจน
+    const W = x => x.k === 'bin' ? par(x) : x;
+    const L = W(a), R = W(b);
+    add(mk(a.n * b.d + b.n * a.d, a.d * b.d), L.t + ' + ' + R.t, L.h + ' + ' + R.h, 1, 'bin', c0);
+    add(mk(a.n * b.d - b.n * a.d, a.d * b.d), L.t + ' − ' + R.t, L.h + ' − ' + R.h, 1, 'bin', c0);
+    add(mk(a.n * b.n, a.d * b.d), L.t + ' × ' + R.t, L.h + ' × ' + R.h, 2, 'bin', c0);
+    if (b.n !== 0) add(mk(a.n * b.d, a.d * b.n), L.t + ' ÷ ' + R.t, L.h + ' ÷ ' + R.h, 2, 'bin', c0 + 1);
+    // ซิกม่าแบบมีขอบเขต: Σ จาก a ถึง b = a + (a+1) + … + b  (ใช้เมื่อจำเป็นเท่านั้น)
+    if (ops.sigma && a.d === 1 && b.d === 1 && a.n >= 0 && b.n > a.n && b.n <= 60) {
+      add(mk((a.n + b.n) * (b.n - a.n + 1) / 2, 1), 'Σ(' + a.t + ',' + b.t + ')',
+        '<span class="sgr"><small>' + b.h + '</small><span class="sg">Σ</span><small>' + a.h + '</small></span>', 5, 'sig', c0 + 70);
+    }
+    // ^
+    if (ops.pow && b.d === 1 && b.n >= 0 && b.n <= 12 && !(a.n === 0 && b.n === 0)) {
+      const v = powFrac(a.n, a.d, b.n);
+      if (v) { const B = parAtom(a); add(v, B.t + '^' + (b.k === 'dig' ? b.t : '(' + b.t + ')'), B.h + '<sup>' + b.h + '</sup>', 4, 'pow', c0 + 40); }
+    }
+    return out;
+  }
+  function unaryNodes(x, ops) {
+    const out = [];
+    if (ops.sqrt && x.n >= 0) {
+      const a = isqrt(x.n), b = isqrt(x.d);
+      if (a >= 0 && b >= 0 && !(x.n === x.d) && x.n !== 0) {
+        const inner = x.k === 'dig' ? x.t : '(' + x.t + ')';
+        out.push({ n: a, d: b, t: '√' + inner, h: '<span class="rt">√<span class="rd">' + x.h + '</span></span>', p: 5, k: 'sqrt', c: x.c + 40 });
+      }
+    }
+    if (ops.fact && x.d === 1 && x.n >= 0 && x.n <= 7 && x.n !== 1 && x.n !== 2) {
+      const X = parAtom(x);
+      out.push({ n: FACT[x.n], d: 1, t: X.t + '!', h: X.h + '!', p: 5, k: 'fact', c: x.c + 40 });
+    }
+    if (ops.sigma && x.d === 1 && x.n >= 2 && x.n <= 40) {
+      const inner = x.k === 'dig' ? x.t : '(' + x.t + ')';
+      const ih = x.k === 'dig' ? x.h : '(' + x.h + ')';
+      out.push({ n: x.n * (x.n + 1) / 2, d: 1, t: 'Σ' + inner, h: '<span class="sg">Σ</span>' + ih, p: 5, k: 'sig', c: x.c + 40 });
+    }
+    return out;
+  }
+  function put(map, nd) {
+    const key = nd.n + '/' + nd.d, old = map.get(key);
+    const cost = nd.c * 1000 + nd.t.length;
+    if (!old || cost < old._s) { nd._s = cost; map.set(key, nd); return true; }
+    return false;
+  }
+  function addUnary(map, ops) {
+    if (!ops.sqrt && !ops.fact && !ops.sigma) return;
+    const base = [...map.values()];
+    for (const x of base) for (const u of unaryNodes(x, ops)) { put(map, u); for (const u2 of unaryNodes(u, ops)) put(map, u2); }
+  }
+  // build maps for all proper subsets; evaluate the full set on the fly against target
+  function search(digits, target, ops) {
+    const n = digits.length, F = (1 << n) - 1;
+    const memo = new Array(F + 1);
+    for (let i = 0; i < n; i++) {
+      const m = new Map();
+      put(m, { n: digits[i], d: 1, t: String(digits[i]), h: String(digits[i]), p: 5, k: 'dig', c: 0 });
+      addUnary(m, ops);
+      memo[1 << i] = m;
+    }
+    const masks = [];
+    for (let m = 1; m < F; m++) if (pc(m) >= 2) masks.push(m);
+    masks.sort((a, b) => pc(a) - pc(b));
+    for (const mask of masks) {
+      const m = new Map();
+      for (let a = (mask - 1) & mask; a > 0; a = (a - 1) & mask) {
+        const A = memo[a], B = memo[mask ^ a];
+        for (const x of A.values()) for (const y of B.values()) for (const z of binNodes(x, y, ops)) put(m, z);
+      }
+      addUnary(m, ops);
+      memo[mask] = m;
+    }
+    let best = null, bd = Infinity, bs = Infinity;
+    const consider = z => {
+      const diff = Math.abs(z.n / z.d - target), sc = z.c * 1000 + z.t.length;
+      if (diff < bd - 1e-9 || (Math.abs(diff - bd) <= 1e-9 && sc < bs)) { bd = diff; bs = sc; best = z; }
+    };
+    if (n === 1) { for (const z of memo[1].values()) consider(z); }
+    for (let a = (F - 1) & F; a > 0; a = (a - 1) & F) {
+      const A = memo[a], B = memo[F ^ a];
+      for (const x of A.values()) for (const y of B.values()) for (const z of binNodes(x, y, ops)) {
+        consider(z);
+        if (ops.sqrt || ops.fact || ops.sigma) for (const u of unaryNodes(z, ops)) consider(u);
+      }
+    }
+    return { best, diff: bd };
+  }
+  function pc(x) { let c = 0; while (x) { c += x & 1; x >>= 1; } return c; }
+
+  const cache = new Map();
+  function solve(digits, target, ops) {
+    const key = digits.join('') + '|' + target + '|' + (ops.pow ? 1 : 0) + (ops.sqrt ? 1 : 0) + (ops.fact ? 1 : 0) + (ops.sigma ? 1 : 0);
+    if (cache.has(key)) return cache.get(key);
+    // tiered: try simplest operator set first so answers stay as simple as possible
+    const tiers = [{ pow: false, sqrt: false, fact: false, sigma: false }];
+    if (ops.sqrt || ops.fact || ops.sigma) tiers.push({ pow: false, sqrt: ops.sqrt, fact: ops.fact, sigma: ops.sigma });
+    if (ops.pow) tiers.push({ ...ops });
+    let r = null;
+    for (const tier of tiers) { const rr = search(digits, target, tier); if (!r || rr.diff < r.diff) r = rr; if (r.diff === 0) break; }
+    const b = r.best;
+    const res = { exact: r.diff === 0, value: b.n / b.d, valueStr: b.d === 1 ? String(b.n) : b.n + '/' + b.d, diff: r.diff, t: b.t, h: b.h };
+    if (cache.size > 300) cache.clear();
+    cache.set(key, res);
+    return res;
+  }
+  return { solve };
+})();
+if (typeof module !== 'undefined') module.exports = Solver;
+
+/* ===== Problem generation ===== */
+const SPEC = { 1: { n: 4, lo: 24, hi: 24 }, 2: { n: 4, lo: 10, hi: 99 }, 3: { n: 5, lo: 100, hi: 999 } };
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+function makeProblem(mode, o) {
+  const sp = SPEC[mode]; let fb = null;
+  for (let i = 0; i < 120; i++) {
+    const digits = Array.from({ length: sp.n }, () => mode === 1 ? rnd(1, 9) : rnd(0, 9));
+    if (mode !== 1 && digits.filter(d => d === 0).length > 1) continue; // ไม่เอา 0 เกิน 1 ตัว
+    const target = rnd(sp.lo, sp.hi);
+    const sol = Solver.solve(digits, target, o.ops);
+    if (sol.exact || !o.exact) return { mode, digits, target, sol };
+    if (!fb || sol.diff < fb.sol.diff) fb = { mode, digits, target, sol };
+  }
+  return fb;
+}
+onmessage = e => {
+  const m = e.data;
+  if (m.type === 'gen') postMessage({ id: m.id, problem: makeProblem(m.mode, m.opts) });
+  else if (m.type === 'batch') {
+    const list = [];
+    m.items.forEach((mode, i) => { list.push(makeProblem(mode, m.opts)); postMessage({ id: m.id, progress: (i + 1) / m.items.length }); });
+    postMessage({ id: m.id, list });
+  }
+};
+</script>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const MODES = {
+  1: { name: 'เกม 24', tag: 'เกม 24', c: '--c1', s: '--c1s' },
+  2: { name: '4 ตัว → 2 หลัก', tag: '4 ตัว → 2 หลัก', c: '--c2', s: '--c2s' },
+  3: { name: '5 ตัว → 3 หลัก', tag: '5 ตัว → 3 หลัก', c: '--c3', s: '--c3s' }
+};
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('fm_' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('fm_' + k, JSON.stringify(v)); } catch (e) {} }
+};
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2200); }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* ---------- workers ---------- */
+const workerURL = URL.createObjectURL(new Blob([$('#solver-src').textContent], { type: 'text/javascript' }));
+function makeWorker() {
+  const w = new Worker(workerURL); let seq = 0; const pend = new Map();
+  w.onmessage = e => { const p = pend.get(e.data.id); if (!p) return; if (e.data.progress != null) { p.onp && p.onp(e.data.progress); return; } pend.delete(e.data.id); p.res(e.data); };
+  return {
+    call(msg, onp) { return new Promise(res => { const id = ++seq; pend.set(id, { res, onp }); w.postMessage({ ...msg, id }); }); },
+    kill() { w.terminate(); }
+  };
+}
+let playW = makeWorker();
+
+/* ---------- tabs ---------- */
+function showView(v) {
+  $$('.tab').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  $$('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
+  if (v === 'worksheet') fitSheets();
+}
+$$('.tab').forEach(b => b.onclick = () => { showView(b.dataset.v); try { history.replaceState(null, '', '#' + b.dataset.v); } catch (e) {} });
+const h0 = (location.hash || '').slice(1); if (['practice', 'worksheet', 'tips', 'rules', 'support'].includes(h0)) showView(h0);
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (['practice', 'worksheet', 'tips', 'rules', 'support'].includes(h)) showView(h); });
+
+/* ---------- settings ---------- */
+const S = Object.assign({ mode: 1, time: 30, ops: { pow: false, sqrt: false, fact: false, sigma: false }, exact: true, auto: false, sound: true }, store.get('settings', {}));
+function saveS() { store.set('settings', S); }
+function applyModeColors() {
+  const m = MODES[S.mode]; document.documentElement.style.setProperty('--mc', `var(${m.c})`); document.documentElement.style.setProperty('--ms', `var(${m.s})`);
+}
+function renderSettings() {
+  $$('#modes .mode').forEach(b => b.classList.toggle('on', +b.dataset.m === S.mode));
+  $$('#timeChips .chip').forEach(b => b.classList.toggle('on', +b.dataset.t === S.time));
+  $('#timeIn').value = S.time || '';
+  $$('#opChips .chip[data-op]').forEach(b => b.classList.toggle('on', !!S.ops[b.dataset.op]));
+  $$('#keys .key[data-op]').forEach(b => b.disabled = !S.ops[b.dataset.op]);
+  $('#optExact').checked = S.exact; $('#optAuto').checked = S.auto; $('#optSound').checked = S.sound;
+  $('#modePill').textContent = MODES[S.mode].name;
+  applyModeColors();
+}
+$$('#modes .mode').forEach(b => b.onclick = () => { if (S.mode === +b.dataset.m) return; S.mode = +b.dataset.m; saveS(); renderSettings(); settingsChanged(true); });
+$$('#timeChips .chip').forEach(b => b.onclick = () => { S.time = +b.dataset.t; saveS(); renderSettings(); });
+$('#timeIn').onchange = e => { S.time = Math.max(0, Math.min(900, Math.round(+e.target.value || 0))); saveS(); renderSettings(); };
+$$('#opChips .chip[data-op]').forEach(b => b.onclick = () => { S.ops[b.dataset.op] = !S.ops[b.dataset.op]; saveS(); renderSettings(); settingsChanged(false); });
+$('#optExact').onchange = e => { S.exact = e.target.checked; saveS(); settingsChanged(false); };
+$('#optAuto').onchange = e => { S.auto = e.target.checked; saveS(); };
+$('#optSound').onchange = e => { S.sound = e.target.checked; saveS(); };
+
+/* ---------- sound ---------- */
+let actx = null;
+function beep(f = 880, d = 0.08, v = 0.06) {
+  if (!S.sound) return;
+  try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); const o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = f; o.type = 'sine'; g.gain.value = v; g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d); o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime + d); } catch (e) {}
+}
+
+/* ---------- expression evaluation (student answer) ---------- */
+function evaluate(str, digits, ops) {
+  const s = str.replace(/\s+/g, '').replace(/\*/g, '×').replace(/[xX]/g, '×').replace(/\//g, '÷').replace(/[-–]/g, '−').replace(/sqrt|[rR]/g, '√').replace(/sum|[sS]/g, 'Σ').replace(/\*\*/g, '^');
+  let i = 0; const used = [];
+  const err = m => { throw new Error(m); };
+  const expr = () => { let v = term(); while (s[i] === '+' || s[i] === '−') { const op = s[i++]; const r = term(); v = op === '+' ? v + r : v - r; } return v; };
+  const term = () => { let v = power(); while (s[i] === '×' || s[i] === '÷') { const op = s[i++]; const r = power(); if (op === '÷') { if (Math.abs(r) < 1e-12) err('หารด้วยศูนย์ไม่ได้'); v /= r; } else v *= r; } return v; };
+  const power = () => { const b = unary(); if (s[i] === '^') { if (!ops.pow) err('โหมดนี้ปิดการยกกำลังไว้'); i++; const e = power(); const v = Math.pow(b, e); if (!isFinite(v) || isNaN(v)) err('ยกกำลังแบบนี้ไม่ได้'); return v; } return b; };
+  const unary = () => { if (s[i] === 'Σ') { if (!ops.sigma) err('โหมดนี้ปิดซิกม่าไว้'); i++;
+      if (s[i] === '(') {
+        const save = i, uLen = used.length; i++; const a = expr();
+        if (s[i] === ',') { i++; const b = expr(); if (s[i] !== ')') err('ซิกม่าแบบขอบเขตต้องเขียนเป็น Σ(ล่าง,บน)'); i++;
+          const ra = Math.round(a), rb = Math.round(b);
+          if (Math.abs(a - ra) > 1e-9 || Math.abs(b - rb) > 1e-9 || ra < 0 || rb <= ra || rb > 1000) err('ขอบเขตซิกม่าต้องเป็นจำนวนเต็ม และล่าง < บน');
+          return (ra + rb) * (rb - ra + 1) / 2; }
+        i = save; used.length = uLen;
+      }
+      const v = unary(); const r = Math.round(v); if (Math.abs(v - r) > 1e-9 || r < 1 || r > 1000) err('ซิกม่าใช้ได้กับจำนวนเต็มบวก (Σn = 1+2+…+n)'); return r * (r + 1) / 2; }
+    if (s[i] === '√') { if (!ops.sqrt) err('โหมดนี้ปิดการถอดรากไว้'); i++; const v = unary(); if (v < -1e-12) err('ถอดรากจำนวนลบไม่ได้'); return Math.sqrt(Math.max(0, v)); } return postfix(); };
+  const postfix = () => { let v = primary(); while (s[i] === '!') { if (!ops.fact) err('โหมดนี้ปิดแฟกทอเรียลไว้'); i++; const r = Math.round(v); if (Math.abs(v - r) > 1e-9 || r < 0 || r > 12) err('แฟกทอเรียลใช้ได้กับจำนวนเต็ม 0–12'); let f = 1; for (let k = 2; k <= r; k++) f *= k; v = f; } return v; };
+  const primary = () => {
+    if (s[i] === ',') err('เครื่องหมายจุลภาค (,) ใช้ได้เฉพาะใน Σ(ล่าง,บน)');
+    const c = s[i];
+    if (c === undefined) err('นิพจน์ยังไม่สมบูรณ์');
+    if (/[0-9]/.test(c)) { i++; if (/[0-9]/.test(s[i] || '')) err('ห้ามนำตัวเลขมาต่อกันเป็นจำนวนหลายหลัก'); used.push(+c); return +c; }
+    if (c === '(') { i++; const v = expr(); if (s[i] !== ')') err('วงเล็บยังไม่ครบคู่'); i++; return v; }
+    err(c === ')' ? 'มีวงเล็บปิดเกิน' : 'ใช้สัญลักษณ์ "' + c + '" ไม่ได้');
+  };
+  if (!s) err('ยังไม่ได้พิมพ์วิธีคิด');
+  const v = expr();
+  if (i < s.length) err(s[i] === ',' ? 'เครื่องหมาย , ใช้ได้เฉพาะในซิกม่าแบบขอบเขต Σ(ล่าง,บน)' : s[i] === '(' || /[0-9]/.test(s[i]) ? 'ลืมใส่เครื่องหมายระหว่างจำนวน' : s[i] === ')' ? 'มีวงเล็บปิดเกิน' : 'ใช้สัญลักษณ์ "' + s[i] + '" ไม่ได้');
+  const need = [...digits].sort().join(''), got = [...used].sort().join('');
+  if (need !== got) {
+    const cnt = a => a.reduce((m, d) => (m[d] = (m[d] || 0) + 1, m), {});
+    const cn = cnt(digits), cg = cnt(used); const miss = [], extra = [];
+    for (let d = 0; d <= 9; d++) { const df = (cn[d] || 0) - (cg[d] || 0); for (let k = 0; k < df; k++) miss.push(d); for (let k = 0; k < -df; k++) extra.push(d); }
+    err((miss.length ? 'ยังไม่ได้ใช้ ' + miss.join(', ') : '') + (miss.length && extra.length ? ' · ' : '') + (extra.length ? 'ใช้เกิน/ไม่มีในโจทย์ ' + extra.join(', ') : ''));
+  }
+  return v;
+}
+const fmtNum = v => { if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v)); return (Math.round(v * 1000) / 1000).toString(); };
+
+/* ---------- practice state ---------- */
+const P = { cur: null, qn: 0, phase: 'idle', best: null, end: 0, raf: 0, prefetch: null, prefKey: '', lastBeep: -1, revealed: false };
+const stats = Object.assign({ done: 0, good: 0, streak: 0, hist: [] }, store.get('stats', {}));
+const optsKey = () => S.mode + '|' + S.exact + '|' + S.ops.pow + S.ops.sqrt + S.ops.fact + S.ops.sigma;
+const curOpts = () => ({ exact: S.exact, ops: { ...S.ops } });
+
+function prefetch() {
+  const key = optsKey();
+  P.prefKey = key;
+  P.prefetch = playW.call({ type: 'gen', mode: S.mode, opts: curOpts() }).then(r => ({ key, p: r.problem }));
+}
+function settingsChanged(modeSwitch) {
+  P.prefetch = null;
+  if (modeSwitch && P.phase !== 'idle') { finishQuestion(); stopTimer(); P.phase = 'idle'; P.cur = null; drawIdle(); }
+}
+function drawIdle() {
+  $('#puzzle').innerHTML = '<div class="ph">เลือกโหมดและตั้งเวลา แล้วกด <b>เริ่มฝึก</b></div>';
+  $('#expr').value = ''; $('#expr').disabled = true; $('#live').textContent = '';
+  $('#bNext').innerHTML = '▶ เริ่มฝึก'; $('#bCheck').disabled = true; $('#bSol').disabled = true;
+  hideFb(); $('#sol').classList.remove('show'); $('#qno').textContent = '';
+  $('#tv').textContent = '–'; $('#ring').classList.add('off'); setRing(1);
+}
+async function nextQuestion() {
+  finishQuestion();
+  stopTimer();
+  P.phase = 'loading'; P.best = null; P.revealed = false;
+  $('#puzzle').innerHTML = '<div class="spinner"></div>';
+  $('#bCheck').disabled = true; $('#bSol').disabled = true; $('#expr').disabled = true; $('#expr').value = ''; $('#live').textContent = '';
+  hideFb(); $('#sol').classList.remove('show');
+  const key = optsKey();
+  let r = P.prefetch && P.prefKey === key ? await P.prefetch : null;
+  if (!r || r.key !== optsKey()) r = { p: (await playW.call({ type: 'gen', mode: S.mode, opts: curOpts() })).problem };
+  if (optsKey() !== key) return nextQuestion();
+  P.cur = r.p; P.qn++; P.phase = 'play';
+  drawPuzzle();
+  $('#qno').textContent = 'ข้อที่ ' + P.qn;
+  $('#bNext').innerHTML = 'ข้อต่อไป →'; $('#bCheck').disabled = false; $('#bSol').disabled = false;
+  $('#expr').disabled = false; $('#expr').focus({ preventScroll: true });
+  startTimer();
+  beep(660, .06);
+  prefetch();
+}
+function drawPuzzle() {
+  const p = P.cur;
+  $('#puzzle').innerHTML = '<div class="tiles">' + p.digits.map((d, i) => `<button class="tile" data-i="${i}" data-d="${d}">${d}</button>`).join('') + `</div><div class="ans"><span class="eq">=</span><div class="target">${p.target}</div></div>`;
+  $$('#puzzle .tile').forEach(t => t.onclick = () => { if (P.phase === 'play' && !t.classList.contains('used')) insert(t.dataset.d); });
+  markUsed();
+}
+function markUsed() {
+  if (!P.cur) return;
+  const used = ($('#expr').value.match(/[0-9]/g) || []).map(Number);
+  const tiles = $$('#puzzle .tile'); tiles.forEach(t => t.classList.remove('used'));
+  used.forEach(d => { const t = tiles.find(t => +t.dataset.d === d && !t.classList.contains('used')); if (t) t.classList.add('used'); });
+}
+function insert(txt) {
+  const el = $('#expr'); if (el.disabled) return;
+  const a = el.selectionStart ?? el.value.length, b = el.selectionEnd ?? el.value.length;
+  let ins = txt; if ('+−×÷'.includes(txt)) ins = ' ' + txt + ' ';
+  el.value = el.value.slice(0, a) + ins + el.value.slice(b);
+  const pos = a + ins.length; el.focus({ preventScroll: true }); el.setSelectionRange(pos, pos);
+  onInput();
+}
+function onInput() {
+  markUsed();
+  const el = $('#expr'); const v = el.value.trim(); const L = $('#live');
+  if (!v || !P.cur) { L.textContent = ''; return; }
+  try { const r = evaluate(v, P.cur.digits, S.ops); L.innerHTML = '= <b>' + fmtNum(r) + '</b>' + (Math.abs(r - P.cur.target) < 1e-9 ? ' ✓' : ''); L.style.color = ''; }
+  catch (e) { L.textContent = e.message; L.style.color = 'var(--muted)'; }
+}
+$('#expr').addEventListener('input', () => {
+  const el = $('#expr'), map = { '*': '×', 'x': '×', 'X': '×', '/': '÷', '-': '−', 'r': '√', 'R': '√', 's': 'Σ', 'S': 'Σ' };
+  if (/[*xX\/\-rRsS]/.test(el.value)) { const pos = el.selectionStart; el.value = el.value.replace(/[*xX\/\-rRsS]/g, c => map[c]); el.setSelectionRange(pos, pos); }
+  onInput();
+});
+$('#expr').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); onEnter(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && document.activeElement !== $('#expr') && $('#v-practice').classList.contains('on') && !/INPUT|BUTTON|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); onEnter(); } });
+function onEnter() { if (P.phase === 'play') check(); else if (P.phase === 'done' || P.phase === 'idle') nextQuestion(); }
+$$('#keys .key').forEach(k => k.onclick = () => {
+  const el = $('#expr'); if (el.disabled) return;
+  if (k.dataset.k === 'bs') {
+    const a = el.selectionStart, b = el.selectionEnd;
+    if (a !== b) { el.value = el.value.slice(0, a) + el.value.slice(b); el.setSelectionRange(a, a); }
+    else { const head = el.value.slice(0, a).replace(/\s+$/, '').slice(0, -1).replace(/\s+$/, ''); el.value = head + el.value.slice(a); el.setSelectionRange(head.length, head.length); }
+    el.focus({ preventScroll: true }); onInput(); return;
+  }
+  if (k.dataset.k === 'clr') { el.value = ''; el.focus({ preventScroll: true }); onInput(); return; }
+  insert(k.dataset.k);
+});
+
+function hideFb() { const f = $('#fb'); f.className = 'fb'; f.innerHTML = ''; }
+function showFb(cls, html) { const f = $('#fb'); f.className = 'fb show ' + cls; f.innerHTML = html; }
+
+function check() {
+  if (!P.cur || P.phase !== 'play') return;
+  const p = P.cur;
+  let v;
+  try { v = evaluate($('#expr').value, p.digits, S.ops); }
+  catch (e) { showFb('err', '⚠️ ' + esc(e.message)); beep(220, .12); return; }
+  const diff = Math.abs(v - p.target), opt = p.sol.diff;
+  if (!P.best || diff < P.best.diff) P.best = { diff, expr: $('#expr').value.trim(), v };
+  if (diff < 1e-9) {
+    showFb('ok', `🎉 <b>ถูกต้อง!</b> ได้ ${p.target} พอดี`); beep(880, .09); setTimeout(() => beep(1320, .12), 90);
+    endQuestion();
+  } else if (diff <= opt + 1e-9) {
+    showFb('ok', `👏 <b>ยอดเยี่ยม!</b> ได้ ${fmtNum(v)} ห่าง ${fmtNum(diff)} ซึ่งเป็นคำตอบที่ใกล้ที่สุดแล้ว`); beep(880, .09);
+    endQuestion();
+  } else {
+    showFb('near', `ได้ <b>${fmtNum(v)}</b> ห่างจาก ${p.target} อยู่ ${fmtNum(diff)} ${opt === 0 ? '· ข้อนี้ทำได้พอดี ลองต่อ!' : '· ยังมีวิธีที่ใกล้กว่านี้'}`); beep(440, .08);
+  }
+}
+function endQuestion() { P.phase = 'done'; stopTimer(); $('#bCheck').disabled = true; $('#expr').disabled = true; }
+function reveal() {
+  if (!P.cur) return;
+  const p = P.cur, s = p.sol;
+  P.revealed = true;
+  const res = s.exact ? `= ${p.target}` : `= ${s.valueStr} <span style="font-size:14px;color:var(--warn)">(ใกล้ที่สุด ห่าง ${fmtNum(s.diff)})</span>`;
+  $('#sol').innerHTML = `<div class="lb">เฉลย (วิธีหนึ่ง${s.exact ? '' : ' · ข้อนี้ทำให้ได้พอดีไม่ได้'})</div><div class="ex mx">${s.h} ${res}</div><div class="lb" style="margin-top:4px">อาจมีวิธีอื่นที่ถูกต้องเช่นกัน</div>`;
+  $('#sol').classList.add('show');
+  if (P.phase === 'play') endQuestion();
+}
+function finishQuestion() {
+  if (!P.cur || P.cur._counted) return;
+  if (P.phase === 'idle') return;
+  P.cur._counted = true;
+  const good = P.best && P.best.diff <= P.cur.sol.diff + 1e-9;
+  stats.done++;
+  const ok = !!good;
+  if (ok) { stats.good++; stats.streak++; } else stats.streak = 0;
+  stats.hist.unshift({ m: P.cur.mode, q: P.cur.digits.join(' ') + ' = ' + P.cur.target, r: P.best ? (P.best.diff < 1e-9 ? '✓' : (ok ? '≈' : '±' + fmtNum(P.best.diff))) : '–', ok });
+  stats.hist = stats.hist.slice(0, 50);
+  store.set('stats', stats); drawStats();
+}
+function drawStats() {
+  $('#sDone').textContent = stats.done; $('#sGood').textContent = stats.good; $('#sStreak').textContent = stats.streak;
+  $('#hist').innerHTML = stats.hist.length ? stats.hist.map(h => `<div class="row"><span><span style="color:var(${MODES[h.m].c})">●</span> ${esc(h.q)}</span><span class="mk" style="color:${h.ok ? 'var(--ok)' : 'var(--muted)'}">${esc(h.r)}</span></div>`).join('') : '<div class="row" style="color:var(--muted)">ยังไม่มีข้อที่ทำ</div>';
+}
+$('#bReset').onclick = () => { stats.done = stats.good = stats.streak = 0; stats.hist = []; store.set('stats', stats); drawStats(); toast('ล้างสถิติแล้ว'); };
+$('#bNext').onclick = () => nextQuestion();
+$('#bCheck').onclick = () => check();
+$('#bSol').onclick = () => reveal();
+
+/* ---------- timer ---------- */
+const CIRC = 226.2;
+function setRing(frac) { $('#ringArc').setAttribute('stroke-dashoffset', String(CIRC * (1 - Math.max(0, Math.min(1, frac))))); }
+function startTimer() {
+  const T = S.time; const ring = $('#ring'); ring.classList.remove('urgent');
+  if (!T) { ring.classList.add('off'); $('#tv').textContent = '∞'; setRing(1); return; }
+  ring.classList.remove('off'); P.total = T; P.end = performance.now() + T * 1000; P.lastBeep = -1;
+  const tick = () => {
+    const left = (P.end - performance.now()) / 1000;
+    if (left <= 0) { setRing(0); $('#tv').textContent = '0'; timeUp(); return; }
+    const sec = Math.ceil(left); $('#tv').textContent = sec; setRing(left / T);
+    ring.classList.toggle('urgent', left <= 5);
+    if (left <= 5 && sec !== P.lastBeep) { P.lastBeep = sec; beep(1000, .05, .04); }
+    P.raf = requestAnimationFrame(tick);
+  };
+  tick();
+}
+function stopTimer() { cancelAnimationFrame(P.raf); P.raf = 0; }
+function timeUp() {
+  stopTimer();
+  if (P.phase !== 'play') return;
+  endQuestion(); beep(300, .35, .08);
+  const b = P.best;
+  showFb('info', '⏰ <b>หมดเวลา!</b> ' + (b ? `คำตอบที่ดีที่สุดของคุณได้ ${fmtNum(b.v)} (ห่าง ${fmtNum(b.diff)})` : 'ยังไม่ได้ตรวจคำตอบ') + ' — กด <b>ดูเฉลย</b> หรือ <b>ข้อต่อไป</b>');
+  if (S.auto) reveal();
+}
+
+/* ============ WORKSHEET ============ */
+const W = Object.assign({ title: 'แบบฝึกหัดคิดเลขเร็ว', school: '', set: '1', n: [10, 10, 10], ops: { pow: false, sqrt: false, fact: false, sigma: false }, time: 30, exact: true, mix: false, name: true, key: true }, store.get('ws', {}));
+let wsData = null, wsHTML = '', batchW = null;
+function wsRender() {
+  $('#wTitle').value = W.title; $('#wSchool').value = W.school; $('#wSet').value = W.set;
+  [1, 2, 3].forEach(i => $('#w' + i).value = W.n[i - 1]);
+  $$('#wOps .chip[data-op]').forEach(b => b.classList.toggle('on', !!W.ops[b.dataset.op]));
+  $('#wTime').value = W.time; $('#wExact').checked = W.exact; $('#wMix').checked = W.mix; $('#wName').checked = W.name; $('#wKey').checked = W.key;
+  wsTotal();
+}
+function wsRead() {
+  W.title = $('#wTitle').value.trim() || 'แบบฝึกหัดคิดเลขเร็ว'; W.school = $('#wSchool').value.trim(); W.set = $('#wSet').value.trim();
+  W.n = [1, 2, 3].map(i => Math.max(0, Math.min(200, Math.round(+$('#w' + i).value || 0))));
+  W.time = Math.max(0, Math.round(+$('#wTime').value || 0)); W.exact = $('#wExact').checked; W.mix = $('#wMix').checked; W.name = $('#wName').checked; W.key = $('#wKey').checked;
+  store.set('ws', W);
+}
+function wsTotal() { const t = [1, 2, 3].reduce((a, i) => a + Math.max(0, +$('#w' + i).value || 0), 0); $('#wTotal').textContent = `รวม ${t} ข้อ · ประมาณ ${Math.ceil(t / 10)} หน้า` + (W.key && t ? ' + เฉลย' : ''); }
+$$('.stp button').forEach(b => b.onclick = () => { const inp = b.parentElement.querySelector('input'); inp.value = Math.max(0, Math.min(200, (+inp.value || 0) + (+b.dataset.d) * 5)); wsRead(); wsTotal(); });
+$$('#v-worksheet input').forEach(i => i.addEventListener('change', () => { wsRead(); wsTotal(); }));
+$$('#wOps .chip[data-op]').forEach(b => b.onclick = () => { W.ops[b.dataset.op] = !W.ops[b.dataset.op]; store.set('ws', W); wsRender(); });
+
+$('#wGen').onclick = async () => {
+  wsRead();
+  let items = [];
+  [1, 2, 3].forEach(m => { for (let k = 0; k < W.n[m - 1]; k++) items.push(m); });
+  if (!items.length) { toast('กรุณาระบุจำนวนข้ออย่างน้อย 1 ข้อ'); return; }
+  if (W.mix) for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
+  if (batchW) batchW.kill();
+  batchW = makeWorker();
+  const btn = $('#wGen'), prog = $('#wProg');
+  btn.disabled = true; btn.textContent = 'กำลังสุ่มโจทย์และหาเฉลย…'; prog.style.display = 'block'; prog.firstElementChild.style.width = '0';
+  $('#wStatus').textContent = '';
+  const t0 = performance.now();
+  const r = await batchW.call({ type: 'batch', items, opts: { exact: W.exact, ops: { ...W.ops } } }, p => { prog.firstElementChild.style.width = (p * 100).toFixed(1) + '%'; $('#wStatus').textContent = `สร้างแล้ว ${Math.round(p * items.length)}/${items.length} ข้อ`; });
+  batchW.kill(); batchW = null;
+  wsData = { list: r.list, cfg: JSON.parse(JSON.stringify(W)), at: new Date() };
+  wsHTML = buildSheets(wsData);
+  $('#sheets').innerHTML = wsHTML; fitSheets();
+  const nx = r.list.filter(q => !q.sol.exact).length;
+  $('#wStatus').textContent = `เสร็จแล้ว ${items.length} ข้อ ใน ${((performance.now() - t0) / 1000).toFixed(1)} วินาที` + (nx ? ` · มี ${nx} ข้อที่ทำให้ได้พอดีไม่ได้ (เฉลยแสดงค่าที่ใกล้ที่สุด)` : '');
+  $('#pvInfo').textContent = `${$$('#sheets .sheet').length} หน้า`;
+  btn.disabled = false; btn.textContent = '🔄 สุ่มชุดใหม่'; prog.style.display = 'none';
+  $('#wPrint').disabled = false; $('#wPdf').disabled = false;
+};
+
+function opsLabel(o) { const a = ['+ − × ÷']; if (o.pow) a.push('ยกกำลัง'); if (o.sqrt) a.push('ถอดราก'); if (o.fact) a.push('แฟกทอเรียล'); if (o.sigma) a.push('ซิกม่า'); return a.join(', '); }
+function buildSheets(d) {
+  const { list, cfg } = d; const N = list.length; const per = 10;
+  const qPages = Math.ceil(N / per), kPer = 30, kPages = cfg.key ? Math.ceil(N / kPer) : 0, total = qPages + kPages;
+  const bar = '<div class="bar"><i style="background:#FF7A59"></i><i style="background:#FFC93C"></i><i style="background:#3DA5F4"></i><i style="background:#8B5CF6"></i></div>';
+  const head = (pg, extra) => `<div class="sh"><div class="ttl">${esc(cfg.title)}${cfg.set ? ' <span style="font-weight:500">ชุดที่ ' + esc(cfg.set) + '</span>' : ''}${extra ? '<small>' + extra + '</small>' : ''}</div><div class="pg">หน้า ${pg}/${total}</div></div>${bar}`;
+  const foot = `<div class="ft"><span>พัฒนาโดย ครูอภิวัฒน์ ปาวงค์</span><span>MathDash · คิดเลขเร็ว</span></div>`;
+  const tagColor = { 1: '#E2552F', 2: '#1C7FCB', 3: '#6D3FE0' };
+  let html = '';
+  for (let pg = 0; pg < qPages; pg++) {
+    const a = pg * per, b = Math.min(N, a + per);
+    let rows = '';
+    for (let i = a; i < a + per; i++) {
+      if (i < b) { const q = list[i]; rows += `<tr><td class="no">${i + 1}</td><td><div class="pq">${q.digits.join(' ')} = <b>${q.target}</b></div><span class="tg" style="color:${tagColor[q.mode]}">(${MODES[q.mode].tag})</span></td><td></td><td></td></tr>`; }
+      else rows += `<tr><td class="no"></td><td></td><td></td><td></td></tr>`;
+    }
+    html += `<div class="sheet">${head(pg + 1, esc(cfg.school))}
+      <div class="meta"><span>ข้อที่ ${a + 1}–${b} จาก ${N} ข้อ${cfg.time ? ' | ข้อละ ' + cfg.time + ' วินาที' : ''}</span><span>เครื่องหมาย: ${opsLabel(cfg.ops)}</span></div>
+      ${pg === 0 && cfg.name ? '<div class="who">ชื่อ–สกุล <span style="flex:3"></span> ชั้น <span></span> เลขที่ <span></span> คะแนน <span></span>/' + N + '</div>' : ''}
+      <table><colgroup><col style="width:9%"><col style="width:30%"><col style="width:38%"><col style="width:23%"></colgroup>
+      <thead><tr><th>ข้อ</th><th>โจทย์</th><th>วิธีการ</th><th>ทดเลข</th></tr></thead><tbody>${rows}</tbody></table>${foot}</div>`;
+  }
+  for (let kp = 0; kp < kPages; kp++) {
+    const a = kp * kPer, b = Math.min(N, a + kPer);
+    let cells = '';
+    for (let i = a; i < b; i++) {
+      const q = list[i], s = q.sol;
+      cells += `<div class="kc"><div class="q">${i + 1}. <b>${q.digits.join(' ')} = ${q.target}</b></div><div class="a mx${s.exact ? '' : ' nx'}">${s.h}${s.exact ? '' : ` = ${s.valueStr} <small>(ใกล้ที่สุด ห่าง ${fmtNum(s.diff)})</small>`}</div></div>`;
+    }
+    html += `<div class="sheet">${head(qPages + kp + 1, 'เฉลย (วิธีหนึ่ง อาจมีวิธีอื่นที่ถูกต้อง)')}<div class="keyh">เฉลย ข้อ ${a + 1}–${b}</div><div class="kgrid">${cells}</div>${foot}</div>`;
+  }
+  return html;
+}
+function fitSheets() {
+  const box = $('#sheets'); const sh = box.querySelector('.sheet'); if (!sh) return;
+  const w = box.clientWidth - 28; const z = Math.min(1, w / sh.offsetWidth);
+  $$('#sheets .sheet').forEach(s => s.style.zoom = z);
+}
+window.addEventListener('resize', fitSheets);
+
+const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+if (framed) $('#wPrint').style.display = 'none';
+$('#wPrint').onclick = () => {
+  if (!wsHTML) return;
+  $('#print-root').innerHTML = wsHTML;
+  setTimeout(() => window.print(), 60);
+};
+window.addEventListener('afterprint', () => { $('#print-root').innerHTML = ''; });
+
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('load ' + src)); document.head.appendChild(s); }); }
+async function ensurePdfLibs() {
+  if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+  if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+}
+$('#wPdf').onclick = async () => {
+  if (!wsHTML) return;
+  const btn = $('#wPdf'); const old = btn.innerHTML; btn.disabled = true;
+  try {
+    btn.textContent = 'กำลังเตรียม…';
+    await ensurePdfLibs();
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const root = $('#render-root'); root.innerHTML = wsHTML;
+    const sheets = [...root.querySelectorAll('.sheet')];
+    const pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+    for (let i = 0; i < sheets.length; i++) {
+      btn.textContent = `กำลังสร้าง PDF ${i + 1}/${sheets.length}`;
+      const c = await window.html2canvas(sheets[i], { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
+      if (i) pdf.addPage();
+      pdf.addImage(c.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297);
+    }
+    root.innerHTML = '';
+    const cfg = wsData.cfg;
+    const fname = (cfg.title + (cfg.set ? ' ชุดที่ ' + cfg.set : '')).replace(/[\\/:*?"<>|]+/g, ' ').trim() + '.pdf';
+    const blob = pdf.output('blob');
+    let saved = false;
+    if (window.claude && typeof window.claude.use === 'function') {
+      try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({ filename: fname, data: blob }); saved = true; toast('บันทึก PDF แล้ว'); } }
+      catch (e) { if (e && e.code === 'declined') { saved = true; } }
+    }
+    if (!saved && !framed) {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fname; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000); saved = true; toast('ดาวน์โหลด PDF แล้ว');
+    }
+    if (!saved) toast('หน้านี้ดาวน์โหลดไฟล์ไม่ได้ ลองเปิดจากเว็บไซต์ (GitHub Pages)');
+  } catch (e) {
+    console.error(e);
+    toast(framed ? 'สร้าง PDF ไม่สำเร็จ' : 'โหลดตัวสร้าง PDF ไม่ได้ ใช้ปุ่ม "พิมพ์ / บันทึกเป็น PDF" แทน');
+  } finally { btn.disabled = false; btn.innerHTML = old; $('#render-root').innerHTML = ''; }
+};
+
+
+/* ---------- tips: memo tables & toc ---------- */
+(() => {
+  const sp = (k, v) => `<span>${k}<b>${v}</b></span>`;
+  const fill = (id, arr) => { const el = document.getElementById(id); if (el) el.innerHTML = arr.join(''); };
+  const sq = [], cu = [], p2 = [], fa = [], sg = [], sg2 = [];
+  for (let n = 1; n <= 20; n++) sq.push(sp(n + '²', n * n));
+  for (let n = 1; n <= 10; n++) cu.push(sp(n + '³', n ** 3));
+  for (let n = 1; n <= 10; n++) p2.push(sp('2' + ['','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','¹⁰'][n], 2 ** n));
+  for (let n = 1; n <= 6; n++) p2.push(sp('3' + ['','¹','²','³','⁴','⁵','⁶'][n], 3 ** n));
+  p2.push(sp('4⁴', 256), sp('5³', 125), sp('5⁴', 625), sp('6³', 216));
+  const f = [1, 1, 2, 6, 24, 120, 720, 5040];
+  for (let n = 0; n <= 7; n++) fa.push(sp(n + '!', f[n].toLocaleString()));
+  fa.push(sp('(3!)!', 720), sp('(√9)!', 6));
+  for (let n = 1; n <= 20; n++) sg.push(sp('Σ' + n, n * (n + 1) / 2));
+  for (let n = 1; n <= 30; n++) sg2.push(sp('Σ' + n, n * (n + 1) / 2));
+  fill('mSq', sq); fill('mCu', cu); fill('mP2', p2); fill('mFa', fa); fill('mSg', sg); fill('mSg2', sg2);
+  fill('mFc', ['24 = 1×24 = 2×12 = 3×8 = 4×6', '36 = 4×9 = 6×6', '48 = 6×8', '56 = 7×8', '60 = 6×10', '72 = 8×9', '84 = 7×12', '96 = 8×12', '100 = 4×25', '120 = 5! = 8×15', '144 = 12²'].map(t => `<span style="grid-column:span 2">${t}</span>`));
+  const toc = document.getElementById('toc');
+  if (toc) toc.innerHTML = [...document.querySelectorAll('#v-tips .sec')].map(a => `<a href="#${a.id}" data-sec="${a.id}">${a.querySelector('h3').textContent.replace(/^\d+\.\s*/, '')}</a>`).join('');
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[data-sec]'); if (a) { e.preventDefault(); document.getElementById(a.dataset.sec).scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    const g = e.target.closest('a[data-go]'); if (g) { e.preventDefault(); document.querySelector('.tab[data-v="' + g.dataset.go + '"]').click(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  });
+})();
+/* ---------- init ---------- */
+renderSettings(); drawStats(); wsRender(); drawIdle();
+})();
+</script>
+</body>
+</html>
