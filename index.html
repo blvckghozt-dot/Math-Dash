@@ -25,7 +25,7 @@ button{cursor:pointer}
 .wrap{max-width:1040px;margin:0 auto;padding:0 18px}
 /* header */
 header.top{position:sticky;top:0;z-index:20;background:rgba(255,251,244,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:68px;padding-top:6px;padding-bottom:6px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;white-space:nowrap}
 .wm{font-weight:700;font-size:20px;letter-spacing:-.3px;display:inline-flex;align-items:center;line-height:1.1}
 .wm span{color:var(--c1)}
@@ -33,8 +33,11 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(255,251,244,.88);bac
 .brand small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.2}
 .logo{width:36px;height:36px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .logo i{border-radius:7px;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px;font-weight:700}
-.tabs{margin-left:auto;display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px}
-.tab{border:0;background:transparent;padding:7px 14px;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
+.tabs{margin-left:auto;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px}
+.tab{border:0;background:transparent;padding:5px 8px 4px;border-radius:12px;color:var(--muted);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;transition:.12s}
+.tab i{font-style:normal;font-size:17px;line-height:1.2}
+.tab span{font-size:12.5px;white-space:nowrap;line-height:1.3}
+.tab:hover{background:var(--soft);color:var(--ink)}
 .tab.on{background:var(--ink);color:#fff}
 main{padding:22px 0 40px}
 .view{display:none}.view.on{display:block}
@@ -287,8 +290,6 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
 .qrsub{font-size:12px;color:var(--muted);margin-top:4px}
 .thanks{text-align:center;color:var(--muted);font-size:14px}
 @media (max-width:860px){
-  .tabs{overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
-  .tabs::-webkit-scrollbar{display:none}
   .memo{grid-template-columns:1fr 1fr}
   .plan{grid-template-columns:1fr 1fr}
   .sup{grid-template-columns:1fr}
@@ -301,7 +302,79 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
   .mg.wide{grid-template-columns:repeat(2,1fr)}
   .sec{padding:18px 16px}
   .sup{padding:20px 16px}
-  .tabs{justify-content:flex-start}
+}
+
+/* header responsive */
+@media (max-width:1000px){
+  .top .wrap{flex-wrap:wrap;gap:8px}
+  .tabs{margin-left:0;width:100%}
+}
+/* helper */
+.helper{display:grid;grid-template-columns:380px minmax(0,1fr);gap:14px;align-items:start}
+.hin{display:flex;flex-direction:column;gap:10px}
+.hh{display:flex;gap:12px;align-items:center}
+.hh .hero-ic{width:46px;height:46px;font-size:24px}
+.hl{font-size:13px;color:var(--muted);margin-top:4px}
+.hmodes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.hm{border:2px solid var(--line);background:#fff;border-radius:12px;padding:7px 4px;display:flex;flex-direction:column;align-items:center;line-height:1.3}
+.hm b{font-weight:600;font-size:14px}.hm span{font-size:11.5px;color:var(--muted)}
+.hm.on[data-m="1"]{border-color:var(--c1);background:var(--c1s)}
+.hm.on[data-m="2"]{border-color:var(--c2);background:var(--c2s)}
+.hm.on[data-m="3"]{border-color:var(--c3);background:var(--c3s)}
+.hrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hdig{display:flex;gap:6px}
+.hdig input{width:46px;height:56px;border:2px solid var(--line);border-radius:12px;text-align:center;font-size:28px;font-weight:600;background:#fff}
+.hdig input:focus,.htgt:focus{outline:none;border-color:var(--c2)}
+.heq{font-size:26px;color:var(--muted)}
+.htgt{width:96px;height:56px;border:2px solid var(--c2);border-radius:12px;text-align:center;font-size:28px;font-weight:700;background:var(--c2s);color:#1C7FCB}
+.htgt[readonly]{opacity:.85}
+.hact{display:grid;grid-template-columns:auto auto 1fr;gap:6px;margin-top:6px}
+.hact .btn{padding:11px 12px;font-size:14px;justify-content:center;white-space:nowrap}
+.hout{min-height:360px}
+.hsum{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.hsum .q{font-size:24px;font-weight:600;letter-spacing:1px}
+.hsum .q b{color:#1C7FCB}
+.hints{display:flex;flex-direction:column;gap:10px}
+.hint{border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.hint .hd{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff}
+.hint .no{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;flex:none}
+.hint .ti{flex:1;font-weight:600;font-size:14.5px}
+.hint .ti small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.hint .bd{padding:0 14px 12px 52px;font-size:15px;line-height:1.75;display:none}
+.hint.open .bd{display:block;animation:pop .2s}
+.hint.open{border-color:#E3DCCD}
+.hint .open-btn{border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:5px 12px;font-size:13px;font-weight:600}
+.hint.open .open-btn{display:none}
+.hint.lockd{opacity:.55}
+.hint.lockd .open-btn{cursor:not-allowed}
+.hx{font-size:22px;font-weight:500;line-height:1.8}
+.hsteps{margin:8px 0 0;padding-left:22px}
+.hsteps li{margin:3px 0;font-variant-numeric:tabular-nums}
+.halts{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.halts div{background:var(--soft);border-radius:10px;padding:5px 12px;font-size:16px}
+.dg{display:inline-block;background:var(--soft);border-radius:7px;padding:0 7px;margin:0 1px;font-weight:600}
+/* answer sheet */
+.dlgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dlgrid .btn{justify-content:center;font-size:14px;padding:11px 8px}
+.dlgrid #aPrint{grid-column:span 2}
+.asheet{padding:10mm 10mm 9mm;gap:4mm;font-family:'Sarabun','Loma',Tahoma,sans-serif;color:#000}
+.asheet .atitle{text-align:center;font-size:16pt;font-weight:700;margin-bottom:-1mm}
+.abox{flex:1;border:1.1pt solid #000;display:flex;flex-direction:column;min-height:0}
+.ahead{display:flex;align-items:flex-end;gap:1.5mm;padding:2.2mm 4mm 2mm;border-bottom:1.1pt solid #000;font-size:14.5pt;line-height:1.15}
+.ahead span{white-space:nowrap}
+.ahead i{font-style:normal;border-bottom:1.4pt dotted #000;height:6mm;display:flex;align-items:flex-end;justify-content:center;padding-bottom:.3mm;font-size:13.5pt;color:#1b2a6b;min-width:0;overflow:hidden;white-space:nowrap}
+.abody{flex:1;display:flex}
+.abody>div{text-align:center;padding-top:2mm;font-size:14.5pt}
+.abody u{text-underline-offset:1.2mm;text-decoration-thickness:.9pt}
+.abody .aw{flex:0 0 67.5%;border-right:1.1pt solid #000}
+.abody .ad{flex:1}
+@media (max-width:860px){
+  .helper{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .hdig input{width:44px;height:52px;font-size:25px}
+  .htgt{width:84px;height:52px;font-size:25px}
+  .hint .bd{padding-left:14px}
 }
 #print-root{display:none}
 #render-root{position:fixed;left:-99999px;top:0}
@@ -321,15 +394,13 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
   .mode .dot{margin:0;flex:none}
   .keys{grid-template-columns:repeat(6,1fr)}
   .key.wide{grid-column:span 3}
-  .wm{font-weight:700;font-size:20px;letter-spacing:-.3px;display:inline-flex;align-items:center;line-height:1.1}
-.wm span{color:var(--c1)}
-.wm .dash{width:20px;height:13px;color:var(--yel);margin-left:6px}
-.brand small{display:none}
+  .brand small{display:none}
 }
 @media (max-width:560px){
-  .top .wrap{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
-  .tabs{margin-left:0;width:100%;justify-content:space-between}
-  .tab{padding:7px 10px;font-size:14px}
+  header.top{position:static}
+  .tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tab{padding:6px 2px 5px}
+  .tab span{font-size:12px}
   .puzzle{flex-direction:column;gap:10px;margin:8px 0 14px}
   .tiles{gap:7px}
   .tile{width:52px;height:62px;font-size:31px;border-radius:13px}
@@ -358,11 +429,13 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
       <div><span class="wm">Math<span>Dash</span><svg class="dash" viewBox="0 0 22 14" aria-hidden="true"><path d="M2 3h10M6 7h14M2 11h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><small>ฝึกคิดเลขเร็ว · ตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน</small></div>
     </div>
     <nav class="tabs" role="tablist">
-      <button class="tab on" data-v="practice">ฝึกทำโจทย์</button>
-      <button class="tab" data-v="worksheet">สร้างแบบฝึกหัด</button>
-      <button class="tab" data-v="tips">เทคนิคคิดไว</button>
-      <button class="tab" data-v="rules">กติกา & วิธีใช้</button>
-      <button class="tab sup-tab" data-v="support">☕ สนับสนุน</button>
+      <button class="tab on" data-v="practice"><i>✏️</i><span>ฝึกโจทย์</span></button>
+      <button class="tab" data-v="helper"><i>🧠</i><span>ช่วยคิด</span></button>
+      <button class="tab" data-v="worksheet"><i>📄</i><span>แบบฝึกหัด</span></button>
+      <button class="tab" data-v="sheet"><i>🖨️</i><span>กระดาษแข่ง</span></button>
+      <button class="tab" data-v="tips"><i>⚡</i><span>เทคนิค</span></button>
+      <button class="tab" data-v="rules"><i>📘</i><span>กติกา</span></button>
+      <button class="tab sup-tab" data-v="support"><i>☕</i><span>สนับสนุน</span></button>
     </nav>
   </div>
 </header>
@@ -496,6 +569,69 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
           <button class="btn pri" id="wPdf" disabled style="--mc:var(--c2)">⬇ ดาวน์โหลด PDF</button>
         </div>
         <div class="sheets" id="sheets"><div class="empty"><div class="big">📄</div>ตั้งค่าทางซ้าย แล้วกด <b>สร้างแบบฝึกหัด</b><br><span style="font-size:13px">หน้ากระดาษ A4 · หน้าละ 10 ข้อ · มีช่องวิธีการและช่องทดเลข เหมือนแบบฝึกที่ใช้ซ้อมแข่ง</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HELPER ============ -->
+  <section class="view" id="v-helper">
+    <div class="helper">
+      <div class="card pad hin">
+        <div class="hh"><div class="hero-ic" style="background:var(--c2s)">🧠</div><div><h2>เครื่องมือช่วยคิด</h2><p class="sub">กรอกเลขโดดและคำตอบจากโจทย์ แล้วเปิดคำใบ้ทีละขั้น หรือดูเฉลยเต็มพร้อมวิธีคิด</p></div></div>
+        <div class="hmodes" id="hModes">
+          <button class="hm" data-m="1"><b>เกม 24</b><span>4 ตัว → 24</span></button>
+          <button class="hm" data-m="2"><b>4 ตัว</b><span>คำตอบ 2 หลัก</span></button>
+          <button class="hm" data-m="3"><b>5 ตัว</b><span>คำตอบ 3 หลัก</span></button>
+        </div>
+        <label class="t hl">เลขโดดจากโจทย์</label>
+        <div class="hrow"><div class="hdig" id="hDigits"></div><span class="heq">=</span><input id="hTarget" class="htgt" type="text" inputmode="numeric" maxlength="5" placeholder="?" aria-label="คำตอบ"></div>
+        <label class="t hl">เครื่องหมายที่ใช้ได้</label>
+        <div class="chips" id="hOps">
+          <button class="chip on lock">+ − × ÷</button>
+          <button class="chip" data-op="pow">ยกกำลัง</button>
+          <button class="chip" data-op="sqrt">ถอดราก</button>
+          <button class="chip" data-op="fact">แฟกทอเรียล</button>
+          <button class="chip" data-op="sigma">ซิกม่า</button>
+        </div>
+        <div class="hact">
+          <button class="btn ghost" id="hRand">🎲 สุ่มโจทย์</button>
+          <button class="btn ghost" id="hClear">ล้าง</button>
+          <button class="btn pri grow" id="hGo" style="--mc:var(--c2)">🔍 วิเคราะห์โจทย์</button>
+        </div>
+        <div class="fb" id="hErr"></div>
+      </div>
+      <div class="card pad hout" id="hOut">
+        <div class="empty"><div class="big">🧩</div>กรอกโจทย์ แล้วกด <b>วิเคราะห์โจทย์</b><br><span style="font-size:13px">ระบบจะให้คำใบ้ทีละขั้น ตั้งแต่ "ทำได้พอดีไหม" จนถึงเฉลยเต็มและวิธีอื่น ๆ</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ANSWER SHEET ============ -->
+  <section class="view" id="v-sheet">
+    <div class="ws">
+      <div class="card form">
+        <div><h2>กระดาษคำตอบแข่งขัน</h2><p class="sub">กระดาษ A4 แบบที่ใช้ในการแข่งขัน มีช่องชื่อ–โรงเรียน–เลขที่–ข้อ, ช่องวิธีการและคำตอบ และพื้นที่ทดเลข</p></div>
+        <div class="f"><label class="t">จำนวนช่องต่อหน้า</label>
+          <div class="chips" id="aPer"><button class="chip" data-n="2">2</button><button class="chip" data-n="3">3</button><button class="chip" data-n="4">4</button><button class="chip" data-n="5">5</button></div>
+        </div>
+        <div class="f" style="display:flex;align-items:center;gap:10px"><label class="t" style="margin:0;flex:1">จำนวนหน้า</label>
+          <div class="stp"><button data-a="-1">−</button><input id="aPages" type="number" min="1" max="60" value="1"><button data-a="1">+</button></div>
+        </div>
+        <div class="f"><label class="t">หัวกระดาษ (ถ้ามี)</label><input type="text" id="aTitle" placeholder="เช่น การแข่งขันคิดเลขเร็ว ระดับชั้น ป.4–6"></div>
+        <div class="f"><label class="t">เติมชื่อโรงเรียนให้ทุกช่อง (ถ้ามี)</label><input type="text" id="aSchool" placeholder="เว้นว่างไว้ให้นักเรียนเขียนเอง"></div>
+        <div class="f" style="display:flex;flex-direction:column;gap:8px">
+          <label class="tog"><input type="checkbox" id="aNum"> ใส่เลขข้อให้อัตโนมัติ (ต่อเนื่องทุกหน้า)</label>
+        </div>
+        <div class="dlgrid">
+          <button class="btn dark" id="aPrint">🖨️ พิมพ์ / บันทึก PDF</button>
+          <button class="btn pri" id="aPdf" style="--mc:var(--c2)">⬇ ดาวน์โหลด PDF</button>
+          <button class="btn ghost" id="aPng">🖼️ ดาวน์โหลด PNG</button>
+        </div>
+        <div class="sub" id="aInfo"></div>
+      </div>
+      <div class="card preview">
+        <div class="pvbar"><b style="font-weight:600">ตัวอย่างก่อนพิมพ์</b><span class="sub" id="aPv"></span></div>
+        <div class="sheets" id="aSheets"></div>
       </div>
     </div>
   </section>
@@ -801,6 +937,17 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
           <li>กด <b>สร้างแบบฝึกหัด</b> ตรวจตัวอย่างทางขวา (กดซ้ำเพื่อสุ่มชุดใหม่)</li>
           <li>กด <b>พิมพ์ / บันทึกเป็น PDF</b> (เลือกเครื่องพิมพ์เป็น "Save as PDF") หรือ <b>ดาวน์โหลด PDF</b></li>
         </ol>
+        <h4 class="h4">เครื่องมือช่วยคิด</h4>
+        <ol class="steps">
+          <li>เลือกโหมด แล้วกรอกเลขโดดจากโจทย์ทีละช่อง (วางเลขทั้งชุดก็ได้) และกรอกคำตอบ</li>
+          <li>เลือกเครื่องหมายที่สนามอนุญาต แล้วกด <b>วิเคราะห์โจทย์</b></li>
+          <li>เปิดคำใบ้ทีละขั้น: ทำได้พอดีไหม → ขั้นสุดท้าย → ก้าวแรก → เฉลยเต็มพร้อมวิธีคิดทีละขั้นและวิธีอื่น ๆ</li>
+        </ol>
+        <h4 class="h4">กระดาษแข่งขัน</h4>
+        <ol class="steps">
+          <li>เลือกจำนวนช่องต่อหน้าและจำนวนหน้า ใส่หัวกระดาษ/ชื่อโรงเรียน หรือเลขข้ออัตโนมัติได้</li>
+          <li>กด <b>พิมพ์</b> หรือดาวน์โหลดเป็น <b>PDF</b> / <b>PNG</b> ความละเอียด 300 dpi</li>
+        </ol>
       </article>
     </div>
   </section>
@@ -870,24 +1017,24 @@ const Solver = (() => {
 
   function binNodes(a, b, ops) {
     const out = [];
-    const add = (v, t, h, p, k, c) => { if (v) out.push({ n: v[0], d: v[1], t, h, p, k, c }); };
+    const add = (v, t, h, p, k, c, o) => { if (v) out.push({ n: v[0], d: v[1], t, h, p, k, c, o, a, b }); };
     const c0 = a.c + b.c;
     // ทุกการดำเนินการย่อยถูกครอบวงเล็บ เพื่อให้เห็นลำดับการคิดชัดเจน
     const W = x => x.k === 'bin' ? par(x) : x;
     const L = W(a), R = W(b);
-    add(mk(a.n * b.d + b.n * a.d, a.d * b.d), L.t + ' + ' + R.t, L.h + ' + ' + R.h, 1, 'bin', c0);
-    add(mk(a.n * b.d - b.n * a.d, a.d * b.d), L.t + ' − ' + R.t, L.h + ' − ' + R.h, 1, 'bin', c0);
-    add(mk(a.n * b.n, a.d * b.d), L.t + ' × ' + R.t, L.h + ' × ' + R.h, 2, 'bin', c0);
-    if (b.n !== 0) add(mk(a.n * b.d, a.d * b.n), L.t + ' ÷ ' + R.t, L.h + ' ÷ ' + R.h, 2, 'bin', c0 + 1);
+    add(mk(a.n * b.d + b.n * a.d, a.d * b.d), L.t + ' + ' + R.t, L.h + ' + ' + R.h, 1, 'bin', c0, '+');
+    add(mk(a.n * b.d - b.n * a.d, a.d * b.d), L.t + ' − ' + R.t, L.h + ' − ' + R.h, 1, 'bin', c0, '−');
+    add(mk(a.n * b.n, a.d * b.d), L.t + ' × ' + R.t, L.h + ' × ' + R.h, 2, 'bin', c0, '×');
+    if (b.n !== 0) add(mk(a.n * b.d, a.d * b.n), L.t + ' ÷ ' + R.t, L.h + ' ÷ ' + R.h, 2, 'bin', c0 + 1, '÷');
     // ซิกม่าแบบมีขอบเขต: Σ จาก a ถึง b = a + (a+1) + … + b  (ใช้เมื่อจำเป็นเท่านั้น)
     if (ops.sigma && a.d === 1 && b.d === 1 && a.n >= 0 && b.n > a.n && b.n <= 60) {
       add(mk((a.n + b.n) * (b.n - a.n + 1) / 2, 1), 'Σ(' + a.t + ',' + b.t + ')',
-        '<span class="sgr"><small>' + b.h + '</small><span class="sg">Σ</span><small>' + a.h + '</small></span>', 5, 'sig', c0 + 70);
+        '<span class="sgr"><small>' + b.h + '</small><span class="sg">Σ</span><small>' + a.h + '</small></span>', 5, 'sig', c0 + 70, 'Σab');
     }
     // ^
     if (ops.pow && b.d === 1 && b.n >= 0 && b.n <= 12 && !(a.n === 0 && b.n === 0)) {
       const v = powFrac(a.n, a.d, b.n);
-      if (v) { const B = parAtom(a); add(v, B.t + '^' + (b.k === 'dig' ? b.t : '(' + b.t + ')'), B.h + '<sup>' + b.h + '</sup>', 4, 'pow', c0 + 40); }
+      if (v) { const B = parAtom(a); add(v, B.t + '^' + (b.k === 'dig' ? b.t : '(' + b.t + ')'), B.h + '<sup>' + b.h + '</sup>', 4, 'pow', c0 + 40, '^'); }
     }
     return out;
   }
@@ -897,17 +1044,17 @@ const Solver = (() => {
       const a = isqrt(x.n), b = isqrt(x.d);
       if (a >= 0 && b >= 0 && !(x.n === x.d) && x.n !== 0) {
         const inner = x.k === 'dig' ? x.t : '(' + x.t + ')';
-        out.push({ n: a, d: b, t: '√' + inner, h: '<span class="rt">√<span class="rd">' + x.h + '</span></span>', p: 5, k: 'sqrt', c: x.c + 40 });
+        out.push({ n: a, d: b, t: '√' + inner, h: '<span class="rt">√<span class="rd">' + x.h + '</span></span>', p: 5, k: 'sqrt', c: x.c + 40, u: 'sqrt', x });
       }
     }
     if (ops.fact && x.d === 1 && x.n >= 0 && x.n <= 7 && x.n !== 1 && x.n !== 2) {
       const X = parAtom(x);
-      out.push({ n: FACT[x.n], d: 1, t: X.t + '!', h: X.h + '!', p: 5, k: 'fact', c: x.c + 40 });
+      out.push({ n: FACT[x.n], d: 1, t: X.t + '!', h: X.h + '!', p: 5, k: 'fact', c: x.c + 40, u: 'fact', x });
     }
     if (ops.sigma && x.d === 1 && x.n >= 2 && x.n <= 40) {
       const inner = x.k === 'dig' ? x.t : '(' + x.t + ')';
       const ih = x.k === 'dig' ? x.h : '(' + x.h + ')';
-      out.push({ n: x.n * (x.n + 1) / 2, d: 1, t: 'Σ' + inner, h: '<span class="sg">Σ</span>' + ih, p: 5, k: 'sig', c: x.c + 40 });
+      out.push({ n: x.n * (x.n + 1) / 2, d: 1, t: 'Σ' + inner, h: '<span class="sg">Σ</span>' + ih, p: 5, k: 'sig', c: x.c + 40, u: 'sig', x });
     }
     return out;
   }
@@ -923,7 +1070,7 @@ const Solver = (() => {
     for (const x of base) for (const u of unaryNodes(x, ops)) { put(map, u); for (const u2 of unaryNodes(u, ops)) put(map, u2); }
   }
   // build maps for all proper subsets; evaluate the full set on the fly against target
-  function search(digits, target, ops) {
+  function search(digits, target, ops, collect) {
     const n = digits.length, F = (1 << n) - 1;
     const memo = new Array(F + 1);
     for (let i = 0; i < n; i++) {
@@ -946,6 +1093,7 @@ const Solver = (() => {
     }
     let best = null, bd = Infinity, bs = Infinity;
     const consider = z => {
+      if (collect && z.d === 1 && z.n === target && collect.length < 400) collect.push(z);
       const diff = Math.abs(z.n / z.d - target), sc = z.c * 1000 + z.t.length;
       if (diff < bd - 1e-9 || (Math.abs(diff - bd) <= 1e-9 && sc < bs)) { bd = diff; bs = sc; best = z; }
     };
@@ -977,7 +1125,57 @@ const Solver = (() => {
     cache.set(key, res);
     return res;
   }
-  return { solve };
+  /* ---------- help: hints, steps, alternatives ---------- */
+  const vs = x => { const s = x.d === 1 ? String(x.n) : x.n + '/' + x.d; return x.n < 0 ? '(−' + s.slice(1) + ')' : s; };
+  const vo = x => x.d !== 1 && x.n >= 0 ? '(' + vs(x) + ')' : vs(x);
+  const digs = x => x.o ? [...digs(x.a), ...digs(x.b)] : x.u ? digs(x.x) : [x.n];
+  function stepsOf(x, out) {
+    if (x.o) {
+      stepsOf(x.a, out); stepsOf(x.b, out);
+      const A = vo(x.a), B = vo(x.b), V = vs(x);
+      if (x.o === '^') out.push(A + '<sup>' + B + '</sup> = ' + V);
+      else if (x.o === 'Σab') out.push('Σ ตั้งแต่ ' + A + ' ถึง ' + B + ' = ' + V);
+      else out.push(A + ' ' + x.o + ' ' + B + ' = ' + V);
+    } else if (x.u) {
+      stepsOf(x.x, out); const X = vo(x.x), V = vs(x);
+      out.push(x.u === 'fact' ? X + '! = ' + V : x.u === 'sqrt' ? '√' + X + ' = ' + V : 'Σ' + X + ' = ' + V);
+    }
+    return out;
+  }
+  function usedOps(x, set = new Set()) {
+    if (x.o) { if (x.o === '^') set.add('pow'); if (x.o === 'Σab') set.add('sigma'); usedOps(x.a, set); usedOps(x.b, set); }
+    else if (x.u) { set.add(x.u === 'sig' ? 'sigma' : x.u); usedOps(x.x, set); }
+    return set;
+  }
+  function canon(x) {
+    if (x.o === '+' || x.o === '×') {
+      const parts = []; const fl = y => { if (y.o === x.o) { fl(y.a); fl(y.b); } else parts.push(canon(y)); }; fl(x);
+      return '(' + parts.sort().join(x.o) + ')';
+    }
+    if (x.o) return '(' + canon(x.a) + x.o + canon(x.b) + ')';
+    if (x.u) return x.u + '(' + canon(x.x) + ')';
+    return String(x.n);
+  }
+  function help(digits, target, ops) {
+    const tiers = [{ pow: false, sqrt: false, fact: false, sigma: false }];
+    if (ops.sqrt || ops.fact || ops.sigma) tiers.push({ pow: false, sqrt: ops.sqrt, fact: ops.fact, sigma: ops.sigma });
+    if (ops.pow) tiers.push({ ...ops });
+    let r = null, alts = [];
+    for (const tier of tiers) {
+      const col = []; const rr = search(digits, target, tier, col);
+      if (!r || rr.diff < r.diff) r = rr;
+      if (rr.diff === 0) { alts = col; break; }
+    }
+    const b = r.best;
+    const seen = new Set(); const altList = [];
+    alts.sort((x, y) => (x.c - y.c) || (x.t.length - y.t.length));
+    for (const z of alts) { const key = canon(z); if (seen.has(key)) continue; seen.add(key); altList.push(z.h); if (altList.length >= 6) break; }
+    let top = null;
+    if (b.o) top = { kind: 'bin', o: b.o, A: vs(b.a), Ad: digs(b.a), B: vs(b.b), Bd: digs(b.b) };
+    else if (b.u) top = { kind: 'un', u: b.u, X: vs(b.x), Xd: digs(b.x) };
+    return { exact: r.diff === 0, diff: r.diff, valueStr: vs(b), h: b.h, steps: stepsOf(b, []), top, used: [...usedOps(b)], alts: altList, altCount: seen.size };
+  }
+  return { solve, help };
 })();
 if (typeof module !== 'undefined') module.exports = Solver;
 
@@ -999,6 +1197,7 @@ function makeProblem(mode, o) {
 onmessage = e => {
   const m = e.data;
   if (m.type === 'gen') postMessage({ id: m.id, problem: makeProblem(m.mode, m.opts) });
+  else if (m.type === 'help') postMessage({ id: m.id, help: Solver.help(m.digits, m.target, m.ops) });
   else if (m.type === 'batch') {
     const list = [];
     m.items.forEach((mode, i) => { list.push(makeProblem(mode, m.opts)); postMessage({ id: m.id, progress: (i + 1) / m.items.length }); });
@@ -1040,10 +1239,11 @@ function showView(v) {
   $$('.tab').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   $$('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
   if (v === 'worksheet') fitSheets();
+  if (v === 'sheet') renderAnswerPreview();
 }
 $$('.tab').forEach(b => b.onclick = () => { showView(b.dataset.v); try { history.replaceState(null, '', '#' + b.dataset.v); } catch (e) {} });
-const h0 = (location.hash || '').slice(1); if (['practice', 'worksheet', 'tips', 'rules', 'support'].includes(h0)) showView(h0);
-window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (['practice', 'worksheet', 'tips', 'rules', 'support'].includes(h)) showView(h); });
+const VIEWS = ['practice', 'helper', 'worksheet', 'sheet', 'tips', 'rules', 'support'];
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (VIEWS.includes(h)) showView(h); });
 
 /* ---------- settings ---------- */
 const S = Object.assign({ mode: 1, time: 30, ops: { pow: false, sqrt: false, fact: false, sigma: false }, exact: true, auto: false, sound: true }, store.get('settings', {}));
@@ -1446,8 +1646,259 @@ $('#wPdf').onclick = async () => {
     const g = e.target.closest('a[data-go]'); if (g) { e.preventDefault(); document.querySelector('.tab[data-v="' + g.dataset.go + '"]').click(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
   });
 })();
+/* ---------- shared: save a generated file ---------- */
+async function saveBlob(blob, fname) {
+  if (window.claude && typeof window.claude.use === 'function') {
+    try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({ filename: fname, data: blob }); toast('บันทึกไฟล์แล้ว'); return true; } }
+    catch (e) { if (e && e.code === 'declined') return true; }
+  }
+  if (!framed) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fname; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast('ดาวน์โหลดแล้ว'); return true;
+  }
+  toast('หน้านี้ดาวน์โหลดไฟล์ไม่ได้ ลองเปิดจากเว็บไซต์'); return false;
+}
+
+/* ============ HELPER (เครื่องมือช่วยคิด) ============ */
+const H = Object.assign({ mode: 2, ops: { pow: false, sqrt: false, fact: false, sigma: false } }, store.get('helper', {}));
+let helpW = null, helpBusy = false;
+const OPN = { '+': 'บวก', '−': 'ลบ', '×': 'คูณ', '÷': 'หาร', '^': 'ยกกำลัง', 'Σab': 'ซิกม่าแบบมีขอบเขต' };
+const UNN = { fact: 'แฟกทอเรียล', sqrt: 'ถอดราก', sig: 'ซิกม่า', sigma: 'ซิกม่า', pow: 'ยกกำลัง' };
+function helperInit() {
+  $$('#hModes .hm').forEach(b => b.onclick = () => { if (H.mode === +b.dataset.m) return; H.mode = +b.dataset.m; store.set('helper', H); hBuild(); });
+  $$('#hOps .chip[data-op]').forEach(b => b.onclick = () => { H.ops[b.dataset.op] = !H.ops[b.dataset.op]; store.set('helper', H); hOpsRender(); });
+  $('#hGo').onclick = hAnalyze;
+  $('#hClear').onclick = () => { $$('#hDigits input').forEach(i => i.value = ''); if (H.mode !== 1) $('#hTarget').value = ''; $('#hErr').className = 'fb'; $$('#hDigits input')[0].focus(); };
+  $('#hRand').onclick = () => {
+    const n = H.mode === 3 ? 5 : 4;
+    $$('#hDigits input').forEach(i => i.value = H.mode === 1 ? 1 + Math.floor(Math.random() * 9) : Math.floor(Math.random() * 10));
+    if (H.mode === 2) $('#hTarget').value = 10 + Math.floor(Math.random() * 90);
+    if (H.mode === 3) $('#hTarget').value = 100 + Math.floor(Math.random() * 900);
+    void n;
+  };
+  const t = $('#hTarget');
+  t.addEventListener('input', () => { t.value = t.value.replace(/[^0-9]/g, ''); });
+  t.addEventListener('keydown', e => { if (e.key === 'Enter') hAnalyze(); if (e.key === 'Backspace' && !t.value) { const ins = $$('#hDigits input'); ins[ins.length - 1].focus(); } });
+  hBuild(); hOpsRender();
+}
+function hOpsRender() { $$('#hOps .chip[data-op]').forEach(b => b.classList.toggle('on', !!H.ops[b.dataset.op])); }
+function hBuild() {
+  $$('#hModes .hm').forEach(b => b.classList.toggle('on', +b.dataset.m === H.mode));
+  const n = H.mode === 3 ? 5 : 4;
+  const old = $$('#hDigits input').map(i => i.value);
+  $('#hDigits').innerHTML = Array.from({ length: n }, (_, i) => `<input type="text" inputmode="numeric" maxlength="1" aria-label="เลขโดดตัวที่ ${i + 1}" value="${esc(old[i] || '')}">`).join('');
+  const ins = $$('#hDigits input'), t = $('#hTarget');
+  ins.forEach((inp, i) => {
+    inp.addEventListener('input', () => { inp.value = inp.value.replace(/[^0-9]/g, '').slice(-1); if (inp.value) (ins[i + 1] || t).focus(); });
+    inp.addEventListener('keydown', e => { if (e.key === 'Backspace' && !inp.value && ins[i - 1]) { ins[i - 1].focus(); ins[i - 1].value = ''; e.preventDefault(); } if (e.key === 'Enter') hAnalyze(); });
+    inp.addEventListener('focus', () => inp.select());
+    inp.addEventListener('paste', e => {
+      const ds = (e.clipboardData.getData('text') || '').replace(/[^0-9]/g, ''); if (!ds) return; e.preventDefault();
+      let k = i; for (const c of ds) { if (k < ins.length) ins[k++].value = c; else { if (H.mode !== 1) t.value = (t.value + c).slice(0, 5); } }
+      (ins[k] || t).focus();
+    });
+  });
+  if (H.mode === 1) { t.value = '24'; t.readOnly = true; } else { if (t.readOnly) t.value = ''; t.readOnly = false; }
+  t.maxLength = 5;
+}
+const dgl = arr => arr.map(d => `<span class="dg">${d}</span>`).join(' ');
+function hSide(val, ds) { return ds.length === 1 ? `เลข <span class="dg">${ds[0]}</span>` : `ก้อนที่ได้ <b>${val}</b> <span style="color:var(--muted)">(จากเลข ${dgl(ds)})</span>`; }
+async function hAnalyze() {
+  const ins = $$('#hDigits input'), err = $('#hErr');
+  const digits = ins.map(i => i.value);
+  const tv = $('#hTarget').value.trim();
+  if (digits.some(d => d === '')) { err.className = 'fb show err'; err.textContent = 'กรอกเลขโดดให้ครบ ' + ins.length + ' ช่องก่อนนะ'; return; }
+  if (!/^\d{1,5}$/.test(tv)) { err.className = 'fb show err'; err.textContent = 'กรอกคำตอบ (ผลลัพธ์) ของโจทย์ด้วยนะ'; return; }
+  err.className = 'fb';
+  const D = digits.map(Number), T = +tv, ops = { ...H.ops };
+  if (helpW) helpW.kill();
+  helpW = makeWorker(); helpBusy = true;
+  const btn = $('#hGo'); btn.disabled = true; btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px;border-top-color:#fff"></span> กำลังคิด…';
+  $('#hOut').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>กำลังค้นหาทุกวิธีที่เป็นไปได้…' + (D.length === 5 && (ops.sigma || ops.fact || ops.pow) ? '<br><span style="font-size:13px">เลข 5 ตัวและเปิดเครื่องหมายขั้นสูง อาจใช้เวลาสักครู่</span>' : '') + '</div>';
+  const w = helpW;
+  const r = (await w.call({ type: 'help', digits: D, target: T, ops })).help;
+  if (w !== helpW) return;
+  w.kill(); helpW = null; helpBusy = false;
+  btn.disabled = false; btn.innerHTML = '🔍 วิเคราะห์โจทย์';
+  hRender(D, T, ops, r);
+  if (window.innerWidth < 860) $('#hOut').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function hRender(D, T, ops, r) {
+  const fmtD = v => (Math.round(v * 1000) / 1000).toString();
+  // hint 1
+  let h1;
+  if (r.exact) {
+    h1 = `✅ ข้อนี้<b>ทำให้ได้ ${T} พอดี</b>` + (r.altCount > 1 ? ` และมีหลายวิธี (พบอย่างน้อย ${r.altCount} แบบ)` : '') + '<br>' +
+      (r.used.length ? `ต้องใช้ <b>${r.used.map(u => UNN[u]).join(', ')}</b> ร่วมด้วย` : 'ใช้แค่ <b>+ − × ÷</b> กับวงเล็บก็พอ ไม่ต้องใช้เครื่องหมายขั้นสูง');
+  } else {
+    const off = ['pow', 'sqrt', 'fact', 'sigma'].filter(k => !ops[k]);
+    h1 = `⚠️ ข้อนี้<b>ทำให้ได้ ${T} พอดีไม่ได้</b> ด้วยเครื่องหมายที่เลือก<br>คำตอบที่ใกล้ที่สุดคือ <b>${r.valueStr}</b> (ห่าง ${fmtD(r.diff)})` +
+      (off.length ? `<br><span style="color:var(--muted)">ลองเปิด ${off.map(u => UNN[u]).join(' / ')} แล้ววิเคราะห์ใหม่ อาจทำได้พอดี</span>` : '');
+  }
+  // hint 2
+  let h2 = '';
+  const tp = r.top;
+  if (tp && tp.kind === 'bin') {
+    const A = hSide(tp.A, tp.Ad), B = hSide(tp.B, tp.Bd);
+    if (tp.o === '^') h2 = `ขั้นสุดท้ายคือการ<b>ยกกำลัง</b>: ${A} ยกกำลัง ${B} = <b>${r.valueStr}</b>`;
+    else if (tp.o === 'Σab') h2 = `ขั้นสุดท้ายคือ<b>ซิกม่าแบบมีขอบเขต</b>: Σ ตั้งแต่ ${A} ถึง ${B} = <b>${r.valueStr}</b>`;
+    else h2 = `ขั้นสุดท้ายคือการ<b>${OPN[tp.o]}</b><br>${A} <b style="font-size:18px">${tp.o}</b> ${B} = <b>${r.valueStr}</b>`;
+    const big = tp.Ad.length >= tp.Bd.length ? { v: tp.A, d: tp.Ad } : { v: tp.B, d: tp.Bd };
+    if (big.d.length > 1) h2 += `<br><span style="color:var(--muted)">👉 ลองหาวิธีทำ <b style="color:var(--ink)">${big.v}</b> จากเลข ${dgl(big.d)} ดูก่อน</span>`;
+  } else if (tp) {
+    h2 = `ขั้นสุดท้ายคือ<b>${UNN[tp.u]}</b> ของ ${hSide(tp.X, tp.Xd)} ได้ <b>${r.valueStr}</b>`;
+  }
+  // hint 3
+  const h3 = r.steps.length ? `เริ่มจาก <b style="font-size:18px" class="mx">${r.steps[0]}</b>` + (r.steps.length > 2 ? '<br><span style="color:var(--muted)">แล้วใช้ผลลัพธ์นี้คิดต่อกับเลขที่เหลือ</span>' : '') : '—';
+  // full solution
+  const res = r.exact ? `= ${T}` : `= ${r.valueStr} <span style="font-size:14px;color:var(--warn)">(ห่าง ${fmtD(r.diff)})</span>`;
+  let h4 = `<div class="hx mx">${r.h} ${res}</div><div style="margin-top:6px;font-weight:600">คิดทีละขั้น</div><ol class="hsteps mx">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
+  if (r.alts.length > 1) h4 += `<div style="margin-top:10px;font-weight:600">วิธีอื่นที่ได้ ${T} เหมือนกัน</div><div class="halts mx">${r.alts.slice(1).map(a => `<div>${a}</div>`).join('')}</div>`;
+  const items = [
+    ['ทำได้พอดีไหม และต้องใช้อะไร', 'บอกแค่ภาพรวม ยังไม่เฉลย', h1, 'var(--ok)'],
+    ['ขั้นสุดท้ายของวิธีคิด', 'รู้ว่าต้องทำก้อนไหนให้ได้เท่าไร', h2, 'var(--c2)'],
+    ['ก้าวแรก', 'เริ่มคิดจากตรงไหนดี', h3, 'var(--c3)'],
+    ['เฉลยเต็ม', 'วิธีคิดทีละขั้น และวิธีอื่น ๆ', h4, 'var(--c1)']
+  ];
+  $('#hOut').innerHTML = `<div class="hsum"><div class="q">${D.join(' ')} = <b>${T}</b></div><span class="pill" style="--mc:${r.exact ? 'var(--ok)' : 'var(--warn)'};--ms:${r.exact ? 'var(--oks)' : '#FFF3D6'}">${r.exact ? 'ทำได้พอดี' : 'ใกล้ที่สุด ห่าง ' + fmtD(r.diff)}</span><span style="flex:1"></span><button class="chip" id="hAll">เปิดเฉลยทั้งหมด</button></div>
+    <div class="hints">${items.map((it, i) => `<div class="hint${i ? ' lockd' : ''}" data-i="${i}"><div class="hd"><div class="no" style="background:${it[3]}">${i < 3 ? i + 1 : '★'}</div><div class="ti">${i < 3 ? 'คำใบ้ที่ ' + (i + 1) + ': ' : ''}${it[0]}<small>${it[1]}</small></div><button class="open-btn">${i < 3 ? 'เปิดคำใบ้' : 'ดูเฉลย'}</button></div><div class="bd">${it[2]}</div></div>`).join('')}</div>`;
+  const hs = $$('#hOut .hint');
+  const open = i => { hs[i].classList.add('open'); hs[i].classList.remove('lockd'); if (hs[i + 1]) hs[i + 1].classList.remove('lockd'); };
+  hs.forEach((h, i) => h.querySelector('.open-btn').onclick = () => { if (h.classList.contains('lockd')) { toast('เปิดคำใบ้ก่อนหน้าก่อนนะ ลองคิดเองก่อน 😉'); return; } open(i); });
+  $('#hAll').onclick = () => hs.forEach((_, i) => open(i));
+}
+
+/* ============ ANSWER SHEET (กระดาษแข่งขัน) ============ */
+const AS = Object.assign({ per: 4, pages: 1, title: '', school: '', num: false }, store.get('asheet', {}));
+const ASFAM = "'Sarabun','Loma','Tahoma',sans-serif";
+function answerInit() {
+  $$('#aPer .chip').forEach(b => b.onclick = () => { AS.per = +b.dataset.n; aSave(); });
+  $$('#v-sheet .stp button').forEach(b => b.onclick = () => { AS.pages = Math.max(1, Math.min(60, AS.pages + (+b.dataset.a))); aSave(); });
+  $('#aPages').onchange = e => { AS.pages = Math.max(1, Math.min(60, Math.round(+e.target.value || 1))); aSave(); };
+  $('#aTitle').oninput = e => { AS.title = e.target.value; aSave(true); };
+  $('#aSchool').oninput = e => { AS.school = e.target.value; aSave(true); };
+  $('#aNum').onchange = e => { AS.num = e.target.checked; aSave(); };
+  $('#aTitle').value = AS.title; $('#aSchool').value = AS.school; $('#aNum').checked = AS.num;
+  if (framed) $('#aPrint').style.display = 'none';
+  $('#aPrint').onclick = () => { $('#print-root').innerHTML = aAllHTML(); setTimeout(() => window.print(), 80); };
+  $('#aPng').onclick = aDownloadPng;
+  $('#aPdf').onclick = aDownloadPdf;
+  aSave(true);
+}
+let aT = 0;
+function aSave(soft) {
+  store.set('asheet', AS);
+  $$('#aPer .chip').forEach(b => b.classList.toggle('on', +b.dataset.n === AS.per));
+  $('#aPages').value = AS.pages;
+  $('#aInfo').textContent = `${AS.pages} หน้า · ${AS.pages * AS.per} ช่อง` + (AS.num ? ` (ข้อ 1–${AS.pages * AS.per})` : '') + ' · PNG จะได้หน้าแรก';
+  clearTimeout(aT); aT = setTimeout(renderAnswerPreview, soft ? 200 : 0);
+}
+function aPageHTML(pg) {
+  let boxes = '';
+  for (let k = 0; k < AS.per; k++) {
+    const no = AS.num ? pg * AS.per + k + 1 : '';
+    boxes += `<div class="abox"><div class="ahead"><span>ชื่อ-สกุล</span><i style="flex:5"></i><span>โรงเรียน</span><i style="flex:3.6">${esc(AS.school)}</i><span>เลขที่</span><i style="flex:.9"></i><span>ข้อ</span><i style="flex:.9">${no}</i></div><div class="abody"><div class="aw"><u>วิธีการและคำตอบ</u></div><div class="ad"><u>พื้นที่สำหรับทดเลข</u></div></div></div>`;
+  }
+  return `<div class="sheet asheet">${AS.title.trim() ? `<div class="atitle">${esc(AS.title.trim())}</div>` : ''}${boxes}</div>`;
+}
+function aAllHTML() { let h = ''; for (let p = 0; p < AS.pages; p++) h += aPageHTML(p); return h; }
+function renderAnswerPreview() {
+  const box = $('#aSheets'); if (!box || !$('#v-sheet').classList.contains('on')) return;
+  const n = Math.min(AS.pages, 2);
+  let h = ''; for (let p = 0; p < n; p++) h += aPageHTML(p);
+  box.innerHTML = h;
+  $('#aPv').textContent = AS.pages > 2 ? `(แสดง 2 จาก ${AS.pages} หน้า)` : `(${AS.pages} หน้า)`;
+  const sh = box.querySelector('.sheet'); if (!sh) return;
+  const z = Math.min(1, (box.clientWidth - 28) / sh.offsetWidth);
+  $$('#aSheets .sheet').forEach(s => s.style.zoom = z);
+}
+window.addEventListener('resize', () => { if ($('#v-sheet').classList.contains('on')) renderAnswerPreview(); });
+
+/* crisp canvas renderer: A4 at 300 dpi */
+async function aCanvas(pg) {
+  const DPI = 300, K = DPI / 25.4, W = Math.round(210 * K), Hh = Math.round(297 * K);
+  const mm = v => v * K, pt = v => v * 0.3528 * K;
+  try { await Promise.all([document.fonts.load(`${pt(14.5)}px Sarabun`), document.fonts.load(`bold ${pt(16)}px Sarabun`)]); } catch (e) {}
+  const c = document.createElement('canvas'); c.width = W; c.height = Hh;
+  const x = c.getContext('2d');
+  x.fillStyle = '#fff'; x.fillRect(0, 0, W, Hh);
+  x.fillStyle = '#000'; x.strokeStyle = '#000'; x.textBaseline = 'alphabetic';
+  const L = mm(10), R = W - mm(10); let top = mm(10); const bottom = Hh - mm(9);
+  const title = AS.title.trim();
+  if (title) { x.font = `bold ${pt(16)}px ${ASFAM}`; x.textAlign = 'center'; x.fillText(title, W / 2, top + mm(5.5)); top += mm(9); }
+  const gap = mm(4), n = AS.per, bh = (bottom - top - gap * (n - 1)) / n, bw = R - L, lw = pt(1.1);
+  for (let k = 0; k < n; k++) {
+    const y = top + k * (bh + gap);
+    x.setLineDash([]); x.lineWidth = lw; x.strokeRect(L, y, bw, bh);
+    const hh = mm(11.5);
+    x.beginPath(); x.moveTo(L, y + hh); x.lineTo(R, y + hh); x.stroke();
+    // header fields
+    x.font = `${pt(14.5)}px ${ASFAM}`; x.textAlign = 'left';
+    const labels = ['ชื่อ-สกุล', 'โรงเรียน', 'เลขที่', 'ข้อ'], wts = [5, 3.6, .9, .9];
+    const no = AS.num ? String(AS.per * pg + k + 1) : '';
+    const fills = ['', AS.school, '', no];
+    const pad = mm(4), sp = mm(1.5);
+    const lab = labels.map(t => x.measureText(t).width);
+    const free = bw - 2 * pad - lab.reduce((a, b) => a + b, 0) - sp * 7;
+    const tw = wts.reduce((a, b) => a + b, 0);
+    let cx = L + pad; const base = y + mm(8.2);
+    for (let i = 0; i < 4; i++) {
+      x.fillStyle = '#000'; x.font = `${pt(14.5)}px ${ASFAM}`; x.textAlign = 'left';
+      x.fillText(labels[i], cx, base); cx += lab[i] + sp;
+      const fw = free * wts[i] / tw;
+      x.save(); x.setLineDash([0, mm(1.15)]); x.lineCap = 'round'; x.lineWidth = mm(.42);
+      x.beginPath(); x.moveTo(cx + mm(.4), base + mm(.9)); x.lineTo(cx + fw, base + mm(.9)); x.stroke(); x.restore();
+      if (fills[i]) {
+        x.save(); x.fillStyle = '#1b2a6b'; x.font = `${pt(13.5)}px ${ASFAM}`; x.textAlign = 'center';
+        let t = fills[i]; while (x.measureText(t).width > fw - mm(1) && t.length > 1) t = t.slice(0, -1);
+        x.fillText(t, cx + fw / 2, base - mm(.3)); x.restore();
+      }
+      cx += fw + sp;
+    }
+    // body
+    const dx = L + bw * 0.675;
+    x.setLineDash([]); x.lineWidth = lw;
+    x.beginPath(); x.moveTo(dx, y + hh); x.lineTo(dx, y + bh); x.stroke();
+    x.font = `${pt(14.5)}px ${ASFAM}`; x.textAlign = 'center'; x.fillStyle = '#000';
+    const tb = y + hh + mm(7);
+    [['วิธีการและคำตอบ', (L + dx) / 2], ['พื้นที่สำหรับทดเลข', (dx + R) / 2]].forEach(([t, mx]) => {
+      x.fillText(t, mx, tb); const w = x.measureText(t).width;
+      x.lineWidth = pt(.9); x.beginPath(); x.moveTo(mx - w / 2, tb + mm(1.2)); x.lineTo(mx + w / 2, tb + mm(1.2)); x.stroke(); x.lineWidth = lw;
+    });
+  }
+  return c;
+}
+const aName = ext => 'กระดาษคำตอบคิดเลขเร็ว-' + AS.per + 'ช่อง.' + ext;
+async function aDownloadPng() {
+  const b = $('#aPng'), old = b.innerHTML; b.disabled = true; b.textContent = 'กำลังสร้าง…';
+  try { const c = await aCanvas(0); const blob = await new Promise(r => c.toBlob(r, 'image/png')); await saveBlob(blob, aName('png')); }
+  catch (e) { console.error(e); toast('สร้าง PNG ไม่สำเร็จ'); }
+  finally { b.disabled = false; b.innerHTML = old; }
+}
+async function aDownloadPdf() {
+  const b = $('#aPdf'), old = b.innerHTML; b.disabled = true;
+  try {
+    b.textContent = 'กำลังเตรียม…';
+    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    const pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+    let same = null;
+    for (let p = 0; p < AS.pages; p++) {
+      b.textContent = `กำลังสร้าง ${p + 1}/${AS.pages}`;
+      if (p) pdf.addPage();
+      if (!AS.num && same) { pdf.addImage(same, 'PNG', 0, 0, 210, 297, 'page', 'FAST'); continue; }
+      const url = (await aCanvas(p)).toDataURL('image/png');
+      if (!AS.num) same = url;
+      pdf.addImage(url, 'PNG', 0, 0, 210, 297, AS.num ? 'p' + p : 'page', 'FAST');
+    }
+    await saveBlob(pdf.output('blob'), aName('pdf'));
+  } catch (e) { console.error(e); toast(framed ? 'สร้าง PDF ไม่สำเร็จ' : 'โหลดตัวสร้าง PDF ไม่ได้ ใช้ปุ่มพิมพ์ / บันทึก PDF แทน'); }
+  finally { b.disabled = false; b.innerHTML = old; }
+}
+
+window.MathDashSheet = { aCanvas, aAllHTML };
 /* ---------- init ---------- */
-renderSettings(); drawStats(); wsRender(); drawIdle();
+renderSettings(); drawStats(); wsRender(); drawIdle(); helperInit(); answerInit();
+{ const h0 = (location.hash || '').slice(1); if (VIEWS.includes(h0)) showView(h0); }
 })();
 </script>
 </body>
