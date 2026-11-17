@@ -33,7 +33,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(255,251,244,.88);bac
 .brand small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.2}
 .logo{width:36px;height:36px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .logo i{border-radius:7px;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px;font-weight:700}
-.tabs{margin-left:auto;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px}
+.tabs{margin-left:auto;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px}
 .tab{border:0;background:transparent;padding:5px 8px 4px;border-radius:12px;color:var(--muted);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;transition:.12s}
 .tab i{font-style:normal;font-size:17px;line-height:1.2}
 .tab span{font-size:12.5px;white-space:nowrap;line-height:1.3}
@@ -389,6 +389,41 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.78em;line-height:1.15;margin:0 2px}
 .fr>span:first-child{border-bottom:1px solid currentColor;padding:0 2px}
 .mx .ri,.ri{font-size:.58em;vertical-align:.95em;margin-right:-1px}
+
+/* player & leaderboard */
+.pcard{padding:12px 14px;display:flex;align-items:center;gap:10px}
+.pcard .av{width:38px;height:38px;border-radius:12px;background:var(--yel);display:grid;place-items:center;font-size:19px;flex:none}
+.pcard .pn{flex:1;min-width:0;line-height:1.3}
+.pcard .pn b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .pn small{color:var(--muted);font-size:12px}
+.lbbar{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.lbme{padding:12px 16px;display:none}
+.lbme.show{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.lbme .k{font-size:12px;color:var(--muted)}
+.lbme .v{font-size:20px;font-weight:700}
+.lbt{width:100%;border-collapse:collapse;font-size:14.5px}
+.lbt th{font-weight:600;font-size:12.5px;color:var(--muted);text-align:right;padding:10px 12px;border-bottom:1px solid var(--line)}
+.lbt th:nth-child(2),.lbt td:nth-child(2){text-align:left}
+.lbt td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.lbt tr:last-child td{border-bottom:0}
+.lbt td:first-child,.lbt th:first-child{text-align:center;width:52px}
+.lbt .nm b{font-weight:600}
+.lbt .nm small{display:block;color:var(--muted);font-size:12px}
+.lbt tr.me td{background:#FFF7DD}
+.lbt .rk{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--soft);font-weight:700;font-size:13px}
+.lbt .r1 .rk{background:#FFD54A}.lbt .r2 .rk{background:#E3E6EC}.lbt .r3 .rk{background:#F4C29B}
+.lbt .hl{font-weight:700;color:var(--ink)}
+.modal{position:fixed;inset:0;background:rgba(36,36,58,.35);display:grid;place-items:center;z-index:60;padding:16px;backdrop-filter:blur(3px)}
+.modal[hidden]{display:none}
+.mbox{width:min(400px,100%);padding:22px;display:flex;flex-direction:column;gap:8px;animation:pop .2s}
+.mbox input{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;font-size:15px}
+.mbox input:focus{outline:none;border-color:var(--c1)}
+.mbox .t{font-size:13px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .lbt th:nth-child(4),.lbt td:nth-child(4){display:none}
+  .lbt td,.lbt th{padding:8px 6px}
+  .dochead #lbShare{padding:8px 10px}
+}
 #print-root{display:none}
 #render-root{position:fixed;left:-99999px;top:0}
 @media print{
@@ -448,6 +483,7 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
       <button class="tab" data-v="sheet"><i>🖨️</i><span>กระดาษแข่ง</span></button>
       <button class="tab" data-v="tips"><i>⚡</i><span>เทคนิค</span></button>
       <button class="tab" data-v="rules"><i>📘</i><span>กติกา</span></button>
+      <button class="tab" data-v="leaderboard"><i>🏆</i><span>อันดับ</span></button>
       <button class="tab sup-tab" data-v="support"><i>☕</i><span>สนับสนุน</span></button>
     </nav>
   </div>
@@ -518,6 +554,7 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
       </div>
 
       <aside class="side">
+        <div class="card pcard" id="pcard"></div>
         <div class="card stats">
           <div><b id="sDone">0</b><span>ทำแล้ว</span></div>
           <div><b id="sGood" style="color:var(--ok)">0</b><span>ดีที่สุดแล้ว</span></div>
@@ -648,6 +685,25 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
         <div class="pvbar"><b style="font-weight:600">ตัวอย่างก่อนพิมพ์</b><span class="sub" id="aPv"></span></div>
         <div class="sheets" id="aSheets"></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ LEADERBOARD ============ -->
+  <section class="view" id="v-leaderboard">
+    <div class="doc">
+      <div class="dochead card" style="background:linear-gradient(120deg,#FFF6DA,#FFE9E2 50%,#EAF5FF)">
+        <div class="hero-ic">🏆</div>
+        <div style="flex:1"><h2>ตารางอันดับ</h2><p class="sub">อันดับผู้ฝึกจากทุกที่ อัปเดตทุกครั้งที่ทำโจทย์ในหน้าฝึกโจทย์</p></div>
+        <button class="btn ghost" id="lbShare" style="white-space:nowrap">🔗 แชร์</button>
+      </div>
+      <div class="card lbbar">
+        <div class="chips" id="lbMode"><button class="chip" data-m="1">เกม 24</button><button class="chip" data-m="2">4 ตัว → 2 หลัก</button><button class="chip" data-m="3">5 ตัว → 3 หลัก</button></div>
+        <div class="chips" id="lbSort"><button class="chip" data-s="good">✅ ทำได้มากสุด</button><button class="chip" data-s="speed">⚡ เร็วที่สุด</button><button class="chip" data-s="played">🔥 เล่นมากสุด</button></div>
+        <button class="chip" id="lbRefresh" title="โหลดใหม่">↻</button>
+      </div>
+      <div class="card lbme" id="lbMe"></div>
+      <div class="card" id="lbBox"></div>
+      <p class="sub" style="text-align:center">นับเป็น "ทำได้" เมื่อได้คำตอบพอดีหรือใกล้ที่สุดที่เป็นไปได้ ก่อนกดดูเฉลย · เวลาเฉลี่ยคิดจากข้อที่ทำได้ · อันดับความเร็วต้องทำได้อย่างน้อย 10 ข้อ</p>
     </div>
   </section>
 
@@ -1024,6 +1080,20 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
 </footer>
 
 <div class="toast" id="toast"></div>
+<div class="modal" id="nameModal" hidden>
+  <form class="mbox card" id="nameForm">
+    <div class="hero-ic" style="margin:0 auto 6px">🏆</div>
+    <h2 style="text-align:center">ก่อนเริ่ม บอกชื่อหน่อย</h2>
+    <p class="sub" style="text-align:center">ชื่อนี้จะแสดงใน<b>ตารางอันดับสาธารณะ</b> พร้อมจำนวนข้อที่ทำและเวลาเฉลี่ย</p>
+    <label class="t">ชื่อที่จะแสดง</label>
+    <input type="text" id="pName" maxlength="30" placeholder="เช่น น้องเก่ง ป.6" autocomplete="nickname" required>
+    <label class="t">โรงเรียน (ไม่ใส่ก็ได้)</label>
+    <input type="text" id="pSchool" maxlength="40" placeholder="เช่น ร.ร.บ้านหนองเอี่ยนดง">
+    <p class="sub" style="font-size:12px">💡 ไม่ควรใช้ชื่อ–นามสกุลจริงเต็ม ๆ ใช้ชื่อเล่นหรือนามแฝงได้</p>
+    <button class="btn pri grow" type="submit" style="justify-content:center;--mc:var(--c1)">เริ่มเล่นและเก็บคะแนน</button>
+    <button class="btn ghost grow" type="button" id="pAnon" style="justify-content:center">เล่นแบบไม่บันทึกคะแนน</button>
+  </form>
+</div>
 <div id="print-root"></div>
 <div id="render-root"></div>
 
@@ -1295,9 +1365,10 @@ function showView(v) {
   $$('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
   if (v === 'worksheet') fitSheets();
   if (v === 'sheet') renderAnswerPreview();
+  if (v === 'leaderboard') loadBoard();
 }
 $$('.tab').forEach(b => b.onclick = () => { showView(b.dataset.v); try { history.replaceState(null, '', '#' + b.dataset.v); } catch (e) {} });
-const VIEWS = ['practice', 'helper', 'worksheet', 'sheet', 'tips', 'rules', 'support'];
+const VIEWS = ['practice', 'helper', 'worksheet', 'sheet', 'leaderboard', 'tips', 'rules', 'support'];
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (VIEWS.includes(h)) showView(h); });
 
 /* ---------- settings ---------- */
@@ -1445,6 +1516,7 @@ function drawIdle() {
   $('#tv').textContent = '–'; $('#ring').classList.add('off'); setRing(1);
 }
 async function nextQuestion() {
+  if (!(await ensurePlayer())) return;
   finishQuestion();
   stopTimer();
   P.phase = 'loading'; P.best = null; P.revealed = false;
@@ -1457,6 +1529,7 @@ async function nextQuestion() {
   if (optsKey() !== key) return nextQuestion();
   P.cur = r.p; P.qn++; P.phase = 'play';
   drawPuzzle();
+  P.t0 = performance.now();
   $('#qno').textContent = 'ข้อที่ ' + P.qn;
   $('#bNext').innerHTML = 'ข้อต่อไป →'; $('#bCheck').disabled = false; $('#bSol').disabled = false;
   $('#expr').disabled = false; $('#expr').focus({ preventScroll: true });
@@ -1521,7 +1594,7 @@ function check() {
   try { v = evaluate($('#expr').value, p.digits, S.ops); }
   catch (e) { showFb('err', '⚠️ ' + esc(e.message)); beep(220, .12); return; }
   const diff = Math.abs(v - p.target), opt = p.sol.diff;
-  if (!P.best || diff < P.best.diff) P.best = { diff, expr: $('#expr').value.trim(), v };
+  if (!P.best || diff < P.best.diff) P.best = { diff, expr: $('#expr').value.trim(), v, ms: performance.now() - (P.t0 || performance.now()) };
   if (diff < 1e-9) {
     showFb('ok', `🎉 <b>ถูกต้อง!</b> ได้ ${p.target} พอดี`); beep(880, .09); setTimeout(() => beep(1320, .12), 90);
     endQuestion();
@@ -1553,6 +1626,7 @@ function finishQuestion() {
   stats.hist.unshift({ m: P.cur.mode, q: P.cur.digits.join(' ') + ' = ' + P.cur.target, r: P.best ? (P.best.diff < 1e-9 ? '✓' : (ok ? '≈' : '±' + fmtNum(P.best.diff))) : '–', ok });
   stats.hist = stats.hist.slice(0, 50);
   store.set('stats', stats); drawStats();
+  submitScore(P.cur.mode, ok, ok ? P.best.ms : performance.now() - (P.t0 || performance.now()));
 }
 function drawStats() {
   $('#sDone').textContent = stats.done; $('#sGood').textContent = stats.good; $('#sStreak').textContent = stats.streak;
@@ -2027,9 +2101,114 @@ async function aDownloadPdf() {
   finally { b.disabled = false; b.innerHTML = old; }
 }
 
+/* ============ PLAYER & LEADERBOARD ============ */
+const PL = Object.assign({ pid: '', name: '', school: '', anon: false }, store.get('player', {}));
+if (!PL.pid) { PL.pid = (crypto.randomUUID ? crypto.randomUUID() : 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); store.set('player', PL); }
+const API = { state: 'unknown' }; // unknown | ok | nodb | off
+async function apiCheck() {
+  if (API.state !== 'unknown') return API.state;
+  if (!/^https?:$/.test(location.protocol) || framed) { API.state = 'off'; return API.state; }
+  try {
+    const r = await fetch('/api/health', { cache: 'no-store' });
+    const j = await r.json().catch(() => ({}));
+    API.state = r.ok && j.ok ? 'ok' : j.error === 'NO_DB' ? 'nodb' : 'off';
+  } catch (e) { API.state = 'off'; }
+  drawPlayer();
+  return API.state;
+}
+function drawPlayer() {
+  const c = $('#pcard'); if (!c) return;
+  const live = API.state === 'ok';
+  if (PL.name && !PL.anon) c.innerHTML = `<div class="av">👤</div><div class="pn"><b>${esc(PL.name)}</b><small>${live ? '🏆 คะแนนขึ้นตารางอันดับ' : 'บันทึกในเครื่องนี้'}${PL.school ? ' · ' + esc(PL.school) : ''}</small></div><button class="chip" id="pEdit">แก้ไข</button>`;
+  else c.innerHTML = `<div class="av" style="background:var(--soft)">👤</div><div class="pn"><b>${PL.anon ? 'เล่นแบบไม่บันทึกคะแนน' : 'ยังไม่ได้ตั้งชื่อ'}</b><small>${live ? 'ตั้งชื่อเพื่อขึ้นตารางอันดับ' : 'ตั้งชื่อผู้เล่น'}</small></div><button class="chip" id="pEdit">ตั้งชื่อ</button>`;
+  $('#pEdit').onclick = () => askName(true);
+}
+let nameResolve = null;
+function askName(edit) {
+  $('#pName').value = PL.name; $('#pSchool').value = PL.school;
+  $('#nameModal').hidden = false; setTimeout(() => $('#pName').focus(), 50);
+  return new Promise(res => { nameResolve = res; });
+}
+function closeName(v) { $('#nameModal').hidden = true; if (nameResolve) { const r = nameResolve; nameResolve = null; r(v); } }
+$('#nameForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const n = $('#pName').value.replace(/[<>]/g, '').trim().slice(0, 30);
+  if (!n) { $('#pName').focus(); return; }
+  PL.name = n; PL.school = $('#pSchool').value.replace(/[<>]/g, '').trim().slice(0, 40); PL.anon = false;
+  store.set('player', PL); drawPlayer(); toast('สวัสดี ' + n + ' ลุยเลย! 💪'); closeName(true);
+});
+$('#pAnon').onclick = () => { PL.anon = true; store.set('player', PL); drawPlayer(); closeName(true); };
+$('#nameModal').addEventListener('click', e => { if (e.target.id === 'nameModal') closeName(true); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#nameModal').hidden) closeName(true); });
+async function ensurePlayer() {
+  if (PL.name || PL.anon) return true;
+  const st = await apiCheck();
+  if (st !== 'ok') return true; // ไม่มีตารางอันดับ ก็เล่นได้เลย
+  return await askName(false);
+}
+async function submitScore(mode, ok, ms) {
+  if (!PL.name || PL.anon || API.state !== 'ok') return;
+  try {
+    const r = await fetch('/api/score', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ pid: PL.pid, name: PL.name, school: PL.school, mode, ok, ms: Math.round(ms) }) });
+    if (r.status === 503) { API.state = 'nodb'; drawPlayer(); }
+  } catch (e) {}
+}
+const LB = { mode: S.mode || 1, sort: 'good' };
+function lbChips() {
+  $$('#lbMode .chip').forEach(b => b.classList.toggle('on', +b.dataset.m === LB.mode));
+  $$('#lbSort .chip').forEach(b => b.classList.toggle('on', b.dataset.s === LB.sort));
+}
+$$('#lbMode .chip').forEach(b => b.onclick = () => { LB.mode = +b.dataset.m; loadBoard(); });
+$$('#lbSort .chip').forEach(b => b.onclick = () => { LB.sort = b.dataset.s; loadBoard(); });
+$('#lbRefresh').onclick = () => loadBoard();
+$('#lbShare').onclick = async () => {
+  const url = (/^https?:$/.test(location.protocol) ? location.origin + location.pathname : 'https://mathdashmax.pages.dev/') + '#leaderboard';
+  try { await navigator.clipboard.writeText(url); toast('คัดลอกลิงก์ตารางอันดับแล้ว'); } catch (e) { toast(url); }
+};
+let lbSeq = 0;
+async function loadBoard() {
+  lbChips();
+  const box = $('#lbBox'), me = $('#lbMe'), seq = ++lbSeq;
+  box.innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>กำลังโหลดอันดับ…</div>';
+  const st = await apiCheck();
+  if (st !== 'ok') {
+    me.classList.remove('show');
+    box.innerHTML = st === 'nodb'
+      ? '<div class="empty"><div class="big">🛠️</div>ตารางอันดับยังไม่พร้อม<br><span style="font-size:13px">ผู้ดูแลยังไม่ได้เชื่อมฐานข้อมูล D1 ใน Cloudflare</span></div>'
+      : '<div class="empty"><div class="big">🌐</div>ตารางอันดับใช้ได้บนเว็บไซต์<br><a href="https://mathdashmax.pages.dev/#leaderboard" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600">mathdashmax.pages.dev</a></div>';
+    return;
+  }
+  try {
+    const r = await fetch(`/api/leaderboard?mode=${LB.mode}&sort=${LB.sort}&pid=${encodeURIComponent(PL.pid)}`, { cache: 'no-store' });
+    const j = await r.json(); if (seq !== lbSeq) return;
+    if (!j.ok) throw new Error(j.error);
+    const t = j.total || { players: 0, played: 0 };
+    if (PL.name && !PL.anon) {
+      const m = j.me;
+      me.innerHTML = `<div style="flex:1;min-width:150px"><div class="k">คุณ</div><div style="font-weight:600">${esc(PL.name)}</div></div>` +
+        [['อันดับ', m && m.rank ? '#' + m.rank : '–'], ['ทำแล้ว', m ? m.played : 0], ['ทำได้', m ? m.good : 0], ['เฉลี่ย (วิ/ข้อ)', m && m.avg != null ? m.avg : '–']].map(([k, v]) => `<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+      me.classList.add('show');
+    } else {
+      me.innerHTML = '<div style="flex:1">ยังไม่ได้ตั้งชื่อผู้เล่น ตั้งชื่อแล้วไปฝึกโจทย์เพื่อขึ้นตารางอันดับ</div><button class="btn pri" id="lbJoin" style="--mc:var(--c1)">ตั้งชื่อ</button>';
+      me.classList.add('show'); $('#lbJoin').onclick = () => askName(true).then(loadBoard);
+    }
+    if (!j.rows.length) {
+      box.innerHTML = `<div class="empty"><div class="big">🏁</div>${LB.sort === 'speed' ? 'ยังไม่มีใครทำได้ครบ ' + j.minSpeed + ' ข้อในโหมดนี้' : 'ยังไม่มีใครเล่นโหมดนี้'}<br><span style="font-size:13px">เป็นคนแรกในตารางเลย!</span></div>`;
+      return;
+    }
+    const hl = { good: 3, speed: 4, played: 2 }[LB.sort];
+    box.innerHTML = `<table class="lbt"><thead><tr><th>#</th><th>ผู้เล่น</th><th>ทำแล้ว</th><th>ทำได้</th><th>เฉลี่ย (วิ/ข้อ)</th></tr></thead><tbody>` +
+      j.rows.map(x => `<tr class="${x.me ? 'me ' : ''}r${x.rank}"><td><span class="rk">${x.rank <= 3 ? ['🥇', '🥈', '🥉'][x.rank - 1] : x.rank}</span></td><td class="nm"><b>${esc(x.name)}${x.me ? ' (คุณ)' : ''}</b>${x.school ? `<small>${esc(x.school)}</small>` : ''}</td>` +
+        [x.played, x.good, x.avg != null ? x.avg.toFixed(1) : '–'].map((v, i) => `<td class="${i + 2 === hl ? 'hl' : ''}">${v}</td>`).join('') + '</tr>').join('') +
+      `</tbody></table><div class="sub" style="padding:10px 14px;border-top:1px solid var(--line)">ผู้เล่นทั้งหมด ${t.players} คน · ทำโจทย์ไปแล้ว ${t.played.toLocaleString()} ข้อในโหมดนี้</div>`;
+  } catch (e) {
+    if (seq !== lbSeq) return;
+    box.innerHTML = '<div class="empty"><div class="big">😵</div>โหลดตารางอันดับไม่สำเร็จ<br><span style="font-size:13px">ลองกด ↻ อีกครั้ง</span></div>';
+  }
+}
 window.MathDashSheet = { aCanvas, aAllHTML, evaluate };
 /* ---------- init ---------- */
-renderSettings(); drawStats(); wsRender(); drawIdle(); helperInit(); answerInit();
+renderSettings(); drawStats(); wsRender(); drawIdle(); helperInit(); answerInit(); drawPlayer(); apiCheck();
 { const h0 = (location.hash || '').slice(1); if (VIEWS.includes(h0)) showView(h0); }
 })();
 </script>

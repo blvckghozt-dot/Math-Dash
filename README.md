@@ -31,3 +31,17 @@
 
 ## สนับสนุนผู้พัฒนา
 ถ้าแอปนี้มีประโยชน์ เลี้ยงกาแฟได้ที่เมนู ☕ สนับสนุน ในแอป · ติดต่อ Facebook: [Apiwat Pawong](https://www.facebook.com/share/19k43qXSV7/)
+
+## ตารางอันดับ (Leaderboard)
+แอปมีตารางอันดับสาธารณะ ใช้ **Cloudflare Pages Functions** (โฟลเดอร์ `functions/`) กับฐานข้อมูล **Cloudflare D1** (ใช้ฟรี) ตั้งค่าครั้งเดียว:
+
+1. Cloudflare Dashboard → **Storage & databases → D1 SQL database → Create** ตั้งชื่อเช่น `mathdash-db`
+2. เข้าโปรเจกต์ Pages ของ MathDash → **Settings → Bindings → Add → D1 database**
+   - Variable name: **`DB`** (ตัวพิมพ์ใหญ่)
+   - D1 database: เลือก `mathdash-db`
+3. ไปที่ **Deployments** → กด **Retry deployment** ของรายการล่าสุด (หรือ push อะไรก็ได้ใหม่)
+4. เปิด `https://<เว็บ>/api/health` ถ้าขึ้น `{"ok":true}` แปลว่าพร้อมใช้ ตารางในฐานข้อมูลจะสร้างให้อัตโนมัติ
+
+ลบชื่อที่ไม่เหมาะสมได้ที่ D1 → `mathdash-db` → Console เช่น `DELETE FROM scores WHERE name = 'ชื่อนั้น';`
+
+> หมายเหตุ: บน GitHub Pages ไม่มีฟังก์ชันฝั่งเซิร์ฟเวอร์ ตารางอันดับจึงใช้ได้เฉพาะบน Cloudflare Pages
