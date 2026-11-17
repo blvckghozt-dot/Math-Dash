@@ -126,7 +126,9 @@ button.tile:hover{border-color:var(--mc);transform:translateY(-2px)}
 .mx sup{font-size:.62em;vertical-align:.7em;line-height:0}
 .mx .rt{white-space:nowrap}
 .sgr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 2px}
-.sgr small{font-size:.5em;line-height:1.05}
+.sgr small{font-size:.55em;line-height:1.05}
+.sgr small .sgr{font-size:1.5em}
+.sgr small sup{font-size:.8em}
 .sgr .sg{margin:0}
 .mx .sg,.sheet .sg{font-family:"Times New Roman",serif;font-size:1.12em;margin-right:1px}
 .mx .rd{border-top:1.5px solid currentColor;padding:0 2px;margin-left:1px}
@@ -516,7 +518,7 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
         </div>
         <div class="card pad tip">
           <b style="color:var(--ink);font-weight:600">วิธีใช้</b><br>
-          แตะเลขโดดหรือพิมพ์จากคีย์บอร์ด ใช้ <kbd>*</kbd> แทน × <kbd>/</kbd> แทน ÷ <kbd>^</kbd> ยกกำลัง <kbd>r</kbd> ถอดราก <kbd>!</kbd> แฟกทอเรียล <kbd>s</kbd> ซิกม่า (แบบมีขอบเขตพิมพ์ <kbd>s(3,6)</kbd>)<br>
+          แตะเลขโดดหรือพิมพ์จากคีย์บอร์ด ใช้ <kbd>*</kbd> แทน × <kbd>/</kbd> แทน ÷ <kbd>^</kbd> ยกกำลัง <kbd>r</kbd> ถอดราก <kbd>!</kbd> แฟกทอเรียล <kbd>s</kbd> ซิกม่า เช่น <kbd>s(3,6)</kbd><br>
           กด <kbd>Enter</kbd> เพื่อตรวจคำตอบ และกดอีกครั้งเพื่อไปข้อต่อไป
         </div>
       </aside>
@@ -790,14 +792,15 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
 
       <article class="card sec" id="t-sigma">
         <span class="lv lv3">ขั้นสูง</span>
-        <h3>9. ซิกม่า</h3>
-        <p>Σn = 1 + 2 + … + n คิดเร็วได้ด้วยสูตร <b>n × (n + 1) ÷ 2</b> เช่น Σ10 = 10 × 11 ÷ 2 = 55 (ดูวิธีอ่านแบบเต็มที่หน้า "กติกา & วิธีใช้")</p>
+        <h3>9. ซิกม่า (ต้องมีขอบเขต 2 ค่าเสมอ)</h3>
+        <p>ซิกม่าในคิดเลขเร็วต้องระบุ <b>ขอบล่าง และ ขอบบน</b> เสมอ จึงใช้เลขโดด 2 ตัว (หรือ 2 ก้อน) เช่น Σ ตั้งแต่ i = 3 ถึง 6 = 3 + 4 + 5 + 6 = 18 (ดูวิธีอ่านแบบเต็มที่หน้า "กติกา")</p>
         <ul class="ul">
-          <li><b>Σ3 = 6</b> เหมือน 3! เลย ถ้าสนามไม่ให้ใช้แฟกทอเรียลแต่ให้ใช้ซิกม่า ใช้แทนกันได้</li>
-          <li><b>Σ4 = 10</b> สร้าง 10 จากเลขตัวเดียว! มีประโยชน์มาก</li>
-          <li><b>ซิกม่าซ้อน</b>: Σ(Σ3) = Σ6 = 21, Σ(Σ4) = Σ10 = 55</li>
-          <li>ซิกม่าของวงเล็บใช้ไปเลข 3 หลัก: Σ(9 + 4) = Σ13 = 91, Σ(4 × 5) = Σ20 = 210</li>
-          <li>ซิกม่าแบบมีขอบเขต: Σ จาก 3 ถึง 6 = 3 + 4 + 5 + 6 = 18 คิดเร็ว ๆ ได้จาก Σ6 − Σ2 = 21 − 3</li>
+          <li><b>สูตรลัด</b> ผลบวกตั้งแต่ a ถึง b = (a + b) × (จำนวนพจน์) ÷ 2 โดยจำนวนพจน์ = b − a + 1 เช่น 3 ถึง 6 = 9 × 4 ÷ 2 = 18</li>
+          <li><b>เริ่มที่ 1</b> ใช้สูตร n × (n + 1) ÷ 2 เช่น 1 ถึง 4 = 10, 1 ถึง 9 = 45 → ถ้ามีเลข 1 กับ 4 สร้าง 10 ได้ทันที</li>
+          <li><b>1 ถึง 3 = 6</b> เท่ากับ 3! ถ้าสนามไม่ให้ใช้แฟกทอเรียล ใช้ซิกม่าแทนได้ (แต่ใช้เลข 2 ตัว)</li>
+          <li>ขอบเขตเป็นผลลัพธ์ของวงเล็บได้ ใช้พุ่งไปเลข 3 หลัก: Σ 1 ถึง (9 + 4) = 91, Σ 1 ถึง (4 × 5) = 210</li>
+          <li>ขอบล่างต้อง<b>น้อยกว่า</b>ขอบบน และเป็นจำนวนเต็มทั้งคู่ เช่น Σ 6 ถึง 3 ใช้ไม่ได้</li>
+          <li>คิดลัดเมื่อไม่ได้เริ่มที่ 1: Σ a ถึง b = (1 ถึง b) − (1 ถึง a−1) เช่น 3 ถึง 6 = 21 − 3 = 18</li>
         </ul>
       </article>
 
@@ -810,7 +813,7 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
           <div><h4>กำลังสาม</h4><div class="mg" id="mCu"></div></div>
           <div><h4>กำลังของ 2 และ 3</h4><div class="mg" id="mP2"></div></div>
           <div><h4>แฟกทอเรียล</h4><div class="mg" id="mFa"></div></div>
-          <div><h4>ซิกม่า Σn</h4><div class="mg" id="mSg"></div></div>
+          <div><h4>ซิกม่า (ผลบวก 1 ถึง n)</h4><div class="mg" id="mSg"></div></div>
           <div><h4>ตัวประกอบที่ใช้บ่อย</h4><div class="mg" id="mFc"></div></div>
         </div>
       </article>
@@ -867,52 +870,48 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
 
       <article class="card sec" id="h-sigma">
         <h2><span class="sg" style="font-size:1.2em">Σ</span> ซิกม่า: อ่านและใช้อย่างไร</h2>
-        <p><b>Σ (ซิกม่า)</b> เป็นอักษรกรีก แปลว่า <b>"ผลบวก"</b> ในคิดเลขเร็วใช้บวกจำนวนนับที่เรียงติดกัน</p>
+        <p><b>Σ (ซิกม่า)</b> เป็นอักษรกรีก แปลว่า <b>"ผลบวก"</b> ในคิดเลขเร็วใช้บวกจำนวนเต็มที่เรียงติดกัน <b>ต้องระบุขอบเขต 2 ค่าเสมอ</b> คือเริ่มจากไหน และจบที่ไหน</p>
 
-        <h4 class="h4">1) รูปเต็มที่เห็นในหนังสือ</h4>
+        <h4 class="h4">1) รูปที่ใช้ในการแข่งขัน</h4>
         <div class="sigdemo">
-          <span class="bs"><span class="bsl"><small>n</small><b>Σ</b><small>i = 1</small></span><span class="bsi">i</span></span>
-          <span class="eqs">=</span><span>1 + 2 + 3 + … + n</span>
+          <span class="bs"><span class="bsl"><small>b</small><b>Σ</b><small>i = a</small></span><span class="bsi">i</span></span>
+          <span class="eqs">=</span><span>a + (a + 1) + (a + 2) + … + b</span>
         </div>
         <table class="tb">
           <tr><th>ส่วน</th><th>ความหมาย</th></tr>
-          <tr><td><b>i</b> (ด้านขวา Σ)</td><td>ตัวแปรนับ ทุกรอบเราจะ "เอาค่า i มาบวก"</td></tr>
-          <tr><td><b>i = 1</b> (ใต้ Σ)</td><td>เริ่มนับจาก i = 1</td></tr>
-          <tr><td><b>n</b> (บน Σ)</td><td>นับไปจนถึง i = n แล้วหยุด (รวม n ด้วย)</td></tr>
+          <tr><td><b>i</b> (ด้านขวา Σ)</td><td>ตัวแปรนับ ทุกรอบจะนำค่า i มาบวกกัน</td></tr>
+          <tr><td><b>i = a</b> (ใต้ Σ)</td><td><b>ขอบล่าง</b> เริ่มนับจาก i = a</td></tr>
+          <tr><td><b>b</b> (บน Σ)</td><td><b>ขอบบน</b> นับเพิ่มทีละ 1 จนถึง i = b แล้วหยุด (รวม b ด้วย)</td></tr>
         </table>
-        <p>อ่านว่า <b>"ผลบวกของ i เมื่อ i มีค่าตั้งแต่ 1 ถึง n"</b> ในคิดเลขเร็วนิยมเขียนย่อเป็น <b>Σn</b> (ใส่แค่เลขด้านบน)</p>
+        <p>อ่านว่า <b>"ผลบวกของ i เมื่อ i มีค่าตั้งแต่ a ถึง b"</b></p>
+        <div class="note"><b>กติกาที่ต้องจำ</b><br>• ใช้เลข <b>2 ตัว (หรือ 2 ก้อน)</b> เป็นขอบล่างกับขอบบนเสมอ เขียนแค่ Σ4 ไม่ได้<br>• ขอบล่าง <b>&lt;</b> ขอบบน และต้องเป็นจำนวนเต็มทั้งคู่<br>• ขอบเขตเป็นผลลัพธ์ของวงเล็บได้ เช่น บน = (9 + 4)</div>
 
         <h4 class="h4">2) ตัวอย่างการคิดทีละขั้น</h4>
         <div class="ex">
-          <div class="exq"><span class="bs"><span class="bsl"><small>4</small><b>Σ</b><small>i = 1</small></span><span class="bsi">i</span></span> = Σ4</div>
-          <p>i = 1 → 1, i = 2 → 2, i = 3 → 3, i = 4 → 4 แล้วนำมาบวกกัน</p>
+          <div class="exq"><span class="bs"><span class="bsl"><small>4</small><b>Σ</b><small>i = 1</small></span><span class="bsi">i</span></span> <span style="font-weight:400;font-size:14px;color:var(--muted)">(ใช้เลข 1 และ 4)</span></div>
+          <p>i = 1, 2, 3, 4 นำมาบวกกัน</p>
           <div class="exa">1 + 2 + 3 + 4 = 10</div>
         </div>
-        <div class="tipbox">⚡ <b>สูตรลัด:</b> Σn = n × (n + 1) ÷ 2 เช่น Σ9 = 9 × 10 ÷ 2 = 45, Σ20 = 20 × 21 ÷ 2 = 210 (เคล็ดลับเกาส์ จับคู่หัวท้ายได้ผลบวกเท่ากันทุกคู่)</div>
-
-        <h4 class="h4">3) ซิกม่าแบบมีขอบเขต (เริ่มไม่ใช่ 1)</h4>
-        <div class="sigdemo">
-          <span class="bs"><span class="bsl"><small>b</small><b>Σ</b><small>i = a</small></span><span class="bsi">i</span></span>
-          <span class="eqs">=</span><span>a + (a + 1) + … + b</span>
-        </div>
         <div class="ex">
-          <div class="exq"><span class="bs"><span class="bsl"><small>6</small><b>Σ</b><small>i = 3</small></span><span class="bsi">i</span></span></div>
-          <p>i = 3, 4, 5, 6 → 3 + 4 + 5 + 6 = 18 หรือคิดลัด: Σ6 − Σ2 = 21 − 3 = 18 <small>(ถ้าเริ่มที่ a ให้ลบ Σ(a − 1) ออก)</small></p>
-          <div class="exa">= 18 · ใช้เลขโดด 2 ตัว (3 และ 6)</div>
+          <div class="exq"><span class="bs"><span class="bsl"><small>6</small><b>Σ</b><small>i = 3</small></span><span class="bsi">i</span></span> <span style="font-weight:400;font-size:14px;color:var(--muted)">(ใช้เลข 3 และ 6)</span></div>
+          <p>i = 3, 4, 5, 6 นำมาบวกกัน</p>
+          <div class="exa">3 + 4 + 5 + 6 = 18</div>
         </div>
+        <div class="tipbox">⚡ <b>สูตรลัด (เกาส์):</b> ผลบวก = (ขอบล่าง + ขอบบน) × จำนวนพจน์ ÷ 2 โดยจำนวนพจน์ = ขอบบน − ขอบล่าง + 1<br>เช่น 3 ถึง 6 = (3 + 6) × 4 ÷ 2 = 18 · 1 ถึง 9 = 10 × 9 ÷ 2 = 45 · 5 ถึง 9 = 14 × 5 ÷ 2 = 35</div>
 
-        <h4 class="h4">4) ตารางค่าซิกม่าที่ควรจำ</h4>
+        <h4 class="h4">3) ตารางผลบวกตั้งแต่ 1 ถึง n ที่ควรจำ</h4>
+        <p class="sub" style="margin-bottom:6px">ใช้ตารางนี้คิดลัดได้ทุกขอบเขต: Σ a ถึง b = (1 ถึง b) − (1 ถึง a−1)</p>
         <div class="mg wide" id="mSg2"></div>
 
-        <h4 class="h4">5) วิธีพิมพ์ซิกม่าในแอป</h4>
+        <h4 class="h4">4) วิธีพิมพ์ซิกม่าในแอป</h4>
         <table class="tb">
-          <tr><th>ต้องการ</th><th>พิมพ์</th><th>แอปแสดง</th><th>ค่า</th></tr>
-          <tr><td>Σ ตั้งแต่ 1 ถึง 4</td><td><code>s4</code> หรือกดปุ่ม Σ แล้ว 4</td><td>Σ4</td><td>10</td></tr>
-          <tr><td>Σ ของผลลัพธ์ในวงเล็บ</td><td><code>s(9+4)</code></td><td>Σ(9 + 4)</td><td>91</td></tr>
-          <tr><td>Σ ตั้งแต่ 3 ถึง 6</td><td><code>s(3,6)</code></td><td>Σ(3,6)</td><td>18</td></tr>
-          <tr><td>ซิกม่าซ้อน</td><td><code>ss3</code></td><td>ΣΣ3</td><td>21</td></tr>
+          <tr><th>ต้องการ</th><th>พิมพ์</th><th>ค่า</th></tr>
+          <tr><td>Σ ตั้งแต่ 1 ถึง 4</td><td><code>s(1,4)</code></td><td>10</td></tr>
+          <tr><td>Σ ตั้งแต่ 3 ถึง 6</td><td><code>s(3,6)</code></td><td>18</td></tr>
+          <tr><td>ขอบบนเป็นวงเล็บ: Σ ตั้งแต่ 1 ถึง (9 + 4)</td><td><code>s(1,9+4)</code></td><td>91</td></tr>
+          <tr><td>ขอบล่างเป็นวงเล็บ: Σ ตั้งแต่ (5 − 3) ถึง 7</td><td><code>s(5-3,7)</code></td><td>27</td></tr>
         </table>
-        <p class="sub" style="margin-top:8px">ในเฉลย ซิกม่าแบบมีขอบเขตจะแสดงเลขบน/ล่างเหมือนในหนังสือ ส่วนซิกม่าธรรมดาแสดงเป็น Σn · ต้องเปิดปุ่ม "ซิกม่า Σ" ในหน้าฝึกก่อนจึงจะใช้ได้</p>
+        <p class="sub" style="margin-top:8px">กด <kbd>s</kbd> หรือปุ่ม Σ แล้วตามด้วย <b>(ขอบล่าง , ขอบบน)</b> · ในเฉลยแอปจะแสดงขอบบนไว้เหนือ Σ และขอบล่างไว้ใต้ Σ เหมือนในหนังสือ · ต้องเปิดปุ่ม "ซิกม่า Σ" ก่อนจึงจะใช้ได้</p>
       </article>
 
       <article class="card sec">
@@ -1026,10 +1025,10 @@ const Solver = (() => {
     add(mk(a.n * b.d - b.n * a.d, a.d * b.d), L.t + ' − ' + R.t, L.h + ' − ' + R.h, 1, 'bin', c0, '−');
     add(mk(a.n * b.n, a.d * b.d), L.t + ' × ' + R.t, L.h + ' × ' + R.h, 2, 'bin', c0, '×');
     if (b.n !== 0) add(mk(a.n * b.d, a.d * b.n), L.t + ' ÷ ' + R.t, L.h + ' ÷ ' + R.h, 2, 'bin', c0 + 1, '÷');
-    // ซิกม่าแบบมีขอบเขต: Σ จาก a ถึง b = a + (a+1) + … + b  (ใช้เมื่อจำเป็นเท่านั้น)
-    if (ops.sigma && a.d === 1 && b.d === 1 && a.n >= 0 && b.n > a.n && b.n <= 60) {
+    // ซิกม่า (ต้องมีขอบเขต 2 ค่าเสมอ): Σ จาก i = a ถึง b = a + (a+1) + … + b
+    if (ops.sigma && a.d === 1 && b.d === 1 && a.n >= 0 && b.n > a.n && b.n <= 100) {
       add(mk((a.n + b.n) * (b.n - a.n + 1) / 2, 1), 'Σ(' + a.t + ',' + b.t + ')',
-        '<span class="sgr"><small>' + b.h + '</small><span class="sg">Σ</span><small>' + a.h + '</small></span>', 5, 'sig', c0 + 70, 'Σab');
+        '<span class="sgr"><small>' + b.h + '</small><span class="sg">Σ</span><small>' + a.h + '</small></span>', 5, 'sig', c0 + 40, 'Σab');
     }
     // ^
     if (ops.pow && b.d === 1 && b.n >= 0 && b.n <= 12 && !(a.n === 0 && b.n === 0)) {
@@ -1051,11 +1050,6 @@ const Solver = (() => {
       const X = parAtom(x);
       out.push({ n: FACT[x.n], d: 1, t: X.t + '!', h: X.h + '!', p: 5, k: 'fact', c: x.c + 40, u: 'fact', x });
     }
-    if (ops.sigma && x.d === 1 && x.n >= 2 && x.n <= 40) {
-      const inner = x.k === 'dig' ? x.t : '(' + x.t + ')';
-      const ih = x.k === 'dig' ? x.h : '(' + x.h + ')';
-      out.push({ n: x.n * (x.n + 1) / 2, d: 1, t: 'Σ' + inner, h: '<span class="sg">Σ</span>' + ih, p: 5, k: 'sig', c: x.c + 40, u: 'sig', x });
-    }
     return out;
   }
   function put(map, nd) {
@@ -1065,7 +1059,7 @@ const Solver = (() => {
     return false;
   }
   function addUnary(map, ops) {
-    if (!ops.sqrt && !ops.fact && !ops.sigma) return;
+    if (!ops.sqrt && !ops.fact) return;
     const base = [...map.values()];
     for (const x of base) for (const u of unaryNodes(x, ops)) { put(map, u); for (const u2 of unaryNodes(u, ops)) put(map, u2); }
   }
@@ -1102,7 +1096,7 @@ const Solver = (() => {
       const A = memo[a], B = memo[F ^ a];
       for (const x of A.values()) for (const y of B.values()) for (const z of binNodes(x, y, ops)) {
         consider(z);
-        if (ops.sqrt || ops.fact || ops.sigma) for (const u of unaryNodes(z, ops)) consider(u);
+        if (ops.sqrt || ops.fact) for (const u of unaryNodes(z, ops)) consider(u);
       }
     }
     return { best, diff: bd };
@@ -1285,19 +1279,17 @@ function evaluate(str, digits, ops) {
   const term = () => { let v = power(); while (s[i] === '×' || s[i] === '÷') { const op = s[i++]; const r = power(); if (op === '÷') { if (Math.abs(r) < 1e-12) err('หารด้วยศูนย์ไม่ได้'); v /= r; } else v *= r; } return v; };
   const power = () => { const b = unary(); if (s[i] === '^') { if (!ops.pow) err('โหมดนี้ปิดการยกกำลังไว้'); i++; const e = power(); const v = Math.pow(b, e); if (!isFinite(v) || isNaN(v)) err('ยกกำลังแบบนี้ไม่ได้'); return v; } return b; };
   const unary = () => { if (s[i] === 'Σ') { if (!ops.sigma) err('โหมดนี้ปิดซิกม่าไว้'); i++;
-      if (s[i] === '(') {
-        const save = i, uLen = used.length; i++; const a = expr();
-        if (s[i] === ',') { i++; const b = expr(); if (s[i] !== ')') err('ซิกม่าแบบขอบเขตต้องเขียนเป็น Σ(ล่าง,บน)'); i++;
-          const ra = Math.round(a), rb = Math.round(b);
-          if (Math.abs(a - ra) > 1e-9 || Math.abs(b - rb) > 1e-9 || ra < 0 || rb <= ra || rb > 1000) err('ขอบเขตซิกม่าต้องเป็นจำนวนเต็ม และล่าง < บน');
-          return (ra + rb) * (rb - ra + 1) / 2; }
-        i = save; used.length = uLen;
-      }
-      const v = unary(); const r = Math.round(v); if (Math.abs(v - r) > 1e-9 || r < 1 || r > 1000) err('ซิกม่าใช้ได้กับจำนวนเต็มบวก (Σn = 1+2+…+n)'); return r * (r + 1) / 2; }
+      if (s[i] !== '(') err('ซิกม่าต้องระบุขอบเขต 2 ค่าเสมอ เช่น Σ(1,4) = 1+2+3+4');
+      i++; const a = expr();
+      if (s[i] !== ',') err('ซิกม่าต้องมีขอบเขตล่างและบน คั่นด้วย , เช่น Σ(3,6)');
+      i++; const b = expr(); if (s[i] !== ')') err('ซิกม่าต้องเขียนเป็น Σ(ล่าง,บน)'); i++;
+      const ra = Math.round(a), rb = Math.round(b);
+      if (Math.abs(a - ra) > 1e-9 || Math.abs(b - rb) > 1e-9 || ra < 0 || rb <= ra || rb > 1000) err('ขอบเขตซิกม่าต้องเป็นจำนวนเต็ม และขอบล่าง < ขอบบน');
+      return (ra + rb) * (rb - ra + 1) / 2; }
     if (s[i] === '√') { if (!ops.sqrt) err('โหมดนี้ปิดการถอดรากไว้'); i++; const v = unary(); if (v < -1e-12) err('ถอดรากจำนวนลบไม่ได้'); return Math.sqrt(Math.max(0, v)); } return postfix(); };
   const postfix = () => { let v = primary(); while (s[i] === '!') { if (!ops.fact) err('โหมดนี้ปิดแฟกทอเรียลไว้'); i++; const r = Math.round(v); if (Math.abs(v - r) > 1e-9 || r < 0 || r > 12) err('แฟกทอเรียลใช้ได้กับจำนวนเต็ม 0–12'); let f = 1; for (let k = 2; k <= r; k++) f *= k; v = f; } return v; };
   const primary = () => {
-    if (s[i] === ',') err('เครื่องหมายจุลภาค (,) ใช้ได้เฉพาะใน Σ(ล่าง,บน)');
+    if (s[i] === ',') err('เครื่องหมาย , ใช้ได้เฉพาะใน Σ(ล่าง,บน)');
     const c = s[i];
     if (c === undefined) err('นิพจน์ยังไม่สมบูรณ์');
     if (/[0-9]/.test(c)) { i++; if (/[0-9]/.test(s[i] || '')) err('ห้ามนำตัวเลขมาต่อกันเป็นจำนวนหลายหลัก'); used.push(+c); return +c; }
@@ -1635,8 +1627,8 @@ $('#wPdf').onclick = async () => {
   const f = [1, 1, 2, 6, 24, 120, 720, 5040];
   for (let n = 0; n <= 7; n++) fa.push(sp(n + '!', f[n].toLocaleString()));
   fa.push(sp('(3!)!', 720), sp('(√9)!', 6));
-  for (let n = 1; n <= 20; n++) sg.push(sp('Σ' + n, n * (n + 1) / 2));
-  for (let n = 1; n <= 30; n++) sg2.push(sp('Σ' + n, n * (n + 1) / 2));
+  for (let n = 2; n <= 20; n++) sg.push(sp('1 ถึง ' + n, n * (n + 1) / 2));
+  for (let n = 2; n <= 31; n++) sg2.push(sp('1–' + n, n * (n + 1) / 2));
   fill('mSq', sq); fill('mCu', cu); fill('mP2', p2); fill('mFa', fa); fill('mSg', sg); fill('mSg2', sg2);
   fill('mFc', ['24 = 1×24 = 2×12 = 3×8 = 4×6', '36 = 4×9 = 6×6', '48 = 6×8', '56 = 7×8', '60 = 6×10', '72 = 8×9', '84 = 7×12', '96 = 8×12', '100 = 4×25', '120 = 5! = 8×15', '144 = 12²'].map(t => `<span style="grid-column:span 2">${t}</span>`));
   const toc = document.getElementById('toc');
@@ -1662,7 +1654,7 @@ async function saveBlob(blob, fname) {
 /* ============ HELPER (เครื่องมือช่วยคิด) ============ */
 const H = Object.assign({ mode: 2, ops: { pow: false, sqrt: false, fact: false, sigma: false } }, store.get('helper', {}));
 let helpW = null, helpBusy = false;
-const OPN = { '+': 'บวก', '−': 'ลบ', '×': 'คูณ', '÷': 'หาร', '^': 'ยกกำลัง', 'Σab': 'ซิกม่าแบบมีขอบเขต' };
+const OPN = { '+': 'บวก', '−': 'ลบ', '×': 'คูณ', '÷': 'หาร', '^': 'ยกกำลัง', 'Σab': 'ซิกม่า' };
 const UNN = { fact: 'แฟกทอเรียล', sqrt: 'ถอดราก', sig: 'ซิกม่า', sigma: 'ซิกม่า', pow: 'ยกกำลัง' };
 function helperInit() {
   $$('#hModes .hm').forEach(b => b.onclick = () => { if (H.mode === +b.dataset.m) return; H.mode = +b.dataset.m; store.set('helper', H); hBuild(); });
@@ -1741,7 +1733,9 @@ function hRender(D, T, ops, r) {
   if (tp && tp.kind === 'bin') {
     const A = hSide(tp.A, tp.Ad), B = hSide(tp.B, tp.Bd);
     if (tp.o === '^') h2 = `ขั้นสุดท้ายคือการ<b>ยกกำลัง</b>: ${A} ยกกำลัง ${B} = <b>${r.valueStr}</b>`;
-    else if (tp.o === 'Σab') h2 = `ขั้นสุดท้ายคือ<b>ซิกม่าแบบมีขอบเขต</b>: Σ ตั้งแต่ ${A} ถึง ${B} = <b>${r.valueStr}</b>`;
+    else if (tp.o === 'Σab') h2 = `ขั้นสุดท้ายคือ<b>ซิกม่า</b>: Σ ตั้งแต่ ${A} ถึง ${B} = <b>${r.valueStr}</b>`;
+    else if (tp.Bd.length === 1 && ((('×÷').includes(tp.o) && tp.B === '1') || (('+−').includes(tp.o) && tp.B === '0')))
+      h2 = `เลข <span class="dg">${tp.B}</span> ใช้<b>${OPN[tp.o]}ทิ้ง</b> (ไม่เปลี่ยนค่า) ส่วนที่เหลือต้องทำให้ได้ <b>${tp.A}</b>`;
     else h2 = `ขั้นสุดท้ายคือการ<b>${OPN[tp.o]}</b><br>${A} <b style="font-size:18px">${tp.o}</b> ${B} = <b>${r.valueStr}</b>`;
     const big = tp.Ad.length >= tp.Bd.length ? { v: tp.A, d: tp.Ad } : { v: tp.B, d: tp.Bd };
     if (big.d.length > 1) h2 += `<br><span style="color:var(--muted)">👉 ลองหาวิธีทำ <b style="color:var(--ink)">${big.v}</b> จากเลข ${dgl(big.d)} ดูก่อน</span>`;
