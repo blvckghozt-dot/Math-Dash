@@ -1306,11 +1306,15 @@ if (typeof module !== 'undefined') module.exports = Solver;
 /* ===== Problem generation ===== */
 const SPEC = { 1: { n: 4, lo: 24, hi: 24 }, 2: { n: 4, lo: 10, hi: 99 }, 3: { n: 5, lo: 100, hi: 999 } };
 const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+function digitsOK(ds) {
+  const c = {}; for (const d of ds) { c[d] = (c[d] || 0) + 1; if (c[d] > 2) return false; }
+  return (c[0] || 0) <= 1;
+}
 function makeProblem(mode, o) {
   const sp = SPEC[mode]; let fb = null;
   for (let i = 0; i < 120; i++) {
     const digits = Array.from({ length: sp.n }, () => mode === 1 ? rnd(1, 9) : rnd(0, 9));
-    if (mode !== 1 && digits.filter(d => d === 0).length > 1) continue; // ไม่เอา 0 เกิน 1 ตัว
+    if (!digitsOK(digits)) continue; // ตามกติกา: เลขซ้ำได้ไม่เกิน 2 ตัว, 0 ได้ไม่เกิน 1 ตัว
     const rg = o.rng && o.rng[mode];
     const target = rg ? rnd(rg[0], rg[1]) : rnd(sp.lo, sp.hi);
     const sol = Solver.solve(digits, target, o.ops);
@@ -1875,7 +1879,10 @@ function helperInit() {
   $('#hClear').onclick = () => { $$('#hDigits input').forEach(i => i.value = ''); if (H.mode !== 1) $('#hTarget').value = ''; $('#hErr').className = 'fb'; $$('#hDigits input')[0].focus(); };
   $('#hRand').onclick = () => {
     const n = H.mode === 3 ? 5 : 4;
-    $$('#hDigits input').forEach(i => i.value = H.mode === 1 ? 1 + Math.floor(Math.random() * 9) : Math.floor(Math.random() * 10));
+    let ds;
+    do { ds = Array.from({ length: n }, () => H.mode === 1 ? 1 + Math.floor(Math.random() * 9) : Math.floor(Math.random() * 10)); }
+    while (ds.some((d, k) => ds.filter(x => x === d).length > 2) || ds.filter(x => x === 0).length > 1);
+    $$('#hDigits input').forEach((inp, k) => inp.value = ds[k]);
     if (H.mode === 2) $('#hTarget').value = 10 + Math.floor(Math.random() * 90);
     if (H.mode === 3) $('#hTarget').value = 100 + Math.floor(Math.random() * 900);
     void n;
