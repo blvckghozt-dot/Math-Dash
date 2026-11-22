@@ -424,6 +424,10 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
   .lbt td,.lbt th{padding:8px 6px}
   .dochead #lbShare{padding:8px 10px}
 }
+body.en .L-th,body:not(.en) .L-en{display:none!important}
+.lang{border:1px solid var(--line);background:#fff;border-radius:999px;padding:2px;display:inline-flex;gap:2px;margin-left:10px;flex:none}
+.lang button{border:0;background:transparent;border-radius:999px;padding:4px 9px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.lang button.on{background:var(--ink);color:#fff}
 #print-root{display:none}
 #render-root{position:fixed;left:-99999px;top:0}
 @media print{
@@ -475,6 +479,7 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
     <div class="brand">
       <div class="logo"><i style="background:var(--c1)">+</i><i style="background:var(--yel)">−</i><i style="background:var(--c2)">×</i><i style="background:var(--c3)">÷</i></div>
       <div><span class="wm">Math<span>Dash</span><svg class="dash" viewBox="0 0 22 14" aria-hidden="true"><path d="M2 3h10M6 7h14M2 11h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><small>ฝึกคิดเลขเร็ว · ตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน</small></div>
+      <div class="lang" id="langSw" role="group" aria-label="Language"><button data-l="th">ไทย</button><button data-l="en">EN</button></div>
     </div>
     <nav class="tabs" role="tablist">
       <button class="tab on" data-v="practice"><i>✏️</i><span>ฝึกโจทย์</span></button>
@@ -709,12 +714,12 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
 
   <!-- ============ TIPS ============ -->
   <section class="view" id="v-tips">
-    <div class="doc">
+    <div class="doc L-th">
       <div class="dochead card">
         <div class="hero-ic">⚡</div>
         <div><h2>วิธีฝึกคิดให้เร็ว</h2><p class="sub">รวมเทคนิคตั้งแต่พื้นฐานจนถึงขั้นแข่ง อ่านทีละหัวข้อ แล้วกลับไปลองในหน้าฝึกทำโจทย์ได้เลย</p></div>
       </div>
-      <nav class="toc card" id="toc"></nav>
+      <nav class="toc card"></nav>
 
       <article class="card sec" id="t-order">
         <span class="lv lv1">พื้นฐาน</span>
@@ -881,12 +886,12 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
         <h3>10. ตัวเลขที่ควรจำให้ขึ้นใจ</h3>
         <p>ยิ่งจำได้มาก ยิ่งมองเห็นทางลัดได้เร็ว พิมพ์ตารางนี้แปะข้างโต๊ะได้เลย</p>
         <div class="memo">
-          <div><h4>กำลังสอง</h4><div class="mg" id="mSq"></div></div>
-          <div><h4>กำลังสาม</h4><div class="mg" id="mCu"></div></div>
-          <div><h4>กำลังของ 2 และ 3</h4><div class="mg" id="mP2"></div></div>
-          <div><h4>แฟกทอเรียล</h4><div class="mg" id="mFa"></div></div>
-          <div><h4>ซิกม่า (ผลบวก 1 ถึง n)</h4><div class="mg" id="mSg"></div></div>
-          <div><h4>ตัวประกอบที่ใช้บ่อย</h4><div class="mg" id="mFc"></div></div>
+          <div><h4>กำลังสอง</h4><div class="mg" data-memo="sq"></div></div>
+          <div><h4>กำลังสาม</h4><div class="mg" data-memo="cu"></div></div>
+          <div><h4>กำลังของ 2 และ 3</h4><div class="mg" data-memo="p2"></div></div>
+          <div><h4>แฟกทอเรียล</h4><div class="mg" data-memo="fa"></div></div>
+          <div><h4>ซิกม่า (ผลบวก 1 ถึง n)</h4><div class="mg" data-memo="sg"></div></div>
+          <div><h4>ตัวประกอบที่ใช้บ่อย</h4><div class="mg" data-memo="fc"></div></div>
         </div>
       </article>
 
@@ -918,11 +923,220 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
         </ul>
       </article>
     </div>
+    <div class="doc L-en">
+      <div class="dochead card">
+        <div class="hero-ic">⚡</div>
+        <div><h2>How to think faster</h2><p class="sub">Techniques from the basics to competition level. Read one topic at a time, then go back to Practice and try it.</p></div>
+      </div>
+      <nav class="toc card"></nav>
+
+      <article class="card sec" id="e-t-order">
+        <span class="lv lv1">Basics</span>
+        <h3>1. Order of operations and brackets</h3>
+        <p>Before any trick, know what gets calculated first. If the order is wrong, the whole answer is wrong.</p>
+        <ol class="steps">
+          <li><b>Brackets</b> — innermost first, then work outwards</li>
+          <li><b>Powers, roots, factorials, sigma</b> — right after brackets</li>
+          <li><b>Multiply and divide</b> — left to right</li>
+          <li><b>Add and subtract</b> — left to right</li>
+        </ol>
+        <div class="cmp">
+          <div><span class="tagx bad">No brackets</span><div class="big">2 + 3 × 4 = <b>14</b></div><small>Multiply first: 3 × 4 = 12, then + 2</small></div>
+          <div><span class="tagx good">With brackets</span><div class="big">(2 + 3) × 4 = <b>20</b></div><small>Brackets first: 5 × 4</small></div>
+        </div>
+        <div class="note"><b>Common trap:</b> chains of subtraction and division. <span class="nw">8 − 3 − 2 = 3</span> but <span class="nw">8 − (3 − 2) = 7</span>, and <span class="nw">24 ÷ 4 ÷ 2 = 3</span> but <span class="nw">24 ÷ (4 ÷ 2) = 12</span></div>
+        <div class="tipbox">💡 <b>Good competition habit:</b> put brackets around every step you calculate first, e.g. <span class="nw">((7 × 9) − 7) − 3</span>. Judges read it easily and you won't slip — just like the solutions in this app.</div>
+      </article>
+
+      <article class="card sec" id="e-t-back">
+        <span class="lv lv1">Basics</span>
+        <h3>2. Work backwards from the target (the heart of fast math)</h3>
+        <p>Don't start by mixing digits at random. Look at the target first and ask: <b>"target = something × something ± a little"</b></p>
+        <div class="flow">
+          <div><b>1</b>Look at the target and find the nearest times-table fact</div>
+          <div><b>2</b>Find two digits that make that product</div>
+          <div><b>3</b>Use the remaining digits to "adjust" to the exact value</div>
+        </div>
+        <div class="ex">
+          <div class="exq">9 3 7 7 → <b>53</b></div>
+          <p>53 is near 7 × 8 = 56 (3 short) or 7 × 9 = 63 (10 over). We have 7 and 9 → 63 is 10 too many, and the remaining 7 and 3 subtract exactly 10.</p>
+          <div class="exa">((7 × 9) − 7) − 3 = 53 ✓</div>
+        </div>
+        <div class="ex">
+          <div class="exq">8 4 3 7 → <b>83</b></div>
+          <p>83 is near 7 × 8 = 56 but still 27 short… Try 80 = 8 × 10 = 8 × (7 + 3), leaving 4 → 84, just 1 away.</p>
+          <div class="exa">((7 + 3) × 8) + 4 = 84 <small>(closest using only + − × ÷)</small></div>
+        </div>
+        <div class="tipbox">💡 If the target is a <b>prime number</b> (e.g. 53, 83, 97), think of it as <b>a number with factors ± 1, 2, 3</b>, e.g. 53 = 54 − 1 = 6 × 9 − 1</div>
+      </article>
+
+      <article class="card sec" id="e-t-trash">
+        <span class="lv lv1">Basics</span>
+        <h3>3. Getting rid of leftover digits</h3>
+        <p>The rules force you to use every digit, but sometimes you already have the answer with one digit left over. "Hide" it like this:</p>
+        <table class="tb">
+          <tr><th>Leftover</th><th>How to hide it</th><th>Example</th></tr>
+          <tr><td>0</td><td>Add/subtract 0, or multiply an unwanted part by 0</td><td>24 + 0, (…) + (5 × 0)</td></tr>
+          <tr><td>1</td><td>Multiply or divide by 1</td><td>24 × 1, 24 ÷ 1</td></tr>
+          <tr><td>A pair of equal digits</td><td>Subtract to get 0 or divide to get 1</td><td>7 − 7 = 0, 7 ÷ 7 = 1</td></tr>
+          <tr><td>Any digits</td><td>Multiply the whole group by 0</td><td>(4 × 6) + (8 × 0 × 3)</td></tr>
+          <tr><td>Any digit <span class="op-pill">powers</span></td><td>Raise to the power 0 to get 1, or raise 1 to any power</td><td>9⁰ = 1, 1⁷ = 1</td></tr>
+          <tr><td>0 <span class="op-pill">factorial</span></td><td>0! = 1 turns 0 into 1</td><td>(0! + 2) × 8 = 24</td></tr>
+        </table>
+      </article>
+
+      <article class="card sec" id="e-t-build">
+        <span class="lv lv2">Intermediate</span>
+        <h3>4. Building key numbers from two digits</h3>
+        <p>Memorize common "building blocks" — in a race you can snap them together quickly.</p>
+        <div class="chipsx">
+          <span><b>1</b> = a ÷ a, (a+1) − a</span>
+          <span><b>0</b> = a − a</span>
+          <span><b>2</b> = 1 + 1, 4 ÷ 2, √4</span>
+          <span><b>10</b> = 2 × 5, 1 + 9, 3 + 7, 4 + 6</span>
+          <span><b>12</b> = 3 × 4, 2 × 6, 3! × 2</span>
+          <span><b>100</b> = 10 × 10, (2 + 8)², 5! − 20</span>
+        </div>
+        <p style="margin-top:12px">For <b>3-digit targets</b> (5-digit mode), look for a "big multiplier" first, e.g. 9 × 8 = 72 or 8 × 7 = 56, then multiply once more — or start from 5! = 120, 6! = 720, or a sigma such as Σ (i × i) from 1 to 9 = 285.</p>
+        <div class="ex">
+          <div class="exq">3 9 7 1 5 → <b>854</b></div>
+          <p>854 ÷ 7 = 122 exactly! Make 122 from 3 9 1 5 → 5! = 120, and 2 = (9 ÷ 3) − 1</p>
+          <div class="exa">((5! − 1) + (9 ÷ 3)) × 7 = 854 ✓</div>
+        </div>
+      </article>
+
+      <article class="card sec" id="e-t-24">
+        <span class="lv lv2">Intermediate</span>
+        <h3>5. Tips for the 24 game</h3>
+        <p>24 has many factors, so there are many ways in. Remember these "entrances":</p>
+        <div class="grid24">
+          <span>3 × 8</span><span>4 × 6</span><span>2 × 12</span><span>1 × 24</span>
+          <span>12 + 12</span><span>20 + 4</span><span>18 + 6</span><span>16 + 8</span>
+          <span>30 − 6</span><span>25 − 1</span><span>27 − 3</span><span>32 − 8</span>
+          <span>48 ÷ 2</span><span>72 ÷ 3</span><span>96 ÷ 4</span><span>120 ÷ 5</span>
+        </div>
+        <p style="margin-top:12px"><b>Hard ones need fractions!</b> When normal pairing fails, build a fraction and then multiply or divide.</p>
+        <table class="tb">
+          <tr><th>Problem</th><th>Solution</th></tr>
+          <tr><td>3 3 8 8</td><td>8 ÷ (3 − (8 ÷ 3)) = 8 ÷ ⅓ = 24</td></tr>
+          <tr><td>1 5 5 5</td><td>(5 − (1 ÷ 5)) × 5 = 4.8 × 5 = 24</td></tr>
+          <tr><td>3 3 7 7</td><td>(3 + (3 ÷ 7)) × 7 = 24</td></tr>
+          <tr><td>4 4 7 7</td><td>(4 − (4 ÷ 7)) × 7 = 24</td></tr>
+          <tr><td>1 3 4 6</td><td>6 ÷ (1 − (3 ÷ 4)) = 6 ÷ ¼ = 24</td></tr>
+        </table>
+        <div class="tipbox">💡 The patterns <b>(a ± b/c) × c</b> and <b>a ÷ (b − c/d)</b> are the "secret moves" for problems that look impossible.</div>
+      </article>
+
+      <article class="card sec" id="e-t-pow">
+        <span class="lv lv3">Advanced</span>
+        <h3>6. Powers and stacked powers</h3>
+        <p>Powers make numbers grow fast — great for 3-digit targets — but read them carefully.</p>
+        <div class="cmp">
+          <div><span class="tagx">Stacked: top down</span><div class="big mx">2<sup>3<sup>2</sup></sup> = 2<sup>9</sup> = <b>512</b></div><small>Work out the top exponent first (3² = 9)</small></div>
+          <div><span class="tagx">Brackets on the base</span><div class="big mx">(2<sup>3</sup>)<sup>2</sup> = 8<sup>2</sup> = <b>64</b></div><small>Brackets first, then raise the result</small></div>
+        </div>
+        <ul class="ul">
+          <li>a<sup>1</sup> = a hides a 1, and a<sup>0</sup> = 1 hides any digit</li>
+          <li>You can raise a bracketed result, e.g. <span class="nw mx">(1 + 2)<sup>4</sup> = 81</span>, <span class="nw mx">(9 − 4)<sup>3</sup> = 125</span></li>
+          <li>The exponent can be an expression, e.g. <span class="nw mx">2<sup>(3 + 4)</sup> = 128</span></li>
+          <li>In the app type <kbd>^</kbd>, e.g. <code>2^(3^2)</code></li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="e-t-fact">
+        <span class="lv lv3">Advanced</span>
+        <h3>7. Factorials and stacked factorials</h3>
+        <p><b>n!</b> is the product 1 × 2 × 3 × … × n, e.g. 4! = 1 × 2 × 3 × 4 = 24 (in the 24 game, if you have a 4 and can hide the rest, you're done!)</p>
+        <ul class="ul">
+          <li><b>0! = 1</b> (by definition) → turns 0 into 1</li>
+          <li><b>3! = 6</b> → turns 3 into 6, very common, e.g. 3! × 4 = 24</li>
+          <li><b>Stacked factorial</b>: (3!)! = 6! = <b>720</b> — a shortcut to 3-digit numbers</li>
+          <li>Factorial of a bracket: <span class="nw">(2 + 3)! = 120</span>, <span class="nw">(9 − 3)! = 720</span></li>
+          <li>1! = 1 and 2! = 2 don't change anything, so they rarely help</li>
+        </ul>
+        <div class="ex">
+          <div class="exq">1 5 1 4 2 → <b>717</b></div>
+          <p>717 is near 720 = 6! = (2 + 4)!, then adjust with 1, 5, 1 → 720 + 1 − 5 + 1 = 717</p>
+          <div class="exa">(((2 + 4)! + 1) − 5) + 1 = 717 ✓</div>
+        </div>
+      </article>
+
+      <article class="card sec" id="e-t-sqrt">
+        <span class="lv lv3">Advanced</span>
+        <h3>8. Roots</h3>
+        <ul class="ul">
+          <li>√4 = 2, √9 = 3 make numbers smaller</li>
+          <li>Take the root of a perfect square: √(7 + 9) = √16 = 4, √(8 × 2) = 4, √(5 × 5) = 5</li>
+          <li>Stacked roots: √√(9 × 9) = √9 = 3</li>
+          <li>Combine with factorial: (√9)! = 3! = 6</li>
+          <li><b>n-th roots</b>: use a digit as the root index, e.g. <span class="nw mx"><sup class="ri">3</sup>√8 = 2</span> (uses 3 and 8), <span class="nw mx"><sup class="ri">4</sup>√(9 × 9) = 3</span>; the index may be an expression: <span class="nw mx"><sup class="ri">1+2</sup>√8 = 2</span></li>
+          <li>Write the root index clearly — with no index it means a square root</li>
+          <li>In the app type <kbd>r</kbd>, e.g. <code>r(7+9)</code> = √(7+9), and an n-th root as <code>r(3,8)</code> = ∛8</li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="e-t-sigma">
+        <span class="lv lv3">Advanced</span>
+        <h3>9. Sigma</h3>
+        <p>Sigma must be written correctly: <b>both limits must be digits from the problem</b> (the upper limit may be a nested sigma), at most <b>two i's</b> may follow Σ, and the sum must be a positive whole number (see the full rules on the "Rules" page).</p>
+        <ul class="ul">
+          <li><b>Σ i from 1 to n</b> = n × (n + 1) ÷ 2, e.g. 1 to 4 = 10, 1 to 9 = 45 → a 1 and a 4 make 10 instantly</li>
+          <li><b>Σ (i + i)</b> = twice Σ i, e.g. 1 to 5 = 30</li>
+          <li><b>Σ (i × i)</b> = sum of squares, e.g. 1 to 5 = 1 + 4 + 9 + 16 + 25 = 55</li>
+          <li><b>Σ i<sup>i</sup></b> grows very fast: 1 to 3 = 1 + 4 + 27 = 32, 1 to 4 = 288</li>
+          <li><b>Σ i!/i</b> = Σ (i − 1)!: 1 to 4 = 1 + 1 + 2 + 6 = 10, 1 to 5 = 34</li>
+          <li><b>Nested sigma as the upper limit</b>: Σ i from 1 to (Σ i from 1 to 5) = Σ 1 to 15 = 120, using 1, 1, 5</li>
+          <li>Limits written as expressions such as (9 + 4) are <b>not allowed</b>, and the lower limit must be smaller than the upper</li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="e-t-nums">
+        <span class="lv lv2">Memorize</span>
+        <h3>10. Numbers worth knowing by heart</h3>
+        <p>The more you remember, the faster you spot shortcuts. Print this and keep it on your desk.</p>
+        <div class="memo">
+          <div><h4>Squares</h4><div class="mg" data-memo="sq"></div></div>
+          <div><h4>Cubes</h4><div class="mg" data-memo="cu"></div></div>
+          <div><h4>Powers of 2 and 3</h4><div class="mg" data-memo="p2"></div></div>
+          <div><h4>Factorials</h4><div class="mg" data-memo="fa"></div></div>
+          <div><h4>Sigma (sum 1 to n)</h4><div class="mg" data-memo="sg"></div></div>
+          <div><h4>Useful factors</h4><div class="mg" data-memo="fc"></div></div>
+        </div>
+      </article>
+
+      <article class="card sec" id="e-t-near">
+        <span class="lv lv2">Strategy</span>
+        <h3>11. If you can't hit it exactly, get as close as possible</h3>
+        <ul class="ul">
+          <li>Always write a close answer first, then look for a better one if time allows. <b>Never leave it blank</b></li>
+          <li>Off by 1 always beats off by 5 — try swapping the small "adjusting" digits at the end</li>
+          <li>Double-check that you <b>used every digit exactly once</b> and <b>did not join digits together</b></li>
+          <li>Fractions along the way are fine, as long as the final answer is right</li>
+        </ul>
+      </article>
+
+      <article class="card sec" id="e-t-plan">
+        <span class="lv lv1">Training plan</span>
+        <h3>12. Getting faster step by step</h3>
+        <div class="plan">
+          <div><b>Week 1</b><span>Game 24 without a timer, 10 a day, focus on brackets</span></div>
+          <div><b>Week 2</b><span>Game 24 with a 60 s timer + 4 digits → 2-digit mode</span></div>
+          <div><b>Week 3</b><span>Cut to 40 s, start using factorials/powers</span></div>
+          <div><b>Week 4+</b><span>5 digits → 3-digit at 30–40 s, timed PDF worksheets like a real contest</span></div>
+        </div>
+        <ul class="ul" style="margin-top:12px">
+          <li>After each session, <b>check every solution</b> — even the ones you solved — there may be a shorter way</li>
+          <li>Keep a notebook of "patterns you see often", e.g. 53 = 6 × 9 − 1</li>
+          <li>Practise in pairs or teams and race each other — it's fun and really makes you faster</li>
+          <li>A little every day beats a long session once a week</li>
+        </ul>
+      </article>
+    </div>
   </section>
 
   <!-- ============ RULES & HOW-TO ============ -->
   <section class="view" id="v-rules">
-    <div class="doc">
+    <div class="doc L-th">
       <article class="card sec">
         <h2>กติกาการคิดเลขเร็ว</h2>
         <p class="sub">สรุปตามแนวการแข่งขันคิดเลขเร็วที่ใช้กันทั่วไป รายละเอียด (จำนวนข้อ เวลา เครื่องหมายที่ใช้ได้) อาจต่างกันในแต่ละสนาม โปรดตรวจสอบประกาศของสนามแข่งขันอีกครั้ง</p>
@@ -983,7 +1197,7 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
         <div class="tipbox">⚡ <b>สูตรลัด:</b> Σ i ตั้งแต่ a ถึง b = (a + b) × (b − a + 1) ÷ 2 เช่น 3 ถึง 6 = 9 × 4 ÷ 2 = 18 · 1 ถึง 9 = 45</div>
 
         <h4 class="h4">4) ตารางผลบวกตั้งแต่ 1 ถึง n ที่ควรจำ</h4>
-        <div class="mg wide" id="mSg2"></div>
+        <div class="mg wide" data-memo="sg2"></div>
         <p class="sub" style="margin-top:8px">ต้องเปิดปุ่ม "ซิกม่า Σ" ก่อนจึงจะใช้ได้ · พิมพ์ <kbd>s</kbd> แล้วตามด้วย <b>(ขอบล่าง,ขอบบน)</b> หรือ <b>(ขอบล่าง,ขอบบน,รูปแบบ)</b> · ในเฉลยแอปจะแสดงขอบบนเหนือ Σ และ i = ขอบล่าง ใต้ Σ</p>
       </article>
 
@@ -1039,6 +1253,136 @@ footer a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--mu
         <ol class="steps">
           <li>เลือกจำนวนช่องต่อหน้าและจำนวนหน้า ใส่หัวกระดาษ/ชื่อโรงเรียน หรือเลขข้ออัตโนมัติได้</li>
           <li>กด <b>พิมพ์</b> หรือดาวน์โหลดเป็น <b>PDF</b> / <b>PNG</b> ความละเอียด 300 dpi</li>
+        </ol>
+        <h4 class="h4">ตารางอันดับ</h4>
+        <ol class="steps">
+          <li>ใส่ชื่อที่จะแสดงก่อนเริ่มฝึก (หรือเล่นแบบไม่บันทึกคะแนน)</li>
+          <li>ทุกข้อที่ทำจบในหน้าฝึกโจทย์จะถูกนับแยกตามโหมด: ทำแล้ว ทำได้ และเวลาเฉลี่ย</li>
+        </ol>
+      </article>
+    </div>
+    <div class="doc L-en">
+      <article class="card sec">
+        <h2>Fast math rules</h2>
+        <p class="sub">A summary of common fast-math competition rules (as used in Thailand's student arts and crafts competitions). Details such as number of questions, time and allowed operations can vary — always check the official announcement.</p>
+        <ul class="ul">
+          <li>Use <b>every drawn digit exactly once</b>, in any order</li>
+          <li><b>Do not join digits</b> into multi-digit numbers — with 1 and 2 you may not write 12</li>
+          <li>+ − × ÷ and brackets are always allowed. Some contests also allow <b>powers, roots (√), factorials (!) and sigma (Σ)</b> — switch them on or off in the app</li>
+          <li>If the exact target is impossible, get <b>as close as possible</b></li>
+          <li>Contests usually allow about 30–40 seconds per question</li>
+        </ul>
+        <div class="ex3">
+          <div><b style="color:var(--c1)">Game 24</b><br>4 &nbsp;6 &nbsp;6 &nbsp;3 = 24<br><span style="color:var(--muted)">((3 × 4) + 6) + 6</span></div>
+          <div><b style="color:var(--c2)">4 digits → 2-digit</b><br>9 &nbsp;3 &nbsp;7 &nbsp;7 = 53<br><span style="color:var(--muted)">((7 × 9) − 7) − 3</span></div>
+          <div><b style="color:var(--c3)">5 digits → 3-digit</b><br>3 &nbsp;9 &nbsp;7 &nbsp;1 &nbsp;5 = 854<br><span style="color:var(--muted)">((5! − 1) + (9 ÷ 3)) × 7</span></div>
+        </div>
+      </article>
+
+      <article class="card sec" id="e-h-sigma">
+        <h2><span class="sg" style="font-size:1.2em">Σ</span> Sigma: how to read and use it</h2>
+        <p><b>Σ (sigma)</b> means <b>"sum"</b>: add up the values given by the variable i, one at a time, from the lower limit to the upper limit.</p>
+
+        <h4 class="h4">1) Reading the symbol</h4>
+        <div class="sigdemo">
+          <span class="bs"><span class="bsl"><small>b</small><b>Σ</b><small>i = a</small></span><span class="bsi">i</span></span>
+          <span class="eqs">=</span><span>a + (a + 1) + (a + 2) + … + b</span>
+        </div>
+        <table class="tb">
+          <tr><th>Part</th><th>Meaning</th></tr>
+          <tr><td><b>i = a</b> (below Σ)</td><td><b>Lower limit</b> — start counting at i = a</td></tr>
+          <tr><td><b>b</b> (above Σ)</td><td><b>Upper limit</b> — increase i by 1 up to b (b included)</td></tr>
+          <tr><td>Right of Σ</td><td>The form each value of i is put into; all results are added</td></tr>
+        </table>
+        <p>Example: <span class="mx"><span class="sgx"><span class="sgr"><small>7</small><span class="sg">Σ</span><small><i class="iv">i</i>=1</small></span><i class="iv">i</i></span></span> = 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28 (uses the digits 1 and 7)</p>
+
+        <div class="note"><b>Sigma rules</b><br>
+          • Write it correctly and <b>show numbers at both the lower and upper limits</b><br>
+          • <b>Numbers attached to Σ must be digits from the drawn problem only</b>. Expressions such as (9 + 4) are not allowed, but a nested sigma may be the upper limit<br>
+          • At most <b>two i's</b> may follow Σ<br>
+          • The sum must be a <b>positive whole number</b></div>
+
+        <h4 class="h4">2) Allowed forms after Σ</h4>
+        <table class="tb">
+          <tr><th>Form</th><th>Example (i = 1 to 5)</th><th>Type in the app</th></tr>
+          <tr><td class="mx"><i class="iv">i</i></td><td>1 + 2 + 3 + 4 + 5 = <b>15</b></td><td><code>s(1,5)</code></td></tr>
+          <tr><td class="mx">(<i class="iv">i</i> + <i class="iv">i</i>) = 2<i class="iv">i</i></td><td>2 × 15 = <b>30</b></td><td><code>s(1,5,i+i)</code></td></tr>
+          <tr><td class="mx">(<i class="iv">i</i> × <i class="iv">i</i>) = <i class="iv">i</i><sup>2</sup></td><td>1 + 4 + 9 + 16 + 25 = <b>55</b></td><td><code>s(1,5,i*i)</code></td></tr>
+          <tr><td class="mx"><i class="iv">i</i><sup><i class="iv">i</i></sup></td><td>1 to 3: 1 + 4 + 27 = <b>32</b></td><td><code>s(1,3,i^i)</code></td></tr>
+          <tr><td class="mx"><i class="iv">i</i><sup><i class="iv">i</i>!</sup></td><td>1 to 3: 1 + 4 + 729 = <b>734</b></td><td><code>s(1,3,i^i!)</code></td></tr>
+          <tr><td class="mx"><span class="fr"><span><i class="iv">i</i>!</span><span><i class="iv">i</i></span></span></td><td>1 + 1 + 2 + 6 + 24 = <b>34</b></td><td><code>s(1,5,i!/i)</code></td></tr>
+        </table>
+
+        <h4 class="h4">3) Nested sigma (as the upper limit)</h4>
+        <div class="ex">
+          <div class="exq mx"><span class="sgx"><span class="sgr"><small><span class="sgx"><span class="sgr"><small>5</small><span class="sg">Σ</span><small><i class="iv">i</i>=1</small></span><i class="iv">i</i></span></small><span class="sg">Σ</span><small><i class="iv">i</i>=1</small></span><i class="iv">i</i></span> <span style="font-weight:400;font-size:14px;color:var(--muted)">(uses 1, 1 and 5)</span></div>
+          <p>The upper limit is 1 + 2 + 3 + 4 + 5 = 15, so this is 1 + 2 + … + 15</p>
+          <div class="exa">= 120 · in the app type <code>s(1,s(1,5))</code></div>
+        </div>
+        <div class="tipbox">⚡ <b>Shortcut:</b> Σ i from a to b = (a + b) × (b − a + 1) ÷ 2, e.g. 3 to 6 = 9 × 4 ÷ 2 = 18 · 1 to 9 = 45</div>
+
+        <h4 class="h4">4) Sums from 1 to n worth memorizing</h4>
+        <div class="mg wide" data-memo="sg2"></div>
+        <p class="sub" style="margin-top:8px">Turn on "Sigma Σ" first · type <kbd>s</kbd> followed by <b>(lower,upper)</b> or <b>(lower,upper,form)</b> · solutions show the upper limit above Σ and i = lower below it</p>
+      </article>
+
+      <article class="card sec" id="e-h-write">
+        <h2>✍️ Writing your answer</h2>
+        <ol class="steps">
+          <li>Use <b>every drawn digit, each exactly once</b></li>
+          <li>Write operators clearly
+            <ul class="ul" style="margin:4px 0">
+              <li>Addition: +</li>
+              <li>Multiplication: 2 × 3, (2)(3), 2*3 or 2•3</li>
+              <li>Division: 8 ÷ 2, 8/2 or a fraction</li>
+            </ul></li>
+          <li>Any brackets ( ) { } [ ] may be used, as long as they are clear</li>
+          <li>Make powers clear: <span class="nw mx">(2<sup>3</sup>)<sup>4</sup> = 8<sup>4</sup></span> is different from <span class="nw mx">2<sup>(3<sup>4</sup>)</sup> = 2<sup>81</sup></span> · without brackets, read top down: <span class="nw mx">2<sup>3<sup>4</sup></sup> = 2<sup>81</sup></span></li>
+          <li>Write root indexes clearly, e.g. <span class="nw mx"><sup class="ri">3</sup>√8 = 2</span>, <span class="nw mx"><sup class="ri">1+2</sup>√8 = 2</span>, <span class="nw mx"><sup class="ri">4</sup>√(9×9) = 3</span></li>
+          <li>Sigma must show numbers above and below, e.g. <span class="nw mx"><span class="sgx"><span class="sgr"><small>7</small><span class="sg">Σ</span><small><i class="iv">i</i>=1</small></span><i class="iv">i</i></span> = 28</span></li>
+          <li>Show your working as an <b>equation</b> that links the method to the answer</li>
+        </ol>
+        <p class="sub">The answer box in the app accepts all of these, e.g. <code>(2)(3)</code>, <code>2·3</code>, <code>8/2</code>, <code>{8÷[4−2]}</code></p>
+      </article>
+
+      <article class="card sec">
+        <h2>How to use the app</h2>
+        <h4 class="h4">Practice</h4>
+        <ol class="steps">
+          <li>Choose a mode (Game 24 / 4 digits → 2-digit / 5 digits → 3-digit), set the timer and the operations your contest allows</li>
+          <li>Press <b>Start</b>, then tap the digits and operator keys, or type on your keyboard</li>
+          <li>The value updates live under the answer box. Press <b>Check</b> (or Enter)</li>
+          <li>Press <b>Solution</b> any time, then <b>Next</b></li>
+        </ol>
+        <table class="tb">
+          <tr><th>Key</th><th>Gives</th><th>Key</th><th>Gives</th></tr>
+          <tr><td><kbd>*</kbd> or <kbd>x</kbd></td><td>×</td><td><kbd>/</kbd></td><td>÷</td></tr>
+          <tr><td><kbd>^</kbd></td><td>power</td><td><kbd>r</kbd></td><td>√ root</td></tr>
+          <tr><td><kbd>!</kbd></td><td>factorial</td><td><kbd>s</kbd></td><td>Σ sigma</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Check / Next</td><td><kbd>,</kbd></td><td>separator inside Σ( ) and √( )</td></tr>
+          <tr><td><code>r(3,8)</code></td><td>cube root of 8</td><td><code>s(1,5,i*i)</code></td><td>Σ (i × i) from 1 to 5</td></tr>
+        </table>
+        <h4 class="h4">Worksheets</h4>
+        <ol class="steps">
+          <li>Enter a title, the number of questions per mode, the answer range and the operations used in the key</li>
+          <li>Press <b>Create worksheet</b> and check the preview (press again for a new set)</li>
+          <li>Press <b>Print / Save as PDF</b> (choose "Save as PDF" as the printer) or <b>Download PDF</b></li>
+        </ol>
+        <h4 class="h4">Helper</h4>
+        <ol class="steps">
+          <li>Choose a mode, enter the digits one box at a time (or paste them all) and the target</li>
+          <li>Choose the allowed operations and press <b>Analyze</b></li>
+          <li>Open the hints one by one: is it exact? → last step → first step → full solution with step-by-step working and other ways</li>
+        </ol>
+        <h4 class="h4">Answer sheets</h4>
+        <ol class="steps">
+          <li>Choose boxes per page and number of pages; add a heading, school name or automatic item numbers</li>
+          <li>Press <b>Print</b>, or download a 300 dpi <b>PDF</b> / <b>PNG</b></li>
+        </ol>
+        <h4 class="h4">Leaderboard</h4>
+        <ol class="steps">
+          <li>Enter a display name before you start (or play without saving scores)</li>
+          <li>Every question you finish in Practice is counted per mode: played, solved and average time</li>
         </ol>
       </article>
     </div>
@@ -1257,7 +1601,7 @@ const Solver = (() => {
       stepsOf(x.a, out); stepsOf(x.b, out);
       const A = vo(x.a), B = vo(x.b), V = vs(x);
       if (x.o === '^') out.push(A + '<sup>' + B + '</sup> = ' + V);
-      else if (x.o === 'Σab') { const f = SIGF.find(q => q.k === x.f); out.push('Σ ' + f.lb + ' ตั้งแต่ i = ' + A + ' ถึง ' + B + ' = ' + V); }
+      else if (x.o === 'Σab') { const f = SIGF.find(q => q.k === x.f); out.push(sigHtml(f, A, B) + ' = ' + V); }
       else if (x.o === 'root') out.push('<sup>' + A + '</sup>√' + B + ' = ' + V);
       else out.push(A + ' ' + x.o + ' ' + B + ' = ' + V);
     } else if (x.u) {
@@ -1338,11 +1682,94 @@ onmessage = e => {
 <script>
 (() => {
 'use strict';
+/* ============ LANGUAGE (ไทย / English) ============ */
+let LANG = (() => { try { const v = JSON.parse(localStorage.getItem('fm_lang')); if (v === 'th' || v === 'en') return v; } catch (e) {} return 'th'; })();
+const tt = (th, en) => LANG === 'en' ? en : th;
+// ข้อความคงที่ในหน้าเว็บ (ไทย → อังกฤษ)
+const I18N = {
+  'ฝึกคิดเลขเร็ว · ตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน': 'Fast math training · competition style',
+  'ฝึกโจทย์': 'Practice', 'อันดับ': 'Ranks', 'ช่วยคิด': 'Helper', 'แบบฝึกหัด': 'Worksheets', 'กระดาษแข่ง': 'Paper',
+  'เทคนิค': 'Tips', 'กติกา': 'Rules', 'สนับสนุน': 'Support',
+  'เกม 24': 'Game 24', 'สุ่มเลขโดด 4 ตัว ทำให้ได้ 24': '4 random digits, make 24',
+  '4 ตัว → 2 หลัก': '4 digits → 2-digit', 'สุ่มเลขโดด 4 ตัว ทำให้ใกล้คำตอบ 2 หลักที่สุด': '4 random digits, get closest to a 2-digit target',
+  '5 ตัว → 3 หลัก': '5 digits → 3-digit', 'สุ่มเลขโดด 5 ตัว ทำให้ใกล้คำตอบ 3 หลักที่สุด': '5 random digits, get closest to a 3-digit target',
+  'เวลาต่อข้อ': 'Time per question', 'ไม่จับเวลา': 'No timer', '30 วิ': '30 s', '40 วิ': '40 s', '60 วิ': '60 s',
+  'กำหนดเอง (วินาที)': 'Custom (seconds)', 'วินาที': 'seconds', 'เครื่องหมาย': 'Operations', 'ใช้ได้เสมอ': 'Always allowed',
+  'ยกกำลัง x': 'Power x', 'ถอดราก √': 'Root √', 'แฟกทอเรียล !': 'Factorial !', 'ซิกม่า Σ': 'Sigma Σ',
+  'สุ่มเฉพาะโจทย์ที่ทำได้พอดี': 'Only problems with an exact answer', 'เฉลยอัตโนมัติเมื่อหมดเวลา': 'Show solution when time is up', 'เสียง': 'Sound',
+  'เลือกโหมดและตั้งเวลา แล้วกด': 'Choose a mode and timer, then press', 'เริ่มฝึก': 'Start',
+  'พิมพ์วิธีคิด เช่น (8 − 2) × (3 + 1)': 'Type your working, e.g. (8 − 2) × (3 + 1)',
+  'คั่นขอบเขต Σ(ล่าง,บน) / √(อันดับ,จำนวน)': 'Separator for Σ(lower,upper) / √(index,number)', 'ตัวแปร i หลัง Σ': 'Variable i after Σ',
+  'ลบ': 'Backspace', 'ล้าง': 'Clear', '▶ เริ่มฝึก': '▶ Start', '✓ ตรวจคำตอบ': '✓ Check', '💡 ดูเฉลย': '💡 Solution',
+  'ทำแล้ว': 'Played', 'ดีที่สุดแล้ว': 'Best possible', 'ติดต่อกัน': 'Streak', 'ประวัติการฝึก': 'History', 'ล้างสถิติ': 'Reset stats',
+  'ยังไม่มีข้อที่ทำ': 'No questions yet', 'วิธีใช้': 'How to use',
+  'แตะเลขโดดหรือพิมพ์จากคีย์บอร์ด ใช้': 'Tap the digits or type on your keyboard. Use', 'แทน ×': 'for ×', 'แทน ÷': 'for ÷',
+  'ยกกำลัง': 'Power', 'ถอดราก': 'Root', 'แฟกทอเรียล': 'Factorial', 'ซิกม่า เช่น': 'sigma, e.g.', '· รากที่ n': '· n-th root', 'กด': 'Press',
+  'เพื่อตรวจคำตอบ และกดอีกครั้งเพื่อไปข้อต่อไป': 'to check, and again for the next question',
+  'สร้างแบบฝึกหัด PDF': 'Create a PDF worksheet', 'กำหนดจำนวนข้อแต่ละโหมด แล้วกดสร้าง ระบบจะสุ่มโจทย์พร้อมเฉลยท้ายชุดให้': 'Set the number of questions per mode and press Create. Problems are generated with an answer key at the end.',
+  'ชื่อแบบฝึกหัด': 'Worksheet title', 'ชื่อโรงเรียน / คำอธิบาย (ถ้ามี)': 'School / description (optional)', 'เช่น ชั้น ป.6 โรงเรียน...': 'e.g. Grade 6, ... School',
+  'ชุดที่': 'Set', 'จำนวนข้อแต่ละโหมด': 'Questions per mode', 'เลขโดด 4 ตัว → 24': '4 digits → 24', 'เลขโดด 4 ตัว ใกล้ที่สุด': '4 digits, closest',
+  'ช่วงคำตอบ': 'Answer range', 'ทั้งหมด': 'All', 'เลขโดด 5 ตัว ใกล้ที่สุด': '5 digits, closest', 'มือใหม่ 100–300': 'Beginner 100–300',
+  'เครื่องหมายที่ใช้ในเฉลย': 'Operations used in the answer key', 'ซิกม่า': 'Sigma', 'เวลาต่อข้อ (พิมพ์บนหัวกระดาษ)': 'Time per question (printed in the header)',
+  'สลับข้อคละโหมด': 'Shuffle modes together', 'ช่องชื่อ–ชั้น–เลขที่': 'Name / class / number line', 'แนบเฉลยท้ายชุด': 'Attach answer key',
+  '✨ สร้างแบบฝึกหัด': '✨ Create worksheet', 'ตัวอย่างก่อนพิมพ์': 'Print preview', '🖨️ พิมพ์ / บันทึกเป็น PDF': '🖨️ Print / Save as PDF', '⬇ ดาวน์โหลด PDF': '⬇ Download PDF',
+  'ตั้งค่าทางซ้าย แล้วกด': 'Set things up on the left, then press', 'สร้างแบบฝึกหัด': 'Create worksheet',
+  'หน้ากระดาษ A4 · หน้าละ 10 ข้อ · มีช่องวิธีการและช่องทดเลข เหมือนแบบฝึกที่ใช้ซ้อมแข่ง': 'A4 pages · 10 questions per page · working and scratch columns, like real contest practice sheets',
+  'เครื่องมือช่วยคิด': 'Thinking helper', 'กรอกเลขโดดและคำตอบจากโจทย์ แล้วเปิดคำใบ้ทีละขั้น หรือดูเฉลยเต็มพร้อมวิธีคิด': 'Enter the digits and target of any problem, then open hints step by step or see the full solution',
+  '4 ตัว → 24': '4 → 24', '4 ตัว': '4 digits', 'คำตอบ 2 หลัก': '2-digit target', '5 ตัว': '5 digits', 'คำตอบ 3 หลัก': '3-digit target',
+  'เลขโดดจากโจทย์': 'Digits from the problem', 'คำตอบ': 'Target', 'เครื่องหมายที่ใช้ได้': 'Allowed operations',
+  '🎲 สุ่มโจทย์': '🎲 Random', '🔍 วิเคราะห์โจทย์': '🔍 Analyze', 'กรอกโจทย์ แล้วกด': 'Enter a problem, then press', 'วิเคราะห์โจทย์': 'Analyze',
+  'ระบบจะให้คำใบ้ทีละขั้น ตั้งแต่ "ทำได้พอดีไหม" จนถึงเฉลยเต็มและวิธีอื่น ๆ': 'You will get hints step by step, from "is it exact?" to the full solution and other ways',
+  'กระดาษคำตอบแข่งขัน': 'Competition answer sheet', 'กระดาษ A4 แบบที่ใช้ในการแข่งขัน มีช่องชื่อ–โรงเรียน–เลขที่–ข้อ, ช่องวิธีการและคำตอบ และพื้นที่ทดเลข': 'A4 contest answer sheet with name / school / number / item fields, a working-and-answer box and a scratch area',
+  'จำนวนช่องต่อหน้า': 'Boxes per page', 'จำนวนหน้า': 'Pages', 'หัวกระดาษ (ถ้ามี)': 'Heading (optional)', 'เช่น การแข่งขันคิดเลขเร็ว ระดับชั้น ป.4–6': 'e.g. Fast Math Contest, Grades 4–6',
+  'เติมชื่อโรงเรียนให้ทุกช่อง (ถ้ามี)': 'Pre-fill the school name (optional)', 'เว้นว่างไว้ให้นักเรียนเขียนเอง': 'Leave blank for students to write',
+  'ใส่เลขข้อให้อัตโนมัติ (ต่อเนื่องทุกหน้า)': 'Number the items automatically (across pages)', '🖨️ พิมพ์ / บันทึก PDF': '🖨️ Print / Save PDF', '🖼️ ดาวน์โหลด PNG': '🖼️ Download PNG',
+  'ตารางอันดับ': 'Leaderboard', 'อันดับผู้ฝึกจากทุกที่ อัปเดตทุกครั้งที่ทำโจทย์ในหน้าฝึกโจทย์': 'Players from everywhere, updated every time someone practises',
+  '🔗 แชร์': '🔗 Share', '✅ ทำได้มากสุด': '✅ Most solved', '⚡ เร็วที่สุด': '⚡ Fastest', '🔥 เล่นมากสุด': '🔥 Most played', 'โหลดใหม่': 'Reload',
+  'นับเป็น "ทำได้" เมื่อได้คำตอบพอดีหรือใกล้ที่สุดที่เป็นไปได้ ก่อนกดดูเฉลย · เวลาเฉลี่ยคิดจากข้อที่ทำได้ · อันดับความเร็วต้องทำได้อย่างน้อย 10 ข้อ': 'A question counts as "solved" when you reach the exact or closest possible answer before viewing the solution · average time uses solved questions · the speed ranking needs at least 10 solved',
+  'คิดเลขเร็ว · พัฒนาโดย': 'Fast Math · developed by', 'ครูอภิวัฒน์ ปาวงค์': 'Kru Apiwat Pawong', '· ใช้ได้ฟรีเพื่อการศึกษา': '· free for education', '☕ เลี้ยงกาแฟผู้พัฒนา': '☕ Buy the developer a coffee',
+  'ก่อนเริ่ม บอกชื่อหน่อย': 'Before you start, what’s your name?', 'ชื่อนี้จะแสดงใน': 'This name will appear on the', 'ตารางอันดับสาธารณะ': 'public leaderboard',
+  'พร้อมจำนวนข้อที่ทำและเวลาเฉลี่ย': 'with questions played and average time', 'ชื่อที่จะแสดง': 'Display name', 'เช่น น้องเก่ง ป.6': 'e.g. MathStar G6',
+  'โรงเรียน (ไม่ใส่ก็ได้)': 'School (optional)', 'เช่น ร.ร.บ้านหนองเอี่ยนดง': 'e.g. your school', '💡 ไม่ควรใช้ชื่อ–นามสกุลจริงเต็ม ๆ ใช้ชื่อเล่นหรือนามแฝงได้': '💡 Avoid your full real name — a nickname is fine',
+  'เริ่มเล่นและเก็บคะแนน': 'Play and save my scores', 'เล่นแบบไม่บันทึกคะแนน': 'Play without saving scores',
+  // support
+  'เลี้ยงกาแฟครูสักแก้วไหมครับ': 'Buy the teacher a coffee?', 'สวัสดีครับ ผม': 'Hi, I’m',
+  'ครูคณิตที่ขี้เกียจจนต้องหาวิธีให้ AI มาช่วยให้ตัวเองสบายที่สุด 😄': ', a math teacher so lazy that I had AI help make my life as easy as possible 😄',
+  'MathDash ทำขึ้นเพราะอยากให้นักเรียนมีที่ซ้อมคิดเลขเร็วฟรี ๆ และอยากให้ครูทุกคนสร้างแบบฝึกได้ในไม่กี่วินาที แทนการนั่งคิดโจทย์ทีละข้อจนตาลาย': 'I made MathDash so students have a free place to practise fast math, and so every teacher can create worksheets in seconds instead of writing problems one by one until their eyes blur.',
+  'หวังว่าแอปนี้จะมีประโยชน์กับนักเรียนและคุณครูนะครับ': 'I hope this app is useful for students and teachers',
+  'ถ้าใช้แล้วถูกใจ อยากสนับสนุนค่ากาแฟให้ผมมีแรงดูแลและพัฒนาระบบต่อไปเรื่อย ๆ สแกนได้ตามความสมัครใจเลยครับ ไม่บังคับ ใช้ฟรีเหมือนเดิมตลอดไป ส่วนใครอยากช่วยแบบไม่เสียเงิน แค่แชร์ต่อให้เพื่อนครู ก็ดีใจมากแล้วครับ': 'If you like it and want to support a coffee so I can keep maintaining and improving it, feel free to scan — it’s completely optional and the app stays free forever. Sharing it with other teachers helps a lot too!',
+  'ติดต่อ แจ้งปัญหา หรือเสนอฟีเจอร์': 'Contact, report a problem or suggest a feature', 'QR พร้อมเพย์ นายอภิวัฒน์ ปาวงค์': 'PromptPay QR, Apiwat Pawong',
+  'ชื่อบัญชี': 'Account name', 'นายอภิวัฒน์ ปาวงค์': 'Mr. Apiwat Pawong', 'พร้อมเพย์ · สแกนผ่านแอปธนาคารได้ทุกธนาคาร': 'PromptPay (Thailand) · scan with any Thai banking app',
+  'ขอบคุณทุกแก้วกาแฟ และทุกกำลังใจครับ 💛': 'Thank you for every coffee and every bit of encouragement 💛'
+};
+const ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];
+const ORIG = new WeakMap();
+const norm = t => t.replace(/\s+/g, ' ').trim();
+function i18nApply(root) {
+  const skip = el => el.closest('script,style,.L-th,.L-en,#hOut,#sheets,#aSheets,#lbBox,#lbMe,#pcard,#hist,#puzzle,#sol,#fb,#print-root,#render-root');
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement && !skip(n.parentElement)) ? 1 : 2 });
+  let n;
+  while ((n = w.nextNode())) {
+    let th = ORIG.get(n);
+    if (th == null) { if (!I18N[norm(n.nodeValue)]) continue; th = n.nodeValue; ORIG.set(n, th); }
+    const k = norm(th), lead = th.match(/^\s*/)[0], trail = th.match(/\s*$/)[0];
+    n.nodeValue = LANG === 'en' ? lead + I18N[k] + trail : th;
+  }
+  root.querySelectorAll('[placeholder],[title],[aria-label],[alt]').forEach(el => {
+    if (skip(el)) return;
+    ATTRS.forEach(a => {
+      if (!el.hasAttribute(a)) return;
+      const key = 'th' + a.replace(/-/g, '');
+      if (el.dataset[key] == null) { if (!I18N[norm(el.getAttribute(a))]) return; el.dataset[key] = el.getAttribute(a); }
+      el.setAttribute(a, LANG === 'en' ? I18N[norm(el.dataset[key])] : el.dataset[key]);
+    });
+  });
+}
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const MODES = {
-  1: { name: 'เกม 24', tag: 'เกม 24', c: '--c1', s: '--c1s' },
-  2: { name: '4 ตัว → 2 หลัก', tag: '4 ตัว → 2 หลัก', c: '--c2', s: '--c2s' },
-  3: { name: '5 ตัว → 3 หลัก', tag: '5 ตัว → 3 หลัก', c: '--c3', s: '--c3s' }
+  1: { th: 'เกม 24', en: 'Game 24', get name() { return tt(this.th, this.en); }, get tag() { return this.name; }, c: '--c1', s: '--c1s' },
+  2: { th: '4 ตัว → 2 หลัก', en: '4 digits → 2-digit', get name() { return tt(this.th, this.en); }, get tag() { return this.name; }, c: '--c2', s: '--c2s' },
+  3: { th: '5 ตัว → 3 หลัก', en: '5 digits → 3-digit', get name() { return tt(this.th, this.en); }, get tag() { return this.name; }, c: '--c3', s: '--c3s' }
 };
 const store = {
   get(k, d) { try { const v = localStorage.getItem('fm_' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
@@ -1418,80 +1845,80 @@ function evaluate(str, digits, ops) {
   const term = () => {
     let v = power();
     for (;;) {
-      if (s[i] === '×' || s[i] === '÷') { const op = s[i++]; const r = power(); if (op === '÷') { if (Math.abs(r) < 1e-12) err('หารด้วยศูนย์ไม่ได้'); v /= r; } else v *= r; }
+      if (s[i] === '×' || s[i] === '÷') { const op = s[i++]; const r = power(); if (op === '÷') { if (Math.abs(r) < 1e-12) err(tt('หารด้วยศูนย์ไม่ได้', 'Cannot divide by zero')); v /= r; } else v *= r; }
       else if (s[i] === '(' && s[i - 1] === ')') { v *= power(); } // (2)(3) = 2 × 3
       else break;
     }
     return v;
   };
-  const power = () => { const b = unary(); if (s[i] === '^') { if (!ops.pow) err('โหมดนี้ปิดการยกกำลังไว้'); i++; const e = power(); const v = Math.pow(b, e); if (!isFinite(v) || isNaN(v)) err('ยกกำลังแบบนี้ไม่ได้'); return v; } return b; };
+  const power = () => { const b = unary(); if (s[i] === '^') { if (!ops.pow) err(tt('โหมดนี้ปิดการยกกำลังไว้', 'Powers are turned off in this mode')); i++; const e = power(); const v = Math.pow(b, e); if (!isFinite(v) || isNaN(v)) err(tt('ยกกำลังแบบนี้ไม่ได้', 'This power is not allowed')); return v; } return b; };
   // ขอบเขตซิกม่า: ต้องเป็นเลขโดดจากโจทย์ หรือซิกม่าซ้อน
   const bound = () => {
     if (s[i] === 'Σ') return unary();
     if (/[0-9]/.test(s[i] || '')) return primary();
-    err('ขอบเขตของซิกม่าต้องเป็นเลขโดดจากโจทย์ (ขอบบนใช้ซิกม่าซ้อนได้) เขียนเป็นนิพจน์ไม่ได้');
+    err(tt('ขอบเขตของซิกม่าต้องเป็นเลขโดดจากโจทย์ (ขอบบนใช้ซิกม่าซ้อนได้) เขียนเป็นนิพจน์ไม่ได้', 'Sigma limits must be digits from the problem (a nested Σ may be the upper limit); expressions are not allowed'));
   };
   const SUM = { 'i': i => i, 'i+i': i => 2 * i, '2×i': i => 2 * i, 'i×i': i => i * i, 'i^2': i => i * i, 'i^i': i => Math.pow(i, i), 'i^(i!)': i => Math.pow(i, fact(i)), 'i^i!': i => Math.pow(i, fact(i)), 'i!÷i': i => fact(i) / i, '(i!)÷i': i => fact(i) / i };
   const unary = () => {
     if (s[i] === 'Σ') {
-      if (!ops.sigma) err('โหมดนี้ปิดซิกม่าไว้'); i++;
-      if (s[i] !== '(') err('ซิกม่าต้องระบุขอบเขต 2 ค่าเสมอ เช่น Σ(1,5)');
-      const BE = 'ขอบเขตของซิกม่าต้องเป็นเลขโดดจากโจทย์ (ขอบบนใช้ซิกม่าซ้อนได้) เขียนเป็นนิพจน์ไม่ได้';
-      i++; if (s[i] === 'Σ') err('ขอบล่างของซิกม่าต้องเป็นเลขโดดจากโจทย์ (ซิกม่าซ้อนใช้ได้เฉพาะขอบบน)');
+      if (!ops.sigma) err(tt('โหมดนี้ปิดซิกม่าไว้', 'Sigma is turned off in this mode')); i++;
+      if (s[i] !== '(') err(tt('ซิกม่าต้องระบุขอบเขต 2 ค่าเสมอ เช่น Σ(1,5)', 'Sigma always needs 2 limits, e.g. Σ(1,5)'));
+      const BE = tt('ขอบเขตของซิกม่าต้องเป็นเลขโดดจากโจทย์ (ขอบบนใช้ซิกม่าซ้อนได้) เขียนเป็นนิพจน์ไม่ได้', 'Sigma limits must be digits from the problem (a nested Σ may be the upper limit); expressions are not allowed');
+      i++; if (s[i] === 'Σ') err(tt('ขอบล่างของซิกม่าต้องเป็นเลขโดดจากโจทย์ (ซิกม่าซ้อนใช้ได้เฉพาะขอบบน)', 'The lower limit of Σ must be a digit from the problem (nested Σ is allowed only as the upper limit)'));
       const a = bound();
-      if (s[i] !== ',') err(s[i] === ')' ? 'ซิกม่าต้องมีขอบล่างและขอบบน คั่นด้วย , เช่น Σ(1,5)' : BE);
+      if (s[i] !== ',') err(s[i] === ')' ? tt('ซิกม่าต้องมีขอบล่างและขอบบน คั่นด้วย , เช่น Σ(1,5)', 'Sigma needs a lower and an upper limit separated by a comma, e.g. Σ(1,5)') : BE);
       i++; const b = bound();
       if (s[i] !== ',' && s[i] !== ')') err(BE);
       let key = 'i';
       if (s[i] === ',') { i++; let d = 0, k = i; while (k < s.length && !(s[k] === ')' && d === 0)) { if (s[k] === '(') d++; if (s[k] === ')') d--; k++; } key = s.slice(i, k); i = k; }
-      if (s[i] !== ')') err('ซิกม่าต้องเขียนเป็น Σ(ล่าง,บน) หรือ Σ(ล่าง,บน,รูปแบบ)'); i++;
+      if (s[i] !== ')') err(tt('ซิกม่าต้องเขียนเป็น Σ(ล่าง,บน) หรือ Σ(ล่าง,บน,รูปแบบ)', 'Write sigma as Σ(lower,upper) or Σ(lower,upper,form)')); i++;
       let fk = key.replace(/^\((.*)\)$/, '$1');
       const f = SUM[fk] || SUM[key];
-      if (!f) err('หลัง Σ ใช้ได้เฉพาะ i, i+i, i×i, i^i, i^i!, i!/i (ใช้ i ไม่เกิน 2 ตัว)');
-      if (!isInt(a) || !isInt(b) || a < 1 || b <= a) err('ขอบล่างต้องเป็นจำนวนนับ และน้อยกว่าขอบบน');
-      if (b > 1000) err('ขอบบนของซิกม่าใหญ่เกินไป');
-      let sum = 0; for (let k = Math.round(a); k <= Math.round(b); k++) { sum += f(k); if (!isFinite(sum) || sum > 1e15) err('ผลรวมของซิกม่าใหญ่เกินไป'); }
+      if (!f) err(tt('หลัง Σ ใช้ได้เฉพาะ i, i+i, i×i, i^i, i^i!, i!/i (ใช้ i ไม่เกิน 2 ตัว)', 'After Σ only i, i+i, i×i, i^i, i^i!, i!/i are allowed (at most 2 i’s)'));
+      if (!isInt(a) || !isInt(b) || a < 1 || b <= a) err(tt('ขอบล่างต้องเป็นจำนวนนับ และน้อยกว่าขอบบน', 'The lower limit must be a counting number smaller than the upper limit'));
+      if (b > 1000) err(tt('ขอบบนของซิกม่าใหญ่เกินไป', 'The upper limit of Σ is too large'));
+      let sum = 0; for (let k = Math.round(a); k <= Math.round(b); k++) { sum += f(k); if (!isFinite(sum) || sum > 1e15) err(tt('ผลรวมของซิกม่าใหญ่เกินไป', 'The sigma sum is too large')); }
       return sum;
     }
     if (s[i] === '√') {
-      if (!ops.sqrt) err('โหมดนี้ปิดการถอดรากไว้'); i++;
+      if (!ops.sqrt) err(tt('โหมดนี้ปิดการถอดรากไว้', 'Roots are turned off in this mode')); i++;
       if (s[i] === '(') {
         i++; const a = expr();
         if (s[i] === ',') { // รากที่ n: √(n,x)
-          i++; const x = expr(); if (s[i] !== ')') err('รากที่ n ต้องเขียนเป็น √(อันดับ,จำนวน) เช่น √(3,8)'); i++;
-          if (!isInt(a) || a < 2 || a > 20) err('อันดับของรากต้องเป็นจำนวนเต็มตั้งแต่ 2 ขึ้นไป');
+          i++; const x = expr(); if (s[i] !== ')') err(tt('รากที่ n ต้องเขียนเป็น √(อันดับ,จำนวน) เช่น √(3,8)', 'Write an n-th root as √(index,number), e.g. √(3,8)')); i++;
+          if (!isInt(a) || a < 2 || a > 20) err(tt('อันดับของรากต้องเป็นจำนวนเต็มตั้งแต่ 2 ขึ้นไป', 'The root index must be a whole number of 2 or more'));
           const n = Math.round(a);
-          if (x < -1e-12 && n % 2 === 0) err('ถอดรากคู่ของจำนวนลบไม่ได้');
+          if (x < -1e-12 && n % 2 === 0) err(tt('ถอดรากคู่ของจำนวนลบไม่ได้', 'Cannot take an even root of a negative number'));
           const r = Math.sign(x) * Math.pow(Math.abs(x), 1 / n), rr = Math.round(r);
           return Math.abs(Math.pow(rr, n) - x) < 1e-9 ? rr : r;
         }
-        if (s[i] !== ')') err('วงเล็บยังไม่ครบคู่'); i++;
-        let v = a; while (s[i] === '!') { if (!ops.fact) err('โหมดนี้ปิดแฟกทอเรียลไว้'); i++; if (!isInt(v) || v < 0 || v > 12) err('แฟกทอเรียลใช้ได้กับจำนวนเต็ม 0–12'); v = fact(Math.round(v)); }
-        if (v < -1e-12) err('ถอดรากจำนวนลบไม่ได้'); return Math.sqrt(Math.max(0, v));
+        if (s[i] !== ')') err(tt('วงเล็บยังไม่ครบคู่', 'Brackets are not balanced')); i++;
+        let v = a; while (s[i] === '!') { if (!ops.fact) err(tt('โหมดนี้ปิดแฟกทอเรียลไว้', 'Factorials are turned off in this mode')); i++; if (!isInt(v) || v < 0 || v > 12) err(tt('แฟกทอเรียลใช้ได้กับจำนวนเต็ม 0–12', 'Factorial works on whole numbers 0–12')); v = fact(Math.round(v)); }
+        if (v < -1e-12) err(tt('ถอดรากจำนวนลบไม่ได้', 'Cannot take the square root of a negative number')); return Math.sqrt(Math.max(0, v));
       }
-      const v = unary(); if (v < -1e-12) err('ถอดรากจำนวนลบไม่ได้'); return Math.sqrt(Math.max(0, v));
+      const v = unary(); if (v < -1e-12) err(tt('ถอดรากจำนวนลบไม่ได้', 'Cannot take the square root of a negative number')); return Math.sqrt(Math.max(0, v));
     }
     return postfix();
   };
-  const postfix = () => { let v = primary(); while (s[i] === '!') { if (!ops.fact) err('โหมดนี้ปิดแฟกทอเรียลไว้'); i++; if (!isInt(v) || v < 0 || v > 12) err('แฟกทอเรียลใช้ได้กับจำนวนเต็ม 0–12'); v = fact(Math.round(v)); } return v; };
+  const postfix = () => { let v = primary(); while (s[i] === '!') { if (!ops.fact) err(tt('โหมดนี้ปิดแฟกทอเรียลไว้', 'Factorials are turned off in this mode')); i++; if (!isInt(v) || v < 0 || v > 12) err(tt('แฟกทอเรียลใช้ได้กับจำนวนเต็ม 0–12', 'Factorial works on whole numbers 0–12')); v = fact(Math.round(v)); } return v; };
   const primary = () => {
     const c = s[i];
-    if (c === ',') err('เครื่องหมาย , ใช้ได้เฉพาะใน Σ(ล่าง,บน) และ √(อันดับ,จำนวน)');
-    if (c === undefined) err('นิพจน์ยังไม่สมบูรณ์');
-    if (c === 'i') err('ตัวแปร i ใช้ได้เฉพาะในรูปแบบหลัง Σ');
-    if (/[0-9]/.test(c)) { i++; if (/[0-9]/.test(s[i] || '')) err('ห้ามนำตัวเลขมาต่อกันเป็นจำนวนหลายหลัก'); used.push(+c); return +c; }
-    if (c === '(') { i++; const v = expr(); if (s[i] !== ')') err('วงเล็บยังไม่ครบคู่'); i++; return v; }
-    err(c === ')' ? 'มีวงเล็บปิดเกิน' : 'ใช้สัญลักษณ์ "' + c + '" ไม่ได้');
+    if (c === ',') err(tt('เครื่องหมาย , ใช้ได้เฉพาะใน Σ(ล่าง,บน) และ √(อันดับ,จำนวน)', 'A comma is only used inside Σ(lower,upper) and √(index,number)'));
+    if (c === undefined) err(tt('นิพจน์ยังไม่สมบูรณ์', 'The expression is incomplete'));
+    if (c === 'i') err(tt('ตัวแปร i ใช้ได้เฉพาะในรูปแบบหลัง Σ', 'The variable i can only be used after Σ'));
+    if (/[0-9]/.test(c)) { i++; if (/[0-9]/.test(s[i] || '')) err(tt('ห้ามนำตัวเลขมาต่อกันเป็นจำนวนหลายหลัก', 'Digits may not be joined into multi-digit numbers')); used.push(+c); return +c; }
+    if (c === '(') { i++; const v = expr(); if (s[i] !== ')') err(tt('วงเล็บยังไม่ครบคู่', 'Brackets are not balanced')); i++; return v; }
+    err(c === ')' ? tt('มีวงเล็บปิดเกิน', 'Too many closing brackets') : tt('ใช้สัญลักษณ์ "' + c + '" ไม่ได้', 'The symbol "' + c + '" is not allowed'));
   };
-  if (!s) err('ยังไม่ได้พิมพ์วิธีคิด');
+  if (!s) err(tt('ยังไม่ได้พิมพ์วิธีคิด', 'Type your working first'));
   const v = expr();
-  if (i < s.length) err(s[i] === ',' ? 'เครื่องหมาย , ใช้ได้เฉพาะใน Σ(ล่าง,บน) และ √(อันดับ,จำนวน)' : s[i] === '(' || /[0-9]/.test(s[i]) ? 'ลืมใส่เครื่องหมายระหว่างจำนวน' : s[i] === ')' ? 'มีวงเล็บปิดเกิน' : 'ใช้สัญลักษณ์ "' + s[i] + '" ไม่ได้');
+  if (i < s.length) err(s[i] === ',' ? tt('เครื่องหมาย , ใช้ได้เฉพาะใน Σ(ล่าง,บน) และ √(อันดับ,จำนวน)', 'A comma is only used inside Σ(lower,upper) and √(index,number)') : s[i] === '(' || /[0-9]/.test(s[i]) ? tt('ลืมใส่เครื่องหมายระหว่างจำนวน', 'An operator is missing between numbers') : s[i] === ')' ? tt('มีวงเล็บปิดเกิน', 'Too many closing brackets') : tt('ใช้สัญลักษณ์ "' + s[i] + '" ไม่ได้', 'The symbol "' + s[i] + '" is not allowed'));
   const need = [...digits].sort().join(''), got = [...used].sort().join('');
   if (need !== got) {
     const cnt = a => a.reduce((m, d) => (m[d] = (m[d] || 0) + 1, m), {});
     const cn = cnt(digits), cg = cnt(used); const miss = [], extra = [];
     for (let d = 0; d <= 9; d++) { const df = (cn[d] || 0) - (cg[d] || 0); for (let k = 0; k < df; k++) miss.push(d); for (let k = 0; k < -df; k++) extra.push(d); }
-    err((miss.length ? 'ยังไม่ได้ใช้ ' + miss.join(', ') : '') + (miss.length && extra.length ? ' · ' : '') + (extra.length ? 'ใช้เกิน/ไม่มีในโจทย์ ' + extra.join(', ') : ''));
+    err((miss.length ? tt('ยังไม่ได้ใช้ ', 'Not used yet: ') + miss.join(', ') : '') + (miss.length && extra.length ? ' · ' : '') + (extra.length ? tt('ใช้เกิน/ไม่มีในโจทย์ ', 'Extra / not in the problem: ') + extra.join(', ') : ''));
   }
   return v;
 }
@@ -1513,9 +1940,9 @@ function settingsChanged(modeSwitch) {
   if (modeSwitch && P.phase !== 'idle') { finishQuestion(); stopTimer(); P.phase = 'idle'; P.cur = null; drawIdle(); }
 }
 function drawIdle() {
-  $('#puzzle').innerHTML = '<div class="ph">เลือกโหมดและตั้งเวลา แล้วกด <b>เริ่มฝึก</b></div>';
+  $('#puzzle').innerHTML = tt('<div class="ph">เลือกโหมดและตั้งเวลา แล้วกด <b>เริ่มฝึก</b></div>', '<div class="ph">Choose a mode and timer, then press <b>Start</b></div>');
   $('#expr').value = ''; $('#expr').disabled = true; $('#live').textContent = '';
-  $('#bNext').innerHTML = '▶ เริ่มฝึก'; $('#bCheck').disabled = true; $('#bSol').disabled = true;
+  $('#bNext').innerHTML = tt('▶ เริ่มฝึก', '▶ Start'); $('#bCheck').disabled = true; $('#bSol').disabled = true;
   hideFb(); $('#sol').classList.remove('show'); $('#qno').textContent = '';
   $('#tv').textContent = '–'; $('#ring').classList.add('off'); setRing(1);
 }
@@ -1534,8 +1961,8 @@ async function nextQuestion() {
   P.cur = r.p; P.qn++; P.phase = 'play';
   drawPuzzle();
   P.t0 = performance.now();
-  $('#qno').textContent = 'ข้อที่ ' + P.qn;
-  $('#bNext').innerHTML = 'ข้อต่อไป →'; $('#bCheck').disabled = false; $('#bSol').disabled = false;
+  $('#qno').textContent = tt('ข้อที่ ', 'Question ') + P.qn;
+  $('#bNext').innerHTML = tt('ข้อต่อไป →', 'Next →'); $('#bCheck').disabled = false; $('#bSol').disabled = false;
   $('#expr').disabled = false; $('#expr').focus({ preventScroll: true });
   startTimer();
   beep(660, .06);
@@ -1600,13 +2027,13 @@ function check() {
   const diff = Math.abs(v - p.target), opt = p.sol.diff;
   if (!P.best || diff < P.best.diff) P.best = { diff, expr: $('#expr').value.trim(), v, ms: performance.now() - (P.t0 || performance.now()) };
   if (diff < 1e-9) {
-    showFb('ok', `🎉 <b>ถูกต้อง!</b> ได้ ${p.target} พอดี`); beep(880, .09); setTimeout(() => beep(1320, .12), 90);
+    showFb('ok', tt(`🎉 <b>ถูกต้อง!</b> ได้ ${p.target} พอดี`, `🎉 <b>Correct!</b> Exactly ${p.target}`)); beep(880, .09); setTimeout(() => beep(1320, .12), 90);
     endQuestion();
   } else if (diff <= opt + 1e-9) {
-    showFb('ok', `👏 <b>ยอดเยี่ยม!</b> ได้ ${fmtNum(v)} ห่าง ${fmtNum(diff)} ซึ่งเป็นคำตอบที่ใกล้ที่สุดแล้ว`); beep(880, .09);
+    showFb('ok', tt(`👏 <b>ยอดเยี่ยม!</b> ได้ ${fmtNum(v)} ห่าง ${fmtNum(diff)} ซึ่งเป็นคำตอบที่ใกล้ที่สุดแล้ว`, `👏 <b>Excellent!</b> You got ${fmtNum(v)}, off by ${fmtNum(diff)} — the closest possible`)); beep(880, .09);
     endQuestion();
   } else {
-    showFb('near', `ได้ <b>${fmtNum(v)}</b> ห่างจาก ${p.target} อยู่ ${fmtNum(diff)} ${opt === 0 ? '· ข้อนี้ทำได้พอดี ลองต่อ!' : '· ยังมีวิธีที่ใกล้กว่านี้'}`); beep(440, .08);
+    showFb('near', tt(`ได้ <b>${fmtNum(v)}</b> ห่างจาก ${p.target} อยู่ ${fmtNum(diff)} ${opt === 0 ? '· ข้อนี้ทำได้พอดี ลองต่อ!' : '· ยังมีวิธีที่ใกล้กว่านี้'}`, `You got <b>${fmtNum(v)}</b>, off by ${fmtNum(diff)} ${opt === 0 ? '· An exact answer exists, keep trying!' : '· A closer answer exists'}`)); beep(440, .08);
   }
 }
 function endQuestion() { P.phase = 'done'; stopTimer(); $('#bCheck').disabled = true; $('#expr').disabled = true; }
@@ -1614,8 +2041,8 @@ function reveal() {
   if (!P.cur) return;
   const p = P.cur, s = p.sol;
   P.revealed = true;
-  const res = s.exact ? `= ${p.target}` : `= ${s.valueStr} <span style="font-size:14px;color:var(--warn)">(ใกล้ที่สุด ห่าง ${fmtNum(s.diff)})</span>`;
-  $('#sol').innerHTML = `<div class="lb">เฉลย (วิธีหนึ่ง${s.exact ? '' : ' · ข้อนี้ทำให้ได้พอดีไม่ได้'})</div><div class="ex mx">${s.h} ${res}</div><div class="lb" style="margin-top:4px">อาจมีวิธีอื่นที่ถูกต้องเช่นกัน</div>`;
+  const res = s.exact ? `= ${p.target}` : `= ${s.valueStr} <span style="font-size:14px;color:var(--warn)">(${tt('ใกล้ที่สุด ห่าง', 'closest, off by')} ${fmtNum(s.diff)})</span>`;
+  $('#sol').innerHTML = `<div class="lb">${tt('เฉลย (วิธีหนึ่ง', 'Solution (one way')}${s.exact ? '' : tt(' · ข้อนี้ทำให้ได้พอดีไม่ได้', ' · no exact answer exists')})</div><div class="ex mx">${s.h} ${res}</div><div class="lb" style="margin-top:4px">${tt('อาจมีวิธีอื่นที่ถูกต้องเช่นกัน', 'Other correct ways may exist')}</div>`;
   $('#sol').classList.add('show');
   if (P.phase === 'play') endQuestion();
 }
@@ -1634,9 +2061,9 @@ function finishQuestion() {
 }
 function drawStats() {
   $('#sDone').textContent = stats.done; $('#sGood').textContent = stats.good; $('#sStreak').textContent = stats.streak;
-  $('#hist').innerHTML = stats.hist.length ? stats.hist.map(h => `<div class="row"><span><span style="color:var(${MODES[h.m].c})">●</span> ${esc(h.q)}</span><span class="mk" style="color:${h.ok ? 'var(--ok)' : 'var(--muted)'}">${esc(h.r)}</span></div>`).join('') : '<div class="row" style="color:var(--muted)">ยังไม่มีข้อที่ทำ</div>';
+  $('#hist').innerHTML = stats.hist.length ? stats.hist.map(h => `<div class="row"><span><span style="color:var(${MODES[h.m].c})">●</span> ${esc(h.q)}</span><span class="mk" style="color:${h.ok ? 'var(--ok)' : 'var(--muted)'}">${esc(h.r)}</span></div>`).join('') : `<div class="row" style="color:var(--muted)">${tt('ยังไม่มีข้อที่ทำ', 'No questions yet')}</div>`;
 }
-$('#bReset').onclick = () => { stats.done = stats.good = stats.streak = 0; stats.hist = []; store.set('stats', stats); drawStats(); toast('ล้างสถิติแล้ว'); };
+$('#bReset').onclick = () => { stats.done = stats.good = stats.streak = 0; stats.hist = []; store.set('stats', stats); drawStats(); toast(tt('ล้างสถิติแล้ว', 'Stats cleared')); };
 $('#bNext').onclick = () => nextQuestion();
 $('#bCheck').onclick = () => check();
 $('#bSol').onclick = () => reveal();
@@ -1664,12 +2091,12 @@ function timeUp() {
   if (P.phase !== 'play') return;
   endQuestion(); beep(300, .35, .08);
   const b = P.best;
-  showFb('info', '⏰ <b>หมดเวลา!</b> ' + (b ? `คำตอบที่ดีที่สุดของคุณได้ ${fmtNum(b.v)} (ห่าง ${fmtNum(b.diff)})` : 'ยังไม่ได้ตรวจคำตอบ') + ' — กด <b>ดูเฉลย</b> หรือ <b>ข้อต่อไป</b>');
+  showFb('info', tt('⏰ <b>หมดเวลา!</b> ', '⏰ <b>Time’s up!</b> ') + (b ? tt(`คำตอบที่ดีที่สุดของคุณได้ ${fmtNum(b.v)} (ห่าง ${fmtNum(b.diff)})`, `Your best answer was ${fmtNum(b.v)} (off by ${fmtNum(b.diff)})`) : tt('ยังไม่ได้ตรวจคำตอบ', 'No answer checked')) + tt(' — กด <b>ดูเฉลย</b> หรือ <b>ข้อต่อไป</b>', ' — press <b>Solution</b> or <b>Next</b>'));
   if (S.auto) reveal();
 }
 
 /* ============ WORKSHEET ============ */
-const W = Object.assign({ title: 'แบบฝึกหัดคิดเลขเร็ว', school: '', set: '1', n: [10, 10, 10], rng: { 2: [10, 99], 3: [100, 999] }, ops: { pow: false, sqrt: false, fact: false, sigma: false }, time: 30, exact: true, mix: false, name: true, key: true }, store.get('ws', {}));
+const W = Object.assign({ title: tt('แบบฝึกหัดคิดเลขเร็ว', 'Fast Math Worksheet'), school: '', set: '1', n: [10, 10, 10], rng: { 2: [10, 99], 3: [100, 999] }, ops: { pow: false, sqrt: false, fact: false, sigma: false }, time: 30, exact: true, mix: false, name: true, key: true }, store.get('ws', {}));
 let wsData = null, wsHTML = '', batchW = null;
 const RLIM = { 2: [10, 99], 3: [100, 999] };
 function rngFix() {
@@ -1688,6 +2115,7 @@ function rngRender() {
   });
 }
 function wsRender() {
+  if (W.title === 'แบบฝึกหัดคิดเลขเร็ว' || W.title === 'Fast Math Worksheet') W.title = tt('แบบฝึกหัดคิดเลขเร็ว', 'Fast Math Worksheet');
   rngFix(); rngRender();
   $('#wTitle').value = W.title; $('#wSchool').value = W.school; $('#wSet').value = W.set;
   [1, 2, 3].forEach(i => $('#w' + i).value = W.n[i - 1]);
@@ -1696,13 +2124,13 @@ function wsRender() {
   wsTotal();
 }
 function wsRead() {
-  W.title = $('#wTitle').value.trim() || 'แบบฝึกหัดคิดเลขเร็ว'; W.school = $('#wSchool').value.trim(); W.set = $('#wSet').value.trim();
+  W.title = $('#wTitle').value.trim() || tt('แบบฝึกหัดคิดเลขเร็ว', 'Fast Math Worksheet'); W.school = $('#wSchool').value.trim(); W.set = $('#wSet').value.trim();
   W.n = [1, 2, 3].map(i => Math.max(0, Math.min(200, Math.round(+$('#w' + i).value || 0))));
   W.rng = { 2: [+$('#r2lo').value, +$('#r2hi').value], 3: [+$('#r3lo').value, +$('#r3hi').value] }; rngFix(); rngRender();
   W.time = Math.max(0, Math.round(+$('#wTime').value || 0)); W.exact = $('#wExact').checked; W.mix = $('#wMix').checked; W.name = $('#wName').checked; W.key = $('#wKey').checked;
   store.set('ws', W);
 }
-function wsTotal() { const t = [1, 2, 3].reduce((a, i) => a + Math.max(0, +$('#w' + i).value || 0), 0); $('#wTotal').textContent = `รวม ${t} ข้อ · ประมาณ ${Math.ceil(t / 10)} หน้า` + (W.key && t ? ' + เฉลย' : ''); }
+function wsTotal() { const t = [1, 2, 3].reduce((a, i) => a + Math.max(0, +$('#w' + i).value || 0), 0); $('#wTotal').textContent = tt(`รวม ${t} ข้อ · ประมาณ ${Math.ceil(t / 10)} หน้า`, `${t} questions · about ${Math.ceil(t / 10)} page${Math.ceil(t / 10) > 1 ? 's' : ''}`) + (W.key && t ? tt(' + เฉลย', ' + answer key') : ''); }
 $$('.stp button').forEach(b => b.onclick = () => { const inp = b.parentElement.querySelector('input'); inp.value = Math.max(0, Math.min(200, (+inp.value || 0) + (+b.dataset.d) * 5)); wsRead(); wsTotal(); });
 $$('#v-worksheet input').forEach(i => i.addEventListener('change', () => { wsRead(); wsTotal(); }));
 $$('.rng .rp button').forEach(b => b.onclick = () => { const m = b.closest('.rng').dataset.m; W.rng[m] = b.dataset.r.split('-').map(Number); rngRender(); store.set('ws', W); });
@@ -1712,40 +2140,40 @@ $('#wGen').onclick = async () => {
   wsRead();
   let items = [];
   [1, 2, 3].forEach(m => { for (let k = 0; k < W.n[m - 1]; k++) items.push(m); });
-  if (!items.length) { toast('กรุณาระบุจำนวนข้ออย่างน้อย 1 ข้อ'); return; }
+  if (!items.length) { toast(tt('กรุณาระบุจำนวนข้ออย่างน้อย 1 ข้อ', 'Please set at least 1 question')); return; }
   if (W.mix) for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
   if (batchW) batchW.kill();
   batchW = makeWorker();
   const btn = $('#wGen'), prog = $('#wProg');
-  btn.disabled = true; btn.textContent = 'กำลังสุ่มโจทย์และหาเฉลย…'; prog.style.display = 'block'; prog.firstElementChild.style.width = '0';
+  btn.disabled = true; btn.textContent = tt('กำลังสุ่มโจทย์และหาเฉลย…', 'Generating problems and solutions…'); prog.style.display = 'block'; prog.firstElementChild.style.width = '0';
   $('#wStatus').textContent = '';
   const t0 = performance.now();
-  const r = await batchW.call({ type: 'batch', items, opts: { exact: W.exact, ops: { ...W.ops }, rng: W.rng } }, p => { prog.firstElementChild.style.width = (p * 100).toFixed(1) + '%'; $('#wStatus').textContent = `สร้างแล้ว ${Math.round(p * items.length)}/${items.length} ข้อ`; });
+  const r = await batchW.call({ type: 'batch', items, opts: { exact: W.exact, ops: { ...W.ops }, rng: W.rng } }, p => { prog.firstElementChild.style.width = (p * 100).toFixed(1) + '%'; $('#wStatus').textContent = tt(`สร้างแล้ว ${Math.round(p * items.length)}/${items.length} ข้อ`, `Created ${Math.round(p * items.length)}/${items.length}`); });
   batchW.kill(); batchW = null;
   wsData = { list: r.list, cfg: JSON.parse(JSON.stringify(W)), at: new Date() };
   wsHTML = buildSheets(wsData);
   $('#sheets').innerHTML = wsHTML; fitSheets();
   const nx = r.list.filter(q => !q.sol.exact).length;
-  $('#wStatus').textContent = `เสร็จแล้ว ${items.length} ข้อ ใน ${((performance.now() - t0) / 1000).toFixed(1)} วินาที` + (nx ? ` · มี ${nx} ข้อที่ทำให้ได้พอดีไม่ได้ (เฉลยแสดงค่าที่ใกล้ที่สุด)` : '');
-  $('#pvInfo').textContent = `${$$('#sheets .sheet').length} หน้า`;
-  btn.disabled = false; btn.textContent = '🔄 สุ่มชุดใหม่'; prog.style.display = 'none';
+  $('#wStatus').textContent = tt(`เสร็จแล้ว ${items.length} ข้อ ใน ${((performance.now() - t0) / 1000).toFixed(1)} วินาที`, `Done: ${items.length} questions in ${((performance.now() - t0) / 1000).toFixed(1)} s`) + (nx ? tt(` · มี ${nx} ข้อที่ทำให้ได้พอดีไม่ได้ (เฉลยแสดงค่าที่ใกล้ที่สุด)`, ` · ${nx} have no exact answer (the key shows the closest)`) : '');
+  $('#pvInfo').textContent = `${$$('#sheets .sheet').length} ${tt('หน้า', 'pages')}`;
+  btn.disabled = false; btn.textContent = tt('🔄 สุ่มชุดใหม่', '🔄 Generate a new set'); prog.style.display = 'none';
   $('#wPrint').disabled = false; $('#wPdf').disabled = false;
 };
 
 function rngLabel(cfg) {
   if (!cfg.rng) return '';
   const p = [];
-  if (cfg.n[1] && cfg.rng[2].join('-') !== '10-99') p.push('2 หลัก ' + cfg.rng[2].join('–'));
-  if (cfg.n[2] && cfg.rng[3].join('-') !== '100-999') p.push('3 หลัก ' + cfg.rng[3].join('–'));
-  return p.length ? ' | คำตอบ ' + p.join(', ') : '';
+  if (cfg.n[1] && cfg.rng[2].join('-') !== '10-99') p.push(tt('2 หลัก ', '2-digit ') + cfg.rng[2].join('–'));
+  if (cfg.n[2] && cfg.rng[3].join('-') !== '100-999') p.push(tt('3 หลัก ', '3-digit ') + cfg.rng[3].join('–'));
+  return p.length ? tt(' | คำตอบ ', ' | Answers ') + p.join(', ') : '';
 }
-function opsLabel(o) { const a = ['+ − × ÷']; if (o.pow) a.push('ยกกำลัง'); if (o.sqrt) a.push('ถอดราก'); if (o.fact) a.push('แฟกทอเรียล'); if (o.sigma) a.push('ซิกม่า'); return a.join(', '); }
+function opsLabel(o) { const a = ['+ − × ÷']; if (o.pow) a.push(tt('ยกกำลัง', 'powers')); if (o.sqrt) a.push(tt('ถอดราก', 'roots')); if (o.fact) a.push(tt('แฟกทอเรียล', 'factorial')); if (o.sigma) a.push(tt('ซิกม่า', 'sigma')); return a.join(', '); }
 function buildSheets(d) {
   const { list, cfg } = d; const N = list.length; const per = 10;
   const qPages = Math.ceil(N / per), kPer = 30, kPages = cfg.key ? Math.ceil(N / kPer) : 0, total = qPages + kPages;
   const bar = '<div class="bar"><i style="background:#FF7A59"></i><i style="background:#FFC93C"></i><i style="background:#3DA5F4"></i><i style="background:#8B5CF6"></i></div>';
-  const head = (pg, extra) => `<div class="sh"><div class="ttl">${esc(cfg.title)}${cfg.set ? ' <span style="font-weight:500">ชุดที่ ' + esc(cfg.set) + '</span>' : ''}${extra ? '<small>' + extra + '</small>' : ''}</div><div class="pg">หน้า ${pg}/${total}</div></div>${bar}`;
-  const foot = `<div class="ft"><span>พัฒนาโดย ครูอภิวัฒน์ ปาวงค์</span><span>MathDash · คิดเลขเร็ว</span></div>`;
+  const head = (pg, extra) => `<div class="sh"><div class="ttl">${esc(cfg.title)}${cfg.set ? ' <span style="font-weight:500">' + tt('ชุดที่ ', 'Set ') + esc(cfg.set) + '</span>' : ''}${extra ? '<small>' + extra + '</small>' : ''}</div><div class="pg">${tt('หน้า', 'Page')} ${pg}/${total}</div></div>${bar}`;
+  const foot = `<div class="ft"><span>${tt('พัฒนาโดย ครูอภิวัฒน์ ปาวงค์', 'Developed by Kru Apiwat Pawong')}</span><span>${tt('MathDash · คิดเลขเร็ว', 'MathDash · Fast Math')}</span></div>`;
   const tagColor = { 1: '#E2552F', 2: '#1C7FCB', 3: '#6D3FE0' };
   let html = '';
   for (let pg = 0; pg < qPages; pg++) {
@@ -1756,19 +2184,19 @@ function buildSheets(d) {
       else rows += `<tr><td class="no"></td><td></td><td></td><td></td></tr>`;
     }
     html += `<div class="sheet">${head(pg + 1, esc(cfg.school))}
-      <div class="meta"><span>ข้อที่ ${a + 1}–${b} จาก ${N} ข้อ${cfg.time ? ' | ข้อละ ' + cfg.time + ' วินาที' : ''}</span><span>เครื่องหมาย: ${opsLabel(cfg.ops)}${rngLabel(cfg)}</span></div>
-      ${pg === 0 && cfg.name ? '<div class="who">ชื่อ–สกุล <span style="flex:3"></span> ชั้น <span></span> เลขที่ <span></span> คะแนน <span></span>/' + N + '</div>' : ''}
+      <div class="meta"><span>${tt(`ข้อที่ ${a + 1}–${b} จาก ${N} ข้อ`, `Questions ${a + 1}–${b} of ${N}`)}${cfg.time ? tt(' | ข้อละ ' + cfg.time + ' วินาที', ' | ' + cfg.time + ' s each') : ''}</span><span>${tt('เครื่องหมาย', 'Operations')}: ${opsLabel(cfg.ops)}${rngLabel(cfg)}</span></div>
+      ${pg === 0 && cfg.name ? tt('<div class="who">ชื่อ–สกุล <span style="flex:3"></span> ชั้น <span></span> เลขที่ <span></span> คะแนน <span></span>/', '<div class="who">Name <span style="flex:3"></span> Class <span></span> No. <span></span> Score <span></span>/') + N + '</div>' : ''}
       <table><colgroup><col style="width:9%"><col style="width:30%"><col style="width:38%"><col style="width:23%"></colgroup>
-      <thead><tr><th>ข้อ</th><th>โจทย์</th><th>วิธีการ</th><th>ทดเลข</th></tr></thead><tbody>${rows}</tbody></table>${foot}</div>`;
+      <thead><tr><th>${tt('ข้อ', 'No.')}</th><th>${tt('โจทย์', 'Problem')}</th><th>${tt('วิธีการ', 'Working')}</th><th>${tt('ทดเลข', 'Scratch')}</th></tr></thead><tbody>${rows}</tbody></table>${foot}</div>`;
   }
   for (let kp = 0; kp < kPages; kp++) {
     const a = kp * kPer, b = Math.min(N, a + kPer);
     let cells = '';
     for (let i = a; i < b; i++) {
       const q = list[i], s = q.sol;
-      cells += `<div class="kc"><div class="q">${i + 1}. <b>${q.digits.join(' ')} = ${q.target}</b></div><div class="a mx${s.exact ? '' : ' nx'}">${s.h}${s.exact ? '' : ` = ${s.valueStr} <small>(ใกล้ที่สุด ห่าง ${fmtNum(s.diff)})</small>`}</div></div>`;
+      cells += `<div class="kc"><div class="q">${i + 1}. <b>${q.digits.join(' ')} = ${q.target}</b></div><div class="a mx${s.exact ? '' : ' nx'}">${s.h}${s.exact ? '' : ` = ${s.valueStr} <small>(${tt('ใกล้ที่สุด ห่าง', 'closest, off by')} ${fmtNum(s.diff)})</small>`}</div></div>`;
     }
-    html += `<div class="sheet">${head(qPages + kp + 1, 'เฉลย (วิธีหนึ่ง อาจมีวิธีอื่นที่ถูกต้อง)')}<div class="keyh">เฉลย ข้อ ${a + 1}–${b}</div><div class="kgrid">${cells}</div>${foot}</div>`;
+    html += `<div class="sheet">${head(qPages + kp + 1, tt('เฉลย (วิธีหนึ่ง อาจมีวิธีอื่นที่ถูกต้อง)', 'Answer key (one way; other correct ways may exist)'))}<div class="keyh">${tt('เฉลย ข้อ', 'Answers')} ${a + 1}–${b}</div><div class="kgrid">${cells}</div>${foot}</div>`;
   }
   return html;
 }
@@ -1797,35 +2225,35 @@ $('#wPdf').onclick = async () => {
   if (!wsHTML) return;
   const btn = $('#wPdf'); const old = btn.innerHTML; btn.disabled = true;
   try {
-    btn.textContent = 'กำลังเตรียม…';
+    btn.textContent = tt('กำลังเตรียม…', 'Preparing…');
     await ensurePdfLibs();
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     const root = $('#render-root'); root.innerHTML = wsHTML;
     const sheets = [...root.querySelectorAll('.sheet')];
     const pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
     for (let i = 0; i < sheets.length; i++) {
-      btn.textContent = `กำลังสร้าง PDF ${i + 1}/${sheets.length}`;
+      btn.textContent = tt(`กำลังสร้าง PDF ${i + 1}/${sheets.length}`, `Creating PDF ${i + 1}/${sheets.length}`);
       const c = await window.html2canvas(sheets[i], { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
       if (i) pdf.addPage();
       pdf.addImage(c.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297);
     }
     root.innerHTML = '';
     const cfg = wsData.cfg;
-    const fname = (cfg.title + (cfg.set ? ' ชุดที่ ' + cfg.set : '')).replace(/[\\/:*?"<>|]+/g, ' ').trim() + '.pdf';
+    const fname = (cfg.title + (cfg.set ? tt(' ชุดที่ ', ' set ') + cfg.set : '')).replace(/[\\/:*?"<>|]+/g, ' ').trim() + '.pdf';
     const blob = pdf.output('blob');
     let saved = false;
     if (window.claude && typeof window.claude.use === 'function') {
-      try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({ filename: fname, data: blob }); saved = true; toast('บันทึก PDF แล้ว'); } }
+      try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({ filename: fname, data: blob }); saved = true; toast(tt('บันทึก PDF แล้ว', 'PDF saved')); } }
       catch (e) { if (e && e.code === 'declined') { saved = true; } }
     }
     if (!saved && !framed) {
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fname; document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 4000); saved = true; toast('ดาวน์โหลด PDF แล้ว');
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000); saved = true; toast(tt('ดาวน์โหลด PDF แล้ว', 'PDF downloaded'));
     }
-    if (!saved) toast('หน้านี้ดาวน์โหลดไฟล์ไม่ได้ ลองเปิดจากเว็บไซต์ (GitHub Pages)');
+    if (!saved) toast(tt('หน้านี้ดาวน์โหลดไฟล์ไม่ได้ ลองเปิดจากเว็บไซต์ (GitHub Pages)', 'This page cannot download files. Open it from the website instead'));
   } catch (e) {
     console.error(e);
-    toast(framed ? 'สร้าง PDF ไม่สำเร็จ' : 'โหลดตัวสร้าง PDF ไม่ได้ ใช้ปุ่ม "พิมพ์ / บันทึกเป็น PDF" แทน');
+    toast(framed ? tt('สร้าง PDF ไม่สำเร็จ', 'Could not create the PDF') : tt('โหลดตัวสร้าง PDF ไม่ได้ ใช้ปุ่ม "พิมพ์ / บันทึกเป็น PDF" แทน', 'Could not load the PDF maker. Use "Print / Save as PDF" instead'));
   } finally { btn.disabled = false; btn.innerHTML = old; $('#render-root').innerHTML = ''; }
 };
 
@@ -1833,8 +2261,8 @@ $('#wPdf').onclick = async () => {
 /* ---------- tips: memo tables & toc ---------- */
 (() => {
   const sp = (k, v) => `<span>${k}<b>${v}</b></span>`;
-  const fill = (id, arr) => { const el = document.getElementById(id); if (el) el.innerHTML = arr.join(''); };
-  const sq = [], cu = [], p2 = [], fa = [], sg = [], sg2 = [];
+  const fill = (key, mk) => document.querySelectorAll('[data-memo="' + key + '"]').forEach(el => { el.innerHTML = mk(!!el.closest('.L-en')).join(''); });
+  const sq = [], cu = [], p2 = [], fa = [];
   for (let n = 1; n <= 20; n++) sq.push(sp(n + '²', n * n));
   for (let n = 1; n <= 10; n++) cu.push(sp(n + '³', n ** 3));
   for (let n = 1; n <= 10; n++) p2.push(sp('2' + ['','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','¹⁰'][n], 2 ** n));
@@ -1843,12 +2271,13 @@ $('#wPdf').onclick = async () => {
   const f = [1, 1, 2, 6, 24, 120, 720, 5040];
   for (let n = 0; n <= 7; n++) fa.push(sp(n + '!', f[n].toLocaleString()));
   fa.push(sp('(3!)!', 720), sp('(√9)!', 6));
-  for (let n = 2; n <= 20; n++) sg.push(sp('1 ถึง ' + n, n * (n + 1) / 2));
-  for (let n = 2; n <= 31; n++) sg2.push(sp('1–' + n, n * (n + 1) / 2));
-  fill('mSq', sq); fill('mCu', cu); fill('mP2', p2); fill('mFa', fa); fill('mSg', sg); fill('mSg2', sg2);
-  fill('mFc', ['24 = 1×24 = 2×12 = 3×8 = 4×6', '36 = 4×9 = 6×6', '48 = 6×8', '56 = 7×8', '60 = 6×10', '72 = 8×9', '84 = 7×12', '96 = 8×12', '100 = 4×25', '120 = 5! = 8×15', '144 = 12²'].map(t => `<span style="grid-column:span 2">${t}</span>`));
-  const toc = document.getElementById('toc');
-  if (toc) toc.innerHTML = [...document.querySelectorAll('#v-tips .sec')].map(a => `<a href="#${a.id}" data-sec="${a.id}">${a.querySelector('h3').textContent.replace(/^\d+\.\s*/, '')}</a>`).join('');
+  fill('sq', () => sq); fill('cu', () => cu); fill('p2', () => p2); fill('fa', () => fa);
+  fill('sg', en => { const a = []; for (let n = 2; n <= 20; n++) a.push(sp((en ? '1 to ' : '1 ถึง ') + n, n * (n + 1) / 2)); return a; });
+  fill('sg2', () => { const a = []; for (let n = 2; n <= 31; n++) a.push(sp('1–' + n, n * (n + 1) / 2)); return a; });
+  fill('fc', () => ['24 = 1×24 = 2×12 = 3×8 = 4×6', '36 = 4×9 = 6×6', '48 = 6×8', '56 = 7×8', '60 = 6×10', '72 = 8×9', '84 = 7×12', '96 = 8×12', '100 = 4×25', '120 = 5! = 8×15', '144 = 12²'].map(t => `<span style="grid-column:span 2">${t}</span>`));
+  document.querySelectorAll('#v-tips .toc').forEach(toc => {
+    toc.innerHTML = [...toc.closest('.doc').querySelectorAll('.sec')].map(a => `<a href="#${a.id}" data-sec="${a.id}">${a.querySelector('h3').textContent.replace(/^\d+\.\s*/, '')}</a>`).join('');
+  });
   document.addEventListener('click', e => {
     const a = e.target.closest('a[data-sec]'); if (a) { e.preventDefault(); document.getElementById(a.dataset.sec).scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
     const g = e.target.closest('a[data-go]'); if (g) { e.preventDefault(); document.querySelector('.tab[data-v="' + g.dataset.go + '"]').click(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
@@ -1857,21 +2286,25 @@ $('#wPdf').onclick = async () => {
 /* ---------- shared: save a generated file ---------- */
 async function saveBlob(blob, fname) {
   if (window.claude && typeof window.claude.use === 'function') {
-    try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({ filename: fname, data: blob }); toast('บันทึกไฟล์แล้ว'); return true; } }
+    try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({ filename: fname, data: blob }); toast(tt('บันทึกไฟล์แล้ว', 'File saved')); return true; } }
     catch (e) { if (e && e.code === 'declined') return true; }
   }
   if (!framed) {
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fname; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast('ดาวน์โหลดแล้ว'); return true;
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast(tt('ดาวน์โหลดแล้ว', 'Downloaded')); return true;
   }
-  toast('หน้านี้ดาวน์โหลดไฟล์ไม่ได้ ลองเปิดจากเว็บไซต์'); return false;
+  toast(tt('หน้านี้ดาวน์โหลดไฟล์ไม่ได้ ลองเปิดจากเว็บไซต์', 'This page cannot download files. Open it from the website instead')); return false;
 }
 
 /* ============ HELPER (เครื่องมือช่วยคิด) ============ */
 const H = Object.assign({ mode: 2, ops: { pow: false, sqrt: false, fact: false, sigma: false } }, store.get('helper', {}));
-let helpW = null, helpBusy = false;
-const OPN = { '+': 'บวก', '−': 'ลบ', '×': 'คูณ', '÷': 'หาร', '^': 'ยกกำลัง', 'Σab': 'ซิกม่า' };
-const UNN = { fact: 'แฟกทอเรียล', sqrt: 'ถอดราก', sig: 'ซิกม่า', sigma: 'ซิกม่า', pow: 'ยกกำลัง' };
+let helpW = null, helpBusy = false, H_last = null;
+const OPN_TH = { '+': 'บวก', '−': 'ลบ', '×': 'คูณ', '÷': 'หาร', '^': 'ยกกำลัง', 'Σab': 'ซิกม่า' };
+const OPN_EN = { '+': 'addition', '−': 'subtraction', '×': 'multiplication', '÷': 'division', '^': 'power', 'Σab': 'sigma' };
+const UNN_TH = { fact: 'แฟกทอเรียล', sqrt: 'ถอดราก', sig: 'ซิกม่า', sigma: 'ซิกม่า', pow: 'ยกกำลัง' };
+const UNN_EN = { fact: 'factorial', sqrt: 'roots', sig: 'sigma', sigma: 'sigma', pow: 'powers' };
+const OPN = new Proxy({}, { get: (_, k) => (LANG === 'en' ? OPN_EN : OPN_TH)[k] });
+const UNN = new Proxy({}, { get: (_, k) => (LANG === 'en' ? UNN_EN : UNN_TH)[k] });
 function helperInit() {
   $$('#hModes .hm').forEach(b => b.onclick = () => { if (H.mode === +b.dataset.m) return; H.mode = +b.dataset.m; store.set('helper', H); hBuild(); });
   $$('#hOps .chip[data-op]').forEach(b => b.onclick = () => { H.ops[b.dataset.op] = !H.ops[b.dataset.op]; store.set('helper', H); hOpsRender(); });
@@ -1897,7 +2330,7 @@ function hBuild() {
   $$('#hModes .hm').forEach(b => b.classList.toggle('on', +b.dataset.m === H.mode));
   const n = H.mode === 3 ? 5 : 4;
   const old = $$('#hDigits input').map(i => i.value);
-  $('#hDigits').innerHTML = Array.from({ length: n }, (_, i) => `<input type="text" inputmode="numeric" maxlength="1" aria-label="เลขโดดตัวที่ ${i + 1}" value="${esc(old[i] || '')}">`).join('');
+  $('#hDigits').innerHTML = Array.from({ length: n }, (_, i) => `<input type="text" inputmode="numeric" maxlength="1" aria-label="${tt('เลขโดดตัวที่', 'Digit')} ${i + 1}" value="${esc(old[i] || '')}">`).join('');
   const ins = $$('#hDigits input'), t = $('#hTarget');
   ins.forEach((inp, i) => {
     inp.addEventListener('input', () => { inp.value = inp.value.replace(/[^0-9]/g, '').slice(-1); if (inp.value) (ins[i + 1] || t).focus(); });
@@ -1913,71 +2346,72 @@ function hBuild() {
   t.maxLength = 5;
 }
 const dgl = arr => arr.map(d => `<span class="dg">${d}</span>`).join(' ');
-function hSide(val, ds) { return ds.length === 1 ? `เลข <span class="dg">${ds[0]}</span>` : `ก้อนที่ได้ <b>${val}</b> <span style="color:var(--muted)">(จากเลข ${dgl(ds)})</span>`; }
+function hSide(val, ds) { return ds.length === 1 ? `${tt('เลข', 'digit')} <span class="dg">${ds[0]}</span>` : tt(`ก้อนที่ได้ <b>${val}</b> <span style="color:var(--muted)">(จากเลข ${dgl(ds)})</span>`, `a part worth <b>${val}</b> <span style="color:var(--muted)">(from ${dgl(ds)})</span>`); }
 async function hAnalyze() {
   const ins = $$('#hDigits input'), err = $('#hErr');
   const digits = ins.map(i => i.value);
   const tv = $('#hTarget').value.trim();
-  if (digits.some(d => d === '')) { err.className = 'fb show err'; err.textContent = 'กรอกเลขโดดให้ครบ ' + ins.length + ' ช่องก่อนนะ'; return; }
-  if (!/^\d{1,5}$/.test(tv)) { err.className = 'fb show err'; err.textContent = 'กรอกคำตอบ (ผลลัพธ์) ของโจทย์ด้วยนะ'; return; }
+  if (digits.some(d => d === '')) { err.className = 'fb show err'; err.textContent = tt('กรอกเลขโดดให้ครบ ' + ins.length + ' ช่องก่อนนะ', 'Please fill in all ' + ins.length + ' digits'); return; }
+  if (!/^\d{1,5}$/.test(tv)) { err.className = 'fb show err'; err.textContent = tt('กรอกคำตอบ (ผลลัพธ์) ของโจทย์ด้วยนะ', 'Please enter the target answer'); return; }
   err.className = 'fb';
   const D = digits.map(Number), T = +tv, ops = { ...H.ops };
   if (helpW) helpW.kill();
   helpW = makeWorker(); helpBusy = true;
-  const btn = $('#hGo'); btn.disabled = true; btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px;border-top-color:#fff"></span> กำลังคิด…';
-  $('#hOut').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>กำลังค้นหาทุกวิธีที่เป็นไปได้…' + (D.length === 5 && (ops.sigma || ops.fact || ops.pow) ? '<br><span style="font-size:13px">เลข 5 ตัวและเปิดเครื่องหมายขั้นสูง อาจใช้เวลาสักครู่</span>' : '') + '</div>';
+  const btn = $('#hGo'); btn.disabled = true; btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-width:2px;border-top-color:#fff"></span> ' + tt('กำลังคิด…', 'Thinking…');
+  $('#hOut').innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>' + tt('กำลังค้นหาทุกวิธีที่เป็นไปได้…', 'Searching every possible way…') + (D.length === 5 && (ops.sigma || ops.fact || ops.pow) ? '<br><span style="font-size:13px">' + tt('เลข 5 ตัวและเปิดเครื่องหมายขั้นสูง อาจใช้เวลาสักครู่', '5 digits with advanced operations may take a moment') + '</span>' : '') + '</div>';
   const w = helpW;
   const r = (await w.call({ type: 'help', digits: D, target: T, ops })).help;
   if (w !== helpW) return;
   w.kill(); helpW = null; helpBusy = false;
-  btn.disabled = false; btn.innerHTML = '🔍 วิเคราะห์โจทย์';
+  btn.disabled = false; btn.innerHTML = tt('🔍 วิเคราะห์โจทย์', '🔍 Analyze');
   hRender(D, T, ops, r);
   if (window.innerWidth < 860) $('#hOut').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function hRender(D, T, ops, r) {
+  H_last = [D, T, ops, r];
   const fmtD = v => (Math.round(v * 1000) / 1000).toString();
   // hint 1
   let h1;
   if (r.exact) {
-    h1 = `✅ ข้อนี้<b>ทำให้ได้ ${T} พอดี</b>` + (r.altCount > 1 ? ` และมีหลายวิธี (พบอย่างน้อย ${r.altCount} แบบ)` : '') + '<br>' +
-      (r.used.length ? `ต้องใช้ <b>${r.used.map(u => UNN[u]).join(', ')}</b> ร่วมด้วย` : 'ใช้แค่ <b>+ − × ÷</b> กับวงเล็บก็พอ ไม่ต้องใช้เครื่องหมายขั้นสูง');
+    h1 = tt(`✅ ข้อนี้<b>ทำให้ได้ ${T} พอดี</b>`, `✅ This one <b>can make exactly ${T}</b>`) + (r.altCount > 1 ? tt(` และมีหลายวิธี (พบอย่างน้อย ${r.altCount} แบบ)`, `, in several ways (at least ${r.altCount} found)`) : '') + '<br>' +
+      (r.used.length ? tt(`ต้องใช้ <b>${r.used.map(u => UNN[u]).join(', ')}</b> ร่วมด้วย`, `It needs <b>${r.used.map(u => UNN[u]).join(', ')}</b>`) : tt('ใช้แค่ <b>+ − × ÷</b> กับวงเล็บก็พอ ไม่ต้องใช้เครื่องหมายขั้นสูง', 'Only <b>+ − × ÷</b> and brackets are needed — no advanced operations'));
   } else {
     const off = ['pow', 'sqrt', 'fact', 'sigma'].filter(k => !ops[k]);
-    h1 = `⚠️ ข้อนี้<b>ทำให้ได้ ${T} พอดีไม่ได้</b> ด้วยเครื่องหมายที่เลือก<br>คำตอบที่ใกล้ที่สุดคือ <b>${r.valueStr}</b> (ห่าง ${fmtD(r.diff)})` +
-      (off.length ? `<br><span style="color:var(--muted)">ลองเปิด ${off.map(u => UNN[u]).join(' / ')} แล้ววิเคราะห์ใหม่ อาจทำได้พอดี</span>` : '');
+    h1 = tt(`⚠️ ข้อนี้<b>ทำให้ได้ ${T} พอดีไม่ได้</b> ด้วยเครื่องหมายที่เลือก<br>คำตอบที่ใกล้ที่สุดคือ <b>${r.valueStr}</b> (ห่าง ${fmtD(r.diff)})`, `⚠️ <b>${T} cannot be made exactly</b> with the chosen operations<br>The closest answer is <b>${r.valueStr}</b> (off by ${fmtD(r.diff)})`) +
+      (off.length ? `<br><span style="color:var(--muted)">${tt(`ลองเปิด ${off.map(u => UNN[u]).join(' / ')} แล้ววิเคราะห์ใหม่ อาจทำได้พอดี`, `Try turning on ${off.map(u => UNN[u]).join(' / ')} and analyze again — it may become exact`)}</span>` : '');
   }
   // hint 2
   let h2 = '';
   const tp = r.top;
   if (tp && tp.kind === 'bin') {
     const A = hSide(tp.A, tp.Ad), B = hSide(tp.B, tp.Bd);
-    if (tp.o === '^') h2 = `ขั้นสุดท้ายคือการ<b>ยกกำลัง</b>: ${A} ยกกำลัง ${B} = <b>${r.valueStr}</b>`;
-    else if (tp.o === 'Σab') h2 = `ขั้นสุดท้ายคือ<b>ซิกม่า</b>: Σ ตั้งแต่ ${A} ถึง ${B} = <b>${r.valueStr}</b>`;
+    if (tp.o === '^') h2 = tt(`ขั้นสุดท้ายคือการ<b>ยกกำลัง</b>: ${A} ยกกำลัง ${B} = <b>${r.valueStr}</b>`, `The last step is a <b>power</b>: ${A} to the power of ${B} = <b>${r.valueStr}</b>`);
+    else if (tp.o === 'Σab') h2 = tt(`ขั้นสุดท้ายคือ<b>ซิกม่า</b>: Σ ตั้งแต่ ${A} ถึง ${B} = <b>${r.valueStr}</b>`, `The last step is <b>sigma</b>: Σ from ${A} to ${B} = <b>${r.valueStr}</b>`);
     else if (tp.Bd.length === 1 && ((('×÷').includes(tp.o) && tp.B === '1') || (('+−').includes(tp.o) && tp.B === '0')))
-      h2 = `เลข <span class="dg">${tp.B}</span> ใช้<b>${OPN[tp.o]}ทิ้ง</b> (ไม่เปลี่ยนค่า) ส่วนที่เหลือต้องทำให้ได้ <b>${tp.A}</b>`;
-    else h2 = `ขั้นสุดท้ายคือการ<b>${OPN[tp.o]}</b><br>${A} <b style="font-size:18px">${tp.o}</b> ${B} = <b>${r.valueStr}</b>`;
+      h2 = tt(`เลข <span class="dg">${tp.B}</span> ใช้<b>${OPN[tp.o]}ทิ้ง</b> (ไม่เปลี่ยนค่า) ส่วนที่เหลือต้องทำให้ได้ <b>${tp.A}</b>`, `The digit <span class="dg">${tp.B}</span> is used up by <b>${OPN[tp.o]}</b> (no change in value); the rest must make <b>${tp.A}</b>`);
+    else h2 = tt(`ขั้นสุดท้ายคือการ<b>${OPN[tp.o]}</b>`, `The last step is <b>${OPN[tp.o]}</b>`) + `<br>${A} <b style="font-size:18px">${tp.o}</b> ${B} = <b>${r.valueStr}</b>`;
     const big = tp.Ad.length >= tp.Bd.length ? { v: tp.A, d: tp.Ad } : { v: tp.B, d: tp.Bd };
-    if (big.d.length > 1) h2 += `<br><span style="color:var(--muted)">👉 ลองหาวิธีทำ <b style="color:var(--ink)">${big.v}</b> จากเลข ${dgl(big.d)} ดูก่อน</span>`;
+    if (big.d.length > 1) h2 += `<br><span style="color:var(--muted)">👉 ${tt(`ลองหาวิธีทำ <b style="color:var(--ink)">${big.v}</b> จากเลข ${dgl(big.d)} ดูก่อน`, `First try to make <b style="color:var(--ink)">${big.v}</b> from ${dgl(big.d)}`)}</span>`;
   } else if (tp) {
-    h2 = `ขั้นสุดท้ายคือ<b>${UNN[tp.u]}</b> ของ ${hSide(tp.X, tp.Xd)} ได้ <b>${r.valueStr}</b>`;
+    h2 = tt(`ขั้นสุดท้ายคือ<b>${UNN[tp.u]}</b> ของ ${hSide(tp.X, tp.Xd)} ได้ <b>${r.valueStr}</b>`, `The last step is the <b>${UNN[tp.u]}</b> of ${hSide(tp.X, tp.Xd)}, giving <b>${r.valueStr}</b>`);
   }
   // hint 3
-  const h3 = r.steps.length ? `เริ่มจาก <b style="font-size:18px" class="mx">${r.steps[0]}</b>` + (r.steps.length > 2 ? '<br><span style="color:var(--muted)">แล้วใช้ผลลัพธ์นี้คิดต่อกับเลขที่เหลือ</span>' : '') : '—';
+  const h3 = r.steps.length ? `${tt('เริ่มจาก', 'Start with')} <b style="font-size:18px" class="mx">${r.steps[0]}</b>` + (r.steps.length > 2 ? `<br><span style="color:var(--muted)">${tt('แล้วใช้ผลลัพธ์นี้คิดต่อกับเลขที่เหลือ', 'then continue from this result with the remaining digits')}</span>` : '') : '—';
   // full solution
-  const res = r.exact ? `= ${T}` : `= ${r.valueStr} <span style="font-size:14px;color:var(--warn)">(ห่าง ${fmtD(r.diff)})</span>`;
-  let h4 = `<div class="hx mx">${r.h} ${res}</div><div style="margin-top:6px;font-weight:600">คิดทีละขั้น</div><ol class="hsteps mx">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
-  if (r.alts.length > 1) h4 += `<div style="margin-top:10px;font-weight:600">วิธีอื่นที่ได้ ${T} เหมือนกัน</div><div class="halts mx">${r.alts.slice(1).map(a => `<div>${a}</div>`).join('')}</div>`;
+  const res = r.exact ? `= ${T}` : `= ${r.valueStr} <span style="font-size:14px;color:var(--warn)">(${tt('ห่าง', 'off by')} ${fmtD(r.diff)})</span>`;
+  let h4 = `<div class="hx mx">${r.h} ${res}</div><div style="margin-top:6px;font-weight:600">${tt('คิดทีละขั้น', 'Step by step')}</div><ol class="hsteps mx">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
+  if (r.alts.length > 1) h4 += `<div style="margin-top:10px;font-weight:600">${tt(`วิธีอื่นที่ได้ ${T} เหมือนกัน`, `Other ways to make ${T}`)}</div><div class="halts mx">${r.alts.slice(1).map(a => `<div>${a}</div>`).join('')}</div>`;
   const items = [
-    ['ทำได้พอดีไหม และต้องใช้อะไร', 'บอกแค่ภาพรวม ยังไม่เฉลย', h1, 'var(--ok)'],
-    ['ขั้นสุดท้ายของวิธีคิด', 'รู้ว่าต้องทำก้อนไหนให้ได้เท่าไร', h2, 'var(--c2)'],
-    ['ก้าวแรก', 'เริ่มคิดจากตรงไหนดี', h3, 'var(--c3)'],
-    ['เฉลยเต็ม', 'วิธีคิดทีละขั้น และวิธีอื่น ๆ', h4, 'var(--c1)']
+    [tt('ทำได้พอดีไหม และต้องใช้อะไร', 'Is it exact, and what is needed?'), tt('บอกแค่ภาพรวม ยังไม่เฉลย', 'Just the big picture, no spoilers'), h1, 'var(--ok)'],
+    [tt('ขั้นสุดท้ายของวิธีคิด', 'The last step'), tt('รู้ว่าต้องทำก้อนไหนให้ได้เท่าไร', 'Which part must make which number'), h2, 'var(--c2)'],
+    [tt('ก้าวแรก', 'First step'), tt('เริ่มคิดจากตรงไหนดี', 'Where to begin'), h3, 'var(--c3)'],
+    [tt('เฉลยเต็ม', 'Full solution'), tt('วิธีคิดทีละขั้น และวิธีอื่น ๆ', 'Step by step, plus other ways'), h4, 'var(--c1)']
   ];
-  $('#hOut').innerHTML = `<div class="hsum"><div class="q">${D.join(' ')} = <b>${T}</b></div><span class="pill" style="--mc:${r.exact ? 'var(--ok)' : 'var(--warn)'};--ms:${r.exact ? 'var(--oks)' : '#FFF3D6'}">${r.exact ? 'ทำได้พอดี' : 'ใกล้ที่สุด ห่าง ' + fmtD(r.diff)}</span><span style="flex:1"></span><button class="chip" id="hAll">เปิดเฉลยทั้งหมด</button></div>
-    <div class="hints">${items.map((it, i) => `<div class="hint${i ? ' lockd' : ''}" data-i="${i}"><div class="hd"><div class="no" style="background:${it[3]}">${i < 3 ? i + 1 : '★'}</div><div class="ti">${i < 3 ? 'คำใบ้ที่ ' + (i + 1) + ': ' : ''}${it[0]}<small>${it[1]}</small></div><button class="open-btn">${i < 3 ? 'เปิดคำใบ้' : 'ดูเฉลย'}</button></div><div class="bd">${it[2]}</div></div>`).join('')}</div>`;
+  $('#hOut').innerHTML = `<div class="hsum"><div class="q">${D.join(' ')} = <b>${T}</b></div><span class="pill" style="--mc:${r.exact ? 'var(--ok)' : 'var(--warn)'};--ms:${r.exact ? 'var(--oks)' : '#FFF3D6'}">${r.exact ? tt('ทำได้พอดี', 'Exact') : tt('ใกล้ที่สุด ห่าง ', 'Closest, off by ') + fmtD(r.diff)}</span><span style="flex:1"></span><button class="chip" id="hAll">${tt('เปิดเฉลยทั้งหมด', 'Show everything')}</button></div>
+    <div class="hints">${items.map((it, i) => `<div class="hint${i ? ' lockd' : ''}" data-i="${i}"><div class="hd"><div class="no" style="background:${it[3]}">${i < 3 ? i + 1 : '★'}</div><div class="ti">${i < 3 ? tt('คำใบ้ที่ ', 'Hint ') + (i + 1) + ': ' : ''}${it[0]}<small>${it[1]}</small></div><button class="open-btn">${i < 3 ? tt('เปิดคำใบ้', 'Show hint') : tt('ดูเฉลย', 'Show solution')}</button></div><div class="bd">${it[2]}</div></div>`).join('')}</div>`;
   const hs = $$('#hOut .hint');
   const open = i => { hs[i].classList.add('open'); hs[i].classList.remove('lockd'); if (hs[i + 1]) hs[i + 1].classList.remove('lockd'); };
-  hs.forEach((h, i) => h.querySelector('.open-btn').onclick = () => { if (h.classList.contains('lockd')) { toast('เปิดคำใบ้ก่อนหน้าก่อนนะ ลองคิดเองก่อน 😉'); return; } open(i); });
+  hs.forEach((h, i) => h.querySelector('.open-btn').onclick = () => { if (h.classList.contains('lockd')) { toast(tt('เปิดคำใบ้ก่อนหน้าก่อนนะ ลองคิดเองก่อน 😉', 'Open the previous hint first. Try thinking on your own! 😉')); return; } open(i); });
   $('#hAll').onclick = () => hs.forEach((_, i) => open(i));
 }
 
@@ -2003,14 +2437,14 @@ function aSave(soft) {
   store.set('asheet', AS);
   $$('#aPer .chip').forEach(b => b.classList.toggle('on', +b.dataset.n === AS.per));
   $('#aPages').value = AS.pages;
-  $('#aInfo').textContent = `${AS.pages} หน้า · ${AS.pages * AS.per} ช่อง` + (AS.num ? ` (ข้อ 1–${AS.pages * AS.per})` : '') + ' · PNG จะได้หน้าแรก';
+  $('#aInfo').textContent = tt(`${AS.pages} หน้า · ${AS.pages * AS.per} ช่อง`, `${AS.pages} page(s) · ${AS.pages * AS.per} boxes`) + (AS.num ? tt(` (ข้อ 1–${AS.pages * AS.per})`, ` (items 1–${AS.pages * AS.per})`) : '') + tt(' · PNG จะได้หน้าแรก', ' · PNG saves page 1');
   clearTimeout(aT); aT = setTimeout(renderAnswerPreview, soft ? 200 : 0);
 }
 function aPageHTML(pg) {
   let boxes = '';
   for (let k = 0; k < AS.per; k++) {
     const no = AS.num ? pg * AS.per + k + 1 : '';
-    boxes += `<div class="abox"><div class="ahead"><span>ชื่อ-สกุล</span><i style="flex:5"></i><span>โรงเรียน</span><i style="flex:3.6">${esc(AS.school)}</i><span>เลขที่</span><i style="flex:.9"></i><span>ข้อ</span><i style="flex:.9">${no}</i></div><div class="abody"><div class="aw"><u>วิธีการและคำตอบ</u></div><div class="ad"><u>พื้นที่สำหรับทดเลข</u></div></div></div>`;
+    boxes += `<div class="abox"><div class="ahead"><span>${ASL()[0]}</span><i style="flex:5"></i><span>${ASL()[1]}</span><i style="flex:3.6">${esc(AS.school)}</i><span>${ASL()[2]}</span><i style="flex:.9"></i><span>${ASL()[3]}</span><i style="flex:.9">${no}</i></div><div class="abody"><div class="aw"><u>${ASL()[4]}</u></div><div class="ad"><u>${ASL()[5]}</u></div></div></div>`;
   }
   return `<div class="sheet asheet">${AS.title.trim() ? `<div class="atitle">${esc(AS.title.trim())}</div>` : ''}${boxes}</div>`;
 }
@@ -2020,7 +2454,7 @@ function renderAnswerPreview() {
   const n = Math.min(AS.pages, 2);
   let h = ''; for (let p = 0; p < n; p++) h += aPageHTML(p);
   box.innerHTML = h;
-  $('#aPv').textContent = AS.pages > 2 ? `(แสดง 2 จาก ${AS.pages} หน้า)` : `(${AS.pages} หน้า)`;
+  $('#aPv').textContent = AS.pages > 2 ? tt(`(แสดง 2 จาก ${AS.pages} หน้า)`, `(showing 2 of ${AS.pages} pages)`) : tt(`(${AS.pages} หน้า)`, `(${AS.pages} page${AS.pages > 1 ? 's' : ''})`);
   const sh = box.querySelector('.sheet'); if (!sh) return;
   const z = Math.min(1, (box.clientWidth - 28) / sh.offsetWidth);
   $$('#aSheets .sheet').forEach(s => s.style.zoom = z);
@@ -2047,7 +2481,7 @@ async function aCanvas(pg) {
     x.beginPath(); x.moveTo(L, y + hh); x.lineTo(R, y + hh); x.stroke();
     // header fields
     x.font = `${pt(14.5)}px ${ASFAM}`; x.textAlign = 'left';
-    const labels = ['ชื่อ-สกุล', 'โรงเรียน', 'เลขที่', 'ข้อ'], wts = [5, 3.6, .9, .9];
+    const labels = ASL().slice(0, 4), wts = [5, 3.6, .9, .9];
     const no = AS.num ? String(AS.per * pg + k + 1) : '';
     const fills = ['', AS.school, '', no];
     const pad = mm(4), sp = mm(1.5);
@@ -2074,29 +2508,30 @@ async function aCanvas(pg) {
     x.beginPath(); x.moveTo(dx, y + hh); x.lineTo(dx, y + bh); x.stroke();
     x.font = `${pt(14.5)}px ${ASFAM}`; x.textAlign = 'center'; x.fillStyle = '#000';
     const tb = y + hh + mm(7);
-    [['วิธีการและคำตอบ', (L + dx) / 2], ['พื้นที่สำหรับทดเลข', (dx + R) / 2]].forEach(([t, mx]) => {
+    [[ASL()[4], (L + dx) / 2], [ASL()[5], (dx + R) / 2]].forEach(([t, mx]) => {
       x.fillText(t, mx, tb); const w = x.measureText(t).width;
       x.lineWidth = pt(.9); x.beginPath(); x.moveTo(mx - w / 2, tb + mm(1.2)); x.lineTo(mx + w / 2, tb + mm(1.2)); x.stroke(); x.lineWidth = lw;
     });
   }
   return c;
 }
-const aName = ext => 'กระดาษคำตอบคิดเลขเร็ว-' + AS.per + 'ช่อง.' + ext;
+const ASL = () => tt(['ชื่อ-สกุล', 'โรงเรียน', 'เลขที่', 'ข้อ', 'วิธีการและคำตอบ', 'พื้นที่สำหรับทดเลข'], ['Name', 'School', 'No.', 'Item', 'Working and answer', 'Scratch area']);
+const aName = ext => tt('กระดาษคำตอบคิดเลขเร็ว-' + AS.per + 'ช่อง.', 'fast-math-answer-sheet-' + AS.per + 'boxes.') + ext;
 async function aDownloadPng() {
-  const b = $('#aPng'), old = b.innerHTML; b.disabled = true; b.textContent = 'กำลังสร้าง…';
+  const b = $('#aPng'), old = b.innerHTML; b.disabled = true; b.textContent = tt('กำลังสร้าง…', 'Creating…');
   try { const c = await aCanvas(0); const blob = await new Promise(r => c.toBlob(r, 'image/png')); await saveBlob(blob, aName('png')); }
-  catch (e) { console.error(e); toast('สร้าง PNG ไม่สำเร็จ'); }
+  catch (e) { console.error(e); toast(tt('สร้าง PNG ไม่สำเร็จ', 'Could not create the PNG')); }
   finally { b.disabled = false; b.innerHTML = old; }
 }
 async function aDownloadPdf() {
   const b = $('#aPdf'), old = b.innerHTML; b.disabled = true;
   try {
-    b.textContent = 'กำลังเตรียม…';
+    b.textContent = tt('กำลังเตรียม…', 'Preparing…');
     if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
     const pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
     let same = null;
     for (let p = 0; p < AS.pages; p++) {
-      b.textContent = `กำลังสร้าง ${p + 1}/${AS.pages}`;
+      b.textContent = tt(`กำลังสร้าง ${p + 1}/${AS.pages}`, `Creating ${p + 1}/${AS.pages}`);
       if (p) pdf.addPage();
       if (!AS.num && same) { pdf.addImage(same, 'PNG', 0, 0, 210, 297, 'page', 'FAST'); continue; }
       const url = (await aCanvas(p)).toDataURL('image/png');
@@ -2104,7 +2539,7 @@ async function aDownloadPdf() {
       pdf.addImage(url, 'PNG', 0, 0, 210, 297, AS.num ? 'p' + p : 'page', 'FAST');
     }
     await saveBlob(pdf.output('blob'), aName('pdf'));
-  } catch (e) { console.error(e); toast(framed ? 'สร้าง PDF ไม่สำเร็จ' : 'โหลดตัวสร้าง PDF ไม่ได้ ใช้ปุ่มพิมพ์ / บันทึก PDF แทน'); }
+  } catch (e) { console.error(e); toast(framed ? tt('สร้าง PDF ไม่สำเร็จ', 'Could not create the PDF') : tt('โหลดตัวสร้าง PDF ไม่ได้ ใช้ปุ่มพิมพ์ / บันทึก PDF แทน', 'Could not load the PDF maker. Use Print / Save as PDF instead')); }
   finally { b.disabled = false; b.innerHTML = old; }
 }
 
@@ -2126,8 +2561,8 @@ async function apiCheck() {
 function drawPlayer() {
   const c = $('#pcard'); if (!c) return;
   const live = API.state === 'ok';
-  if (PL.name && !PL.anon) c.innerHTML = `<div class="av">👤</div><div class="pn"><b>${esc(PL.name)}</b><small>${live ? '🏆 คะแนนขึ้นตารางอันดับ' : 'บันทึกในเครื่องนี้'}${PL.school ? ' · ' + esc(PL.school) : ''}</small></div><button class="chip" id="pEdit">แก้ไข</button>`;
-  else c.innerHTML = `<div class="av" style="background:var(--soft)">👤</div><div class="pn"><b>${PL.anon ? 'เล่นแบบไม่บันทึกคะแนน' : 'ยังไม่ได้ตั้งชื่อ'}</b><small>${live ? 'ตั้งชื่อเพื่อขึ้นตารางอันดับ' : 'ตั้งชื่อผู้เล่น'}</small></div><button class="chip" id="pEdit">ตั้งชื่อ</button>`;
+  if (PL.name && !PL.anon) c.innerHTML = `<div class="av">👤</div><div class="pn"><b>${esc(PL.name)}</b><small>${live ? tt('🏆 คะแนนขึ้นตารางอันดับ', '🏆 On the leaderboard') : tt('บันทึกในเครื่องนี้', 'Saved on this device')}${PL.school ? ' · ' + esc(PL.school) : ''}</small></div><button class="chip" id="pEdit">${tt('แก้ไข', 'Edit')}</button>`;
+  else c.innerHTML = `<div class="av" style="background:var(--soft)">👤</div><div class="pn"><b>${PL.anon ? tt('เล่นแบบไม่บันทึกคะแนน', 'Playing without saving scores') : tt('ยังไม่ได้ตั้งชื่อ', 'No name yet')}</b><small>${live ? tt('ตั้งชื่อเพื่อขึ้นตารางอันดับ', 'Set a name to join the leaderboard') : tt('ตั้งชื่อผู้เล่น', 'Set a player name')}</small></div><button class="chip" id="pEdit">${tt('ตั้งชื่อ', 'Set name')}</button>`;
   $('#pEdit').onclick = () => askName(true);
 }
 let nameResolve = null;
@@ -2142,7 +2577,7 @@ $('#nameForm').addEventListener('submit', e => {
   const n = $('#pName').value.replace(/[<>]/g, '').trim().slice(0, 30);
   if (!n) { $('#pName').focus(); return; }
   PL.name = n; PL.school = $('#pSchool').value.replace(/[<>]/g, '').trim().slice(0, 40); PL.anon = false;
-  store.set('player', PL); drawPlayer(); toast('สวัสดี ' + n + ' ลุยเลย! 💪'); closeName(true);
+  store.set('player', PL); drawPlayer(); toast(tt('สวัสดี ' + n + ' ลุยเลย! 💪', 'Hi ' + n + ', let’s go! 💪')); closeName(true);
 });
 $('#pAnon').onclick = () => { PL.anon = true; store.set('player', PL); drawPlayer(); closeName(true); };
 $('#nameModal').addEventListener('click', e => { if (e.target.id === 'nameModal') closeName(true); });
@@ -2170,19 +2605,19 @@ $$('#lbSort .chip').forEach(b => b.onclick = () => { LB.sort = b.dataset.s; load
 $('#lbRefresh').onclick = () => loadBoard();
 $('#lbShare').onclick = async () => {
   const url = (/^https?:$/.test(location.protocol) ? location.origin + location.pathname : 'https://mathdashmax.pages.dev/') + '#leaderboard';
-  try { await navigator.clipboard.writeText(url); toast('คัดลอกลิงก์ตารางอันดับแล้ว'); } catch (e) { toast(url); }
+  try { await navigator.clipboard.writeText(url); toast(tt('คัดลอกลิงก์ตารางอันดับแล้ว', 'Leaderboard link copied')); } catch (e) { toast(url); }
 };
 let lbSeq = 0;
 async function loadBoard() {
   lbChips();
   const box = $('#lbBox'), me = $('#lbMe'), seq = ++lbSeq;
-  box.innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>กำลังโหลดอันดับ…</div>';
+  box.innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>' + tt('กำลังโหลดอันดับ…', 'Loading the leaderboard…') + '</div>';
   const st = await apiCheck();
   if (st !== 'ok') {
     me.classList.remove('show');
     box.innerHTML = st === 'nodb'
-      ? '<div class="empty"><div class="big">🛠️</div>ตารางอันดับยังไม่พร้อม<br><span style="font-size:13px">ผู้ดูแลยังไม่ได้เชื่อมฐานข้อมูล D1 ใน Cloudflare</span></div>'
-      : '<div class="empty"><div class="big">🌐</div>ตารางอันดับใช้ได้บนเว็บไซต์<br><a href="https://mathdashmax.pages.dev/#leaderboard" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600">mathdashmax.pages.dev</a></div>';
+      ? tt('<div class="empty"><div class="big">🛠️</div>ตารางอันดับยังไม่พร้อม<br><span style="font-size:13px">ผู้ดูแลยังไม่ได้เชื่อมฐานข้อมูล D1 ใน Cloudflare</span></div>', '<div class="empty"><div class="big">🛠️</div>The leaderboard is not ready yet<br><span style="font-size:13px">The database has not been connected</span></div>')
+      : '<div class="empty"><div class="big">🌐</div>' + tt('ตารางอันดับใช้ได้บนเว็บไซต์', 'The leaderboard works on the website') + '<br><a href="https://mathdashmax.pages.dev/#leaderboard" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600">mathdashmax.pages.dev</a></div>';
     return;
   }
   try {
@@ -2192,30 +2627,46 @@ async function loadBoard() {
     const t = j.total || { players: 0, played: 0 };
     if (PL.name && !PL.anon) {
       const m = j.me;
-      me.innerHTML = `<div style="flex:1;min-width:150px"><div class="k">คุณ</div><div style="font-weight:600">${esc(PL.name)}</div></div>` +
-        [['อันดับ', m && m.rank ? '#' + m.rank : '–'], ['ทำแล้ว', m ? m.played : 0], ['ทำได้', m ? m.good : 0], ['เฉลี่ย (วิ/ข้อ)', m && m.avg != null ? m.avg : '–']].map(([k, v]) => `<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+      me.innerHTML = `<div style="flex:1;min-width:150px"><div class="k">${tt('คุณ', 'You')}</div><div style="font-weight:600">${esc(PL.name)}</div></div>` +
+        [[tt('อันดับ', 'Rank'), m && m.rank ? '#' + m.rank : '–'], [tt('ทำแล้ว', 'Played'), m ? m.played : 0], [tt('ทำได้', 'Solved'), m ? m.good : 0], [tt('เฉลี่ย (วิ/ข้อ)', 'Avg (s/question)'), m && m.avg != null ? m.avg : '–']].map(([k, v]) => `<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
       me.classList.add('show');
     } else {
-      me.innerHTML = '<div style="flex:1">ยังไม่ได้ตั้งชื่อผู้เล่น ตั้งชื่อแล้วไปฝึกโจทย์เพื่อขึ้นตารางอันดับ</div><button class="btn pri" id="lbJoin" style="--mc:var(--c1)">ตั้งชื่อ</button>';
+      me.innerHTML = '<div style="flex:1">' + tt('ยังไม่ได้ตั้งชื่อผู้เล่น ตั้งชื่อแล้วไปฝึกโจทย์เพื่อขึ้นตารางอันดับ', 'No player name yet. Set one, then practice to join the leaderboard') + '</div><button class="btn pri" id="lbJoin" style="--mc:var(--c1)">' + tt('ตั้งชื่อ', 'Set name') + '</button>';
       me.classList.add('show'); $('#lbJoin').onclick = () => askName(true).then(loadBoard);
     }
     if (!j.rows.length) {
-      box.innerHTML = `<div class="empty"><div class="big">🏁</div>${LB.sort === 'speed' ? 'ยังไม่มีใครทำได้ครบ ' + j.minSpeed + ' ข้อในโหมดนี้' : 'ยังไม่มีใครเล่นโหมดนี้'}<br><span style="font-size:13px">เป็นคนแรกในตารางเลย!</span></div>`;
+      box.innerHTML = `<div class="empty"><div class="big">🏁</div>${LB.sort === 'speed' ? tt('ยังไม่มีใครทำได้ครบ ' + j.minSpeed + ' ข้อในโหมดนี้', 'Nobody has solved ' + j.minSpeed + ' questions in this mode yet') : tt('ยังไม่มีใครเล่นโหมดนี้', 'Nobody has played this mode yet')}<br><span style="font-size:13px">${tt('เป็นคนแรกในตารางเลย!', 'Be the first on the board!')}</span></div>`;
       return;
     }
     const hl = { good: 3, speed: 4, played: 2 }[LB.sort];
-    box.innerHTML = `<table class="lbt"><thead><tr><th>#</th><th>ผู้เล่น</th><th>ทำแล้ว</th><th>ทำได้</th><th>เฉลี่ย (วิ/ข้อ)</th></tr></thead><tbody>` +
-      j.rows.map(x => `<tr class="${x.me ? 'me ' : ''}r${x.rank}"><td><span class="rk">${x.rank <= 3 ? ['🥇', '🥈', '🥉'][x.rank - 1] : x.rank}</span></td><td class="nm"><b>${esc(x.name)}${x.me ? ' (คุณ)' : ''}</b>${x.school ? `<small>${esc(x.school)}</small>` : ''}</td>` +
+    box.innerHTML = `<table class="lbt"><thead><tr><th>#</th><th>${tt('ผู้เล่น', 'Player')}</th><th>${tt('ทำแล้ว', 'Played')}</th><th>${tt('ทำได้', 'Solved')}</th><th>${tt('เฉลี่ย (วิ/ข้อ)', 'Avg (s/q)')}</th></tr></thead><tbody>` +
+      j.rows.map(x => `<tr class="${x.me ? 'me ' : ''}r${x.rank}"><td><span class="rk">${x.rank <= 3 ? ['🥇', '🥈', '🥉'][x.rank - 1] : x.rank}</span></td><td class="nm"><b>${esc(x.name)}${x.me ? tt(' (คุณ)', ' (you)') : ''}</b>${x.school ? `<small>${esc(x.school)}</small>` : ''}</td>` +
         [x.played, x.good, x.avg != null ? x.avg.toFixed(1) : '–'].map((v, i) => `<td class="${i + 2 === hl ? 'hl' : ''}">${v}</td>`).join('') + '</tr>').join('') +
-      `</tbody></table><div class="sub" style="padding:10px 14px;border-top:1px solid var(--line)">ผู้เล่นทั้งหมด ${t.players} คน · ทำโจทย์ไปแล้ว ${t.played.toLocaleString()} ข้อในโหมดนี้</div>`;
+      `</tbody></table><div class="sub" style="padding:10px 14px;border-top:1px solid var(--line)">${tt(`ผู้เล่นทั้งหมด ${t.players} คน · ทำโจทย์ไปแล้ว ${t.played.toLocaleString()} ข้อในโหมดนี้`, `${t.players} players · ${t.played.toLocaleString()} questions played in this mode`)}</div>`;
   } catch (e) {
     if (seq !== lbSeq) return;
-    box.innerHTML = '<div class="empty"><div class="big">😵</div>โหลดตารางอันดับไม่สำเร็จ<br><span style="font-size:13px">ลองกด ↻ อีกครั้ง</span></div>';
+    box.innerHTML = tt('<div class="empty"><div class="big">😵</div>โหลดตารางอันดับไม่สำเร็จ<br><span style="font-size:13px">ลองกด ↻ อีกครั้ง</span></div>', '<div class="empty"><div class="big">😵</div>Could not load the leaderboard<br><span style="font-size:13px">Press ↻ to try again</span></div>');
   }
 }
+/* ---------- apply language to everything ---------- */
+function applyLang() {
+  document.body.classList.toggle('en', LANG === 'en');
+  document.documentElement.lang = LANG;
+  document.title = tt('MathDash · คิดเลขเร็ว', 'MathDash · Fast Math');
+  $$('#langSw button').forEach(b => b.classList.toggle('on', b.dataset.l === LANG));
+  i18nApply(document.body);
+  renderSettings(); drawStats(); drawPlayer(); wsRender();
+  if (P.phase === 'idle') drawIdle();
+  else { $('#qno').textContent = tt('ข้อที่ ', 'Question ') + P.qn; if (P.phase !== 'loading') $('#bNext').innerHTML = tt('ข้อต่อไป →', 'Next →'); if (P.revealed) reveal(); }
+  hBuild(); if (H_last && !helpW) hRender(...H_last);
+  if (wsData) { wsData.cfg.title = W.title; wsHTML = buildSheets(wsData); $('#sheets').innerHTML = wsHTML; fitSheets(); $('#wGen').textContent = tt('🔄 สุ่มชุดใหม่', '🔄 Generate a new set'); $('#pvInfo').textContent = `${$$('#sheets .sheet').length} ${tt('หน้า', 'pages')}`; }
+  aSave(true);
+  lbChips(); if ($('#v-leaderboard').classList.contains('on')) loadBoard();
+}
+$$('#langSw button').forEach(b => b.onclick = () => { if (LANG === b.dataset.l) return; LANG = b.dataset.l; store.set('lang', LANG); applyLang(); });
 window.MathDashSheet = { aCanvas, aAllHTML, evaluate };
 /* ---------- init ---------- */
-renderSettings(); drawStats(); wsRender(); drawIdle(); helperInit(); answerInit(); drawPlayer(); apiCheck();
+renderSettings(); drawStats(); wsRender(); drawIdle(); helperInit(); answerInit(); drawPlayer(); apiCheck(); applyLang();
 { const h0 = (location.hash || '').slice(1); if (VIEWS.includes(h0)) showView(h0); }
 })();
 </script>
