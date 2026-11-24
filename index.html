@@ -2,6 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
+<script src="move.js" data-to="https://mathdash.mathaday.app" data-from="mathdashmax.pages.dev"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MathDash · คิดเลขเร็ว</title>
 <meta name="description" content="MathDash แอปฝึกคิดเลขเร็วตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน: เกม 24, เลขโดด 4 ตัว คำตอบ 2 หลัก, เลขโดด 5 ตัว คำตอบ 3 หลัก พร้อมสร้างแบบฝึกหัด PDF">
@@ -2604,7 +2605,7 @@ $$('#lbMode .chip').forEach(b => b.onclick = () => { LB.mode = +b.dataset.m; loa
 $$('#lbSort .chip').forEach(b => b.onclick = () => { LB.sort = b.dataset.s; loadBoard(); });
 $('#lbRefresh').onclick = () => loadBoard();
 $('#lbShare').onclick = async () => {
-  const url = (/^https?:$/.test(location.protocol) ? location.origin + location.pathname : 'https://mathdashmax.pages.dev/') + '#leaderboard';
+  const url = (/^https?:$/.test(location.protocol) ? location.origin + location.pathname : 'https://mathdash.mathaday.app/') + '#leaderboard';
   try { await navigator.clipboard.writeText(url); toast(tt('คัดลอกลิงก์ตารางอันดับแล้ว', 'Leaderboard link copied')); } catch (e) { toast(url); }
 };
 let lbSeq = 0;
@@ -2617,7 +2618,7 @@ async function loadBoard() {
     me.classList.remove('show');
     box.innerHTML = st === 'nodb'
       ? tt('<div class="empty"><div class="big">🛠️</div>ตารางอันดับยังไม่พร้อม<br><span style="font-size:13px">ผู้ดูแลยังไม่ได้เชื่อมฐานข้อมูล D1 ใน Cloudflare</span></div>', '<div class="empty"><div class="big">🛠️</div>The leaderboard is not ready yet<br><span style="font-size:13px">The database has not been connected</span></div>')
-      : '<div class="empty"><div class="big">🌐</div>' + tt('ตารางอันดับใช้ได้บนเว็บไซต์', 'The leaderboard works on the website') + '<br><a href="https://mathdashmax.pages.dev/#leaderboard" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600">mathdashmax.pages.dev</a></div>';
+      : '<div class="empty"><div class="big">🌐</div>' + tt('ตารางอันดับใช้ได้บนเว็บไซต์', 'The leaderboard works on the website') + '<br><a href="https://mathdash.mathaday.app/#leaderboard" target="_blank" rel="noopener" style="color:var(--ink);font-weight:600">mathdashmax.pages.dev</a></div>';
     return;
   }
   try {
