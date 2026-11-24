@@ -3,6 +3,7 @@
 // sort=speed  : เฉลี่ยเร็วที่สุด (ต้องทำได้อย่างน้อย 10 ข้อ)
 // sort=played : เล่นมากที่สุด
 import { db, json, fail, clean } from '../_db.js';
+import { account } from '../_account.js';
 
 const MIN_SPEED = 10;
 const ORDER = {
@@ -15,14 +16,16 @@ export async function onRequestGet({ request, env }) {
   const u = new URL(request.url);
   const mode = Number(u.searchParams.get('mode') || 1);
   const sort = ORDER[u.searchParams.get('sort')] ? u.searchParams.get('sort') : 'good';
-  const pid = clean(u.searchParams.get('pid'), 64);
+  let pid = clean(u.searchParams.get('pid'), 64);
   if (![1, 2, 3].includes(mode)) return json({ ok: false, error: 'BAD_INPUT' }, 400);
   const where = sort === 'speed' ? `mode = ?1 AND good >= ${MIN_SPEED}` : 'mode = ?1 AND played > 0';
   try {
     const D = await db(env);
-    const { results } = await D.prepare(`SELECT pid, name, school, played, good, good_ms, best_ms FROM scores WHERE ${where} ORDER BY ${ORDER[sort]} LIMIT 100`).bind(mode).all();
+    const acc = await account(request, env);
+    if (acc) pid = 'g-' + acc.id;
+    const { results } = await D.prepare(`SELECT pid, name, school, played, good, good_ms, best_ms, verified FROM scores WHERE ${where} ORDER BY ${ORDER[sort]} LIMIT 100`).bind(mode).all();
     const rows = results.map((r, i) => ({
-      rank: i + 1, me: !!pid && r.pid === pid, name: r.name, school: r.school,
+      rank: i + 1, me: !!pid && r.pid === pid, v: !!r.verified, name: r.name, school: r.school,
       played: r.played, good: r.good,
       avg: r.good ? Math.round(r.good_ms / r.good / 100) / 10 : null,
       best: r.best_ms ? Math.round(r.best_ms / 100) / 10 : null

@@ -2548,6 +2548,15 @@ async function aDownloadPdf() {
 const PL = Object.assign({ pid: '', name: '', school: '', anon: false }, store.get('player', {}));
 if (!PL.pid) { PL.pid = (crypto.randomUUID ? crypto.randomUUID() : 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); store.set('player', PL); }
 const API = { state: 'unknown' }; // unknown | ok | nodb | off
+// Math a Day account (account.mathaday.app): signed-in players get a ✓ and keep their scores on every device
+const ACC = { me: null, on: /(^|.)mathaday.app$/.test(location.hostname) };
+async function accLoad() {
+  if (!ACC.on) return;
+  if (!window.MathADay) await new Promise(r => { const s = document.createElement('script'); s.src = 'https://account.mathaday.app/sdk.js'; s.onload = s.onerror = r; document.head.appendChild(s); });
+  ACC.me = window.MathADay ? await MathADay.me() : null;
+  drawPlayer();
+}
+const VF = '<span title="ยืนยันด้วยบัญชี Google" style="color:#16a34a;font-size:12px;margin-left:4px">✓</span>';
 async function apiCheck() {
   if (API.state !== 'unknown') return API.state;
   if (!/^https?:$/.test(location.protocol) || framed) { API.state = 'off'; return API.state; }
@@ -2555,6 +2564,7 @@ async function apiCheck() {
     const r = await fetch('/api/health', { cache: 'no-store' });
     const j = await r.json().catch(() => ({}));
     API.state = r.ok && j.ok ? 'ok' : j.error === 'NO_DB' ? 'nodb' : 'off';
+    if (API.state === 'ok') accLoad();
   } catch (e) { API.state = 'off'; }
   drawPlayer();
   return API.state;
@@ -2562,9 +2572,16 @@ async function apiCheck() {
 function drawPlayer() {
   const c = $('#pcard'); if (!c) return;
   const live = API.state === 'ok';
-  if (PL.name && !PL.anon) c.innerHTML = `<div class="av">👤</div><div class="pn"><b>${esc(PL.name)}</b><small>${live ? tt('🏆 คะแนนขึ้นตารางอันดับ', '🏆 On the leaderboard') : tt('บันทึกในเครื่องนี้', 'Saved on this device')}${PL.school ? ' · ' + esc(PL.school) : ''}</small></div><button class="chip" id="pEdit">${tt('แก้ไข', 'Edit')}</button>`;
+  if (PL.name && !PL.anon) c.innerHTML = `<div class="av">👤</div><div class="pn"><b>${esc(PL.name)}</b><small>${live ? tt('🏆 คะแนนขึ้นตารางอันดับ', '🏆 On the leaderboard') : tt('บันทึกในเครื่องนี้', 'Saved on this device')}${PL.school ? ' · ' + esc(PL.school) : ''}</small>${accLine()}</div><button class="chip" id="pEdit">${tt('แก้ไข', 'Edit')}</button>`;
   else c.innerHTML = `<div class="av" style="background:var(--soft)">👤</div><div class="pn"><b>${PL.anon ? tt('เล่นแบบไม่บันทึกคะแนน', 'Playing without saving scores') : tt('ยังไม่ได้ตั้งชื่อ', 'No name yet')}</b><small>${live ? tt('ตั้งชื่อเพื่อขึ้นตารางอันดับ', 'Set a name to join the leaderboard') : tt('ตั้งชื่อผู้เล่น', 'Set a player name')}</small></div><button class="chip" id="pEdit">${tt('ตั้งชื่อ', 'Set name')}</button>`;
   $('#pEdit').onclick = () => askName(true);
+  const g = $('#pGoogle'); if (g) g.onclick = e => { e.preventDefault(); MathADay.signIn(location.origin + location.pathname + location.hash); };
+}
+function accLine() {
+  if (!ACC.on || API.state !== 'ok' || !window.MathADay) return '';
+  return ACC.me
+    ? `<small style="display:block;color:#16a34a">✓ ${tt('ผูกบัญชี Google แล้ว คะแนนตามไปทุกเครื่อง', 'Linked to Google: scores follow you on every device')}</small>`
+    : `<small style="display:block"><a href="#" id="pGoogle" style="color:var(--ink);font-weight:600">${tt('ผูกบัญชี Google', 'Link Google')}</a> ${tt('กันคนใช้ชื่อซ้ำ และเก็บคะแนนข้ามเครื่อง', 'to protect your name and keep scores on every device')}</small>`;
 }
 let nameResolve = null;
 function askName(edit) {
@@ -2641,7 +2658,7 @@ async function loadBoard() {
     }
     const hl = { good: 3, speed: 4, played: 2 }[LB.sort];
     box.innerHTML = `<table class="lbt"><thead><tr><th>#</th><th>${tt('ผู้เล่น', 'Player')}</th><th>${tt('ทำแล้ว', 'Played')}</th><th>${tt('ทำได้', 'Solved')}</th><th>${tt('เฉลี่ย (วิ/ข้อ)', 'Avg (s/q)')}</th></tr></thead><tbody>` +
-      j.rows.map(x => `<tr class="${x.me ? 'me ' : ''}r${x.rank}"><td><span class="rk">${x.rank <= 3 ? ['🥇', '🥈', '🥉'][x.rank - 1] : x.rank}</span></td><td class="nm"><b>${esc(x.name)}${x.me ? tt(' (คุณ)', ' (you)') : ''}</b>${x.school ? `<small>${esc(x.school)}</small>` : ''}</td>` +
+      j.rows.map(x => `<tr class="${x.me ? 'me ' : ''}r${x.rank}"><td><span class="rk">${x.rank <= 3 ? ['🥇', '🥈', '🥉'][x.rank - 1] : x.rank}</span></td><td class="nm"><b>${esc(x.name)}${x.v ? VF : ''}${x.me ? tt(' (คุณ)', ' (you)') : ''}</b>${x.school ? `<small>${esc(x.school)}</small>` : ''}</td>` +
         [x.played, x.good, x.avg != null ? x.avg.toFixed(1) : '–'].map((v, i) => `<td class="${i + 2 === hl ? 'hl' : ''}">${v}</td>`).join('') + '</tr>').join('') +
       `</tbody></table><div class="sub" style="padding:10px 14px;border-top:1px solid var(--line)">${tt(`ผู้เล่นทั้งหมด ${t.players} คน · ทำโจทย์ไปแล้ว ${t.played.toLocaleString()} ข้อในโหมดนี้`, `${t.players} players · ${t.played.toLocaleString()} questions played in this mode`)}</div>`;
   } catch (e) {

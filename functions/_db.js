@@ -16,9 +16,23 @@ export async function db(env) {
       PRIMARY KEY (pid, mode)
     )`).run();
     await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_scores_mode_good ON scores (mode, good DESC)').run();
+    // verified = scores of a player signed in with the Math a Day account (pid "g-<account id>")
+    try { await env.DB.prepare('ALTER TABLE scores ADD COLUMN verified INTEGER NOT NULL DEFAULT 0').run(); } catch { /* already there */ }
     ready = true;
   }
   return env.DB;
+}
+// a player signed in for the first time on this device: move this device's scores onto the account
+export async function mergeInto(D, from, to) {
+  await D.batch([
+    D.prepare(`INSERT INTO scores (pid, mode, name, school, played, good, good_ms, best_ms, updated, verified)
+      SELECT ?2, mode, name, school, played, good, good_ms, best_ms, updated, 1 FROM scores WHERE pid = ?1
+      ON CONFLICT(pid, mode) DO UPDATE SET
+        played = played + excluded.played, good = good + excluded.good, good_ms = good_ms + excluded.good_ms,
+        best_ms = CASE WHEN excluded.best_ms > 0 AND (best_ms = 0 OR excluded.best_ms < best_ms) THEN excluded.best_ms ELSE best_ms END,
+        updated = MAX(updated, excluded.updated)`).bind(from, to),
+    D.prepare('DELETE FROM scores WHERE pid = ?1').bind(from)
+  ]);
 }
 export const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }
