@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FF7A59'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3E24%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
 :root{
   --bg:#FFFBF4; --card:#FFFFFF; --ink:#24243A; --muted:#7C7C96; --line:#F0E9DC; --soft:#FFF4E2;
@@ -32,8 +33,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(255,251,244,.88);bac
 .wm span{color:var(--c1)}
 .wm .dash{width:20px;height:13px;color:var(--yel);margin-left:6px}
 .brand small{display:block;font-weight:400;font-size:12px;color:var(--muted);line-height:1.2}
-.logo{width:36px;height:36px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.logo i{border-radius:7px;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px;font-weight:700}
+.logo{width:46px;height:46px;display:block;flex:none}
 .tabs{margin-left:auto;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px}
 .tab{border:0;background:transparent;padding:5px 8px 4px;border-radius:12px;color:var(--muted);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;transition:.12s}
 .tab i{font-style:normal;font-size:17px;line-height:1.2}
@@ -478,7 +478,7 @@ body.en .L-th,body:not(.en) .L-en{display:none!important}
 <header class="top">
   <div class="wrap">
     <div class="brand">
-      <div class="logo"><i style="background:var(--c1)">+</i><i style="background:var(--yel)">−</i><i style="background:var(--c2)">×</i><i style="background:var(--c3)">÷</i></div>
+      <img class="logo" src="icons/icon-192.png" alt="" width="46" height="46">
       <div><span class="wm">Math<span>Dash</span><svg class="dash" viewBox="0 0 22 14" aria-hidden="true"><path d="M2 3h10M6 7h14M2 11h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span><small>ฝึกคิดเลขเร็ว · ตามแนวการแข่งขันศิลปหัตถกรรมนักเรียน</small></div>
       <div class="lang" id="langSw" role="group" aria-label="Language"><button data-l="th">ไทย</button><button data-l="en">EN</button></div>
     </div>
